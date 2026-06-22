@@ -289,5 +289,7 @@ extension Localization {
         .onboardingPassphraseNote: "ඔබේ මුරපදය ආරක්ෂිත ස්ථානයක ලියන්න – එය යළි පිහිටුවිය නොහැක.",
         .backupNudgeText: "සංකේතාත්මක උපස්ථයක් සාදන්න. එය නොමැතිව, මුරපදය අමතක වුවහොත් ඔබේ දත්ත නැති වේ.",
         .commonNext: "ඊළඟ",
+        .navMore: "තවත්",
+        .actionLock: "අගුළු දමන්න",
     ]
 }

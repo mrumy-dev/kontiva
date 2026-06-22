@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Írd le a jelszavad egy biztonságos helyre – nem lehet visszaállítani.",
         .backupNudgeText: "Hozz létre titkosított biztonsági mentést. Nélküle elveszíted az adataidat, ha elfelejted a jelszót.",
         .commonNext: "Tovább",
+        .navMore: "Továbbiak",
+        .actionLock: "Zárolás",
     ]
 }

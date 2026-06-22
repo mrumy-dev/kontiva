@@ -290,5 +290,7 @@ extension Localization {
         .onboardingPassphraseNote: "จดรหัสผ่านไว้ในที่ปลอดภัย – ไม่สามารถรีเซ็ตได้",
         .backupNudgeText: "สร้างการสำรองข้อมูลที่เข้ารหัส หากไม่มี คุณจะสูญเสียข้อมูลเมื่อลืมรหัสผ่าน",
         .commonNext: "ถัดไป",
+        .navMore: "เพิ่มเติม",
+        .actionLock: "ล็อก",
     ]
 }

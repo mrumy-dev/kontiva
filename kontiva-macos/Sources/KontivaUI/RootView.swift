@@ -34,6 +34,9 @@ public struct RootView: View {
         // Mirror the layout for right-to-left scripts (Arabic, Urdu, Pashto).
         // `loc` republishes on language change, so this updates live.
         .environment(\.layoutDirection, loc.language.isRTL ? .rightToLeft : .leftToRight)
+        // Rebuild the tree fresh when crossing the LTR↔RTL boundary, so toggling
+        // layoutDirection on the live hierarchy can't leave it mirrored.
+        .id(loc.language.isRTL)
         .frame(minWidth: 920, minHeight: 600)
         .onReceive(idleTimer) { _ in Task { await model.checkAutoLock() } }
         .onAppear(perform: startActivityMonitor)

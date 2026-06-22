@@ -290,5 +290,7 @@ extension Localization {
         .onboardingPassphraseNote: "خپل پټنوم په خوندي ځای کې ولیکئ – بیا تنظیمیدای نشي.",
         .backupNudgeText: "یو کوډ شوی بیک اپ جوړ کړئ. د هغې پرته، که پټنوم هیر کړئ خپل معلومات له لاسه ورکوئ.",
         .commonNext: "بل",
+        .navMore: "نور",
+        .actionLock: "بندول",
     ]
 }

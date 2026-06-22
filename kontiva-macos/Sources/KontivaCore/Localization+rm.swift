@@ -291,5 +291,7 @@ extension Localization {
         .onboardingPassphraseNote: "Nota tes pled-clav en in lieu segir – el na po betg vegnir reinizialisà.",
         .backupNudgeText: "Crea ina copia da segirezza criptada. Senza ella perdas ti tias datas sche ti emblidas il pled-clav.",
         .commonNext: "Vinavant",
+        .navMore: "Dapli",
+        .actionLock: "Serrar",
     ]
 }

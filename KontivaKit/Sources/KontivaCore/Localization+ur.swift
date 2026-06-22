@@ -289,5 +289,7 @@ extension Localization {
         .onboardingPassphraseNote: "اپنا پاس ورڈ کسی محفوظ جگہ لکھ لیں – اسے ری سیٹ نہیں کیا جا سکتا۔",
         .backupNudgeText: "ایک خفیہ کردہ بیک اپ بنائیں۔ اس کے بغیر، پاس ورڈ بھولنے پر آپ اپنا ڈیٹا کھو دیں گے۔",
         .commonNext: "اگلا",
+        .navMore: "مزید",
+        .actionLock: "مقفل کریں",
     ]
 }

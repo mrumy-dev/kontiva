@@ -17,5 +17,9 @@ struct RootView: View {
         // Mirror the whole UI for right-to-left scripts (Arabic, Urdu, Pashto).
         // `loc` republishes on language change, so this updates live.
         .environment(\.layoutDirection, loc.language.isRTL ? .rightToLeft : .leftToRight)
+        // Rebuild the tree fresh when crossing the LTR↔RTL boundary. Toggling
+        // layoutDirection on a live NavigationStack otherwise leaves the active
+        // tab horizontally mirrored until relaunch; a new identity avoids that.
+        .id(loc.language.isRTL)
     }
 }

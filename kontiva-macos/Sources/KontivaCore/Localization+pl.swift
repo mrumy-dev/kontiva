@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Zapisz hasło w bezpiecznym miejscu – nie można go zresetować.",
         .backupNudgeText: "Utwórz zaszyfrowaną kopię zapasową. Bez niej utracisz dane, jeśli zapomnisz hasła.",
         .commonNext: "Dalej",
+        .navMore: "Więcej",
+        .actionLock: "Zablokuj",
     ]
 }

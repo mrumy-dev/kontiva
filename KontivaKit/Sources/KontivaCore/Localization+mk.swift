@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Запишете ја лозинката на безбедно место – не може да се ресетира.",
         .backupNudgeText: "Создадете шифрирана резервна копија. Без неа ги губите податоците ако ја заборавите лозинката.",
         .commonNext: "Следно",
+        .navMore: "Повеќе",
+        .actionLock: "Заклучи",
     ]
 }

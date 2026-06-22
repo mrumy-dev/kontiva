@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Hãy ghi mật khẩu ở nơi an toàn – không thể đặt lại.",
         .backupNudgeText: "Hãy tạo bản sao lưu được mã hóa. Không có nó, bạn sẽ mất dữ liệu nếu quên mật khẩu.",
         .commonNext: "Tiếp",
+        .navMore: "Thêm",
+        .actionLock: "Khóa",
     ]
 }

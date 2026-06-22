@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Notează-ți parola într-un loc sigur – nu poate fi resetată.",
         .backupNudgeText: "Creează o copie de rezervă criptată. Fără ea, îți pierzi datele dacă uiți parola.",
         .commonNext: "Înainte",
+        .navMore: "Mai multe",
+        .actionLock: "Blochează",
     ]
 }

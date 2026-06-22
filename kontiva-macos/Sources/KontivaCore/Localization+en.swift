@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Write your passphrase down somewhere safe — it cannot be reset.",
         .backupNudgeText: "Create an encrypted backup. Without one, your data is lost if you forget the passphrase.",
         .commonNext: "Next",
+        .navMore: "More",
+        .actionLock: "Lock",
     ]
 }

@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "パスワードは安全な場所に書き留めてください — リセットできません。",
         .backupNudgeText: "暗号化バックアップを作成しましょう。これがないと、パスワードを忘れた場合にデータを失います。",
         .commonNext: "次へ",
+        .navMore: "その他",
+        .actionLock: "ロック",
     ]
 }

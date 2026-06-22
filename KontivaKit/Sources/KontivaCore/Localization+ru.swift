@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Запишите пароль в надёжном месте – сбросить его нельзя.",
         .backupNudgeText: "Создайте зашифрованную резервную копию. Без неё вы потеряете данные, если забудете пароль.",
         .commonNext: "Далее",
+        .navMore: "Ещё",
+        .actionLock: "Заблокировать",
     ]
 }

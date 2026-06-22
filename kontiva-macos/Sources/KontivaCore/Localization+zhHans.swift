@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "请将密码记在安全的地方——它无法重置。",
         .backupNudgeText: "创建加密备份。没有它，若忘记密码你将丢失数据。",
         .commonNext: "下一步",
+        .navMore: "更多",
+        .actionLock: "锁定",
     ]
 }

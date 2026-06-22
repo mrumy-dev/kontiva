@@ -290,5 +290,7 @@ extension Localization {
         .onboardingPassphraseNote: "اكتب كلمة مرورك في مكان آمن – لا يمكن إعادة تعيينها.",
         .backupNudgeText: "أنشئ نسخة احتياطية مشفّرة. بدونها تفقد بياناتك إذا نسيت كلمة المرور.",
         .commonNext: "التالي",
+        .navMore: "المزيد",
+        .actionLock: "قفل",
     ]
 }

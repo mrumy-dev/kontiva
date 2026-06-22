@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Notez votre phrase secrète en lieu sûr – elle ne peut pas être réinitialisée.",
         .backupNudgeText: "Créez une sauvegarde chiffrée. Sans elle, vos données sont perdues si vous oubliez la phrase secrète.",
         .commonNext: "Suivant",
+        .navMore: "Plus",
+        .actionLock: "Verrouiller",
     ]
 }

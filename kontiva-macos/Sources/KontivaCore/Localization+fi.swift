@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Kirjoita salasanasi muistiin turvalliseen paikkaan – sitä ei voi nollata.",
         .backupNudgeText: "Luo salattu varmuuskopio. Ilman sitä menetät tietosi, jos unohdat salasanan.",
         .commonNext: "Seuraava",
+        .navMore: "Lisää",
+        .actionLock: "Lukitse",
     ]
 }

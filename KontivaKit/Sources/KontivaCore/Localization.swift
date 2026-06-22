@@ -318,6 +318,10 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case onboardingPassphraseNote
     case backupNudgeText
     case commonNext
+
+    // iOS tab chrome (the "More" tab + its lock action)
+    case navMore
+    case actionLock
 }
 
 public struct Localization: Sendable {

@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Shkruaje fjalëkalimin diku të sigurt – nuk mund të rivendoset.",
         .backupNudgeText: "Krijo një kopje rezervë të enkriptuar. Pa të, i humbet të dhënat nëse harron fjalëkalimin.",
         .commonNext: "Tjetra",
+        .navMore: "Më shumë",
+        .actionLock: "Kyç",
     ]
 }

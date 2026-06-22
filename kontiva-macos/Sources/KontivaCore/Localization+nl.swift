@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Schrijf je wachtwoord ergens veilig op – het kan niet worden gereset.",
         .backupNudgeText: "Maak een versleutelde back-up. Zonder back-up zijn je gegevens verloren als je het wachtwoord vergeet.",
         .commonNext: "Volgende",
+        .navMore: "Meer",
+        .actionLock: "Vergrendelen",
     ]
 }

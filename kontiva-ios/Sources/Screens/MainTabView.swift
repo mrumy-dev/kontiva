@@ -18,7 +18,7 @@ struct MainTabView: View {
             SparenView()
                 .tabItem { Label(loc(.navSparen), systemImage: "banknote") }.tag(3)
             MoreTab()
-                .tabItem { Label("Mehr", systemImage: "ellipsis.circle") }.tag(4)
+                .tabItem { Label(loc(.navMore), systemImage: "ellipsis.circle") }.tag(4)
         }
     }
 }
@@ -58,12 +58,12 @@ private struct MoreTab: View {
                     Button(role: .destructive) {
                         Task { await model.lock() }
                     } label: {
-                        Label("Sperren", systemImage: "lock")
+                        Label(loc(.actionLock), systemImage: "lock")
                     }
                 }
             }
             .tint(KontivaTheme.accent)
-            .navigationTitle("Mehr")
+            .navigationTitle(loc(.navMore))
         }
     }
 }

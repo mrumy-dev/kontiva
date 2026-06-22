@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Parolanızı güvenli bir yere yazın – sıfırlanamaz.",
         .backupNudgeText: "Şifreli bir yedek oluşturun. O olmadan, parolanızı unutursanız verilerinizi kaybedersiniz.",
         .commonNext: "İleri",
+        .navMore: "Daha fazla",
+        .actionLock: "Kilitle",
     ]
 }

@@ -288,5 +288,7 @@ extension Localization {
         .onboardingPassphraseNote: "Skriv din adgangskode ned et sikkert sted – den kan ikke nulstilles.",
         .backupNudgeText: "Opret en krypteret sikkerhedskopi. Uden den mister du dine data, hvis du glemmer adgangskoden.",
         .commonNext: "Næste",
+        .navMore: "Mere",
+        .actionLock: "Lås",
     ]
 }

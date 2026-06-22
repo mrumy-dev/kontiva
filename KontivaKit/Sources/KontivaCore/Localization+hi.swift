@@ -291,5 +291,9 @@ extension Localization {
         .commonNext: "आगे",
         .navMore: "अधिक",
         .actionLock: "लॉक करें",
+        .pinSetTitle: "कोड सेट करें",
+        .pinConfirmTitle: "कोड की पुष्टि करें",
+        .pinRequirementNote: "न्यूनतम 6 अंक · कोई पुनर्प्राप्ति नहीं",
+        .pinMismatch: "कोड मेल नहीं खाते",
     ]
 }

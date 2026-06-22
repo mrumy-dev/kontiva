@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "Tjetra",
         .navMore: "Më shumë",
         .actionLock: "Kyç",
+        .pinSetTitle: "Cakto kodin",
+        .pinConfirmTitle: "Konfirmo kodin",
+        .pinRequirementNote: "Min. 6 shifra · pa rikuperim",
+        .pinMismatch: "Kodet nuk përputhen",
     ]
 }

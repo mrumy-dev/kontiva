@@ -292,5 +292,9 @@ extension Localization {
         .commonNext: "التالي",
         .navMore: "المزيد",
         .actionLock: "قفل",
+        .pinSetTitle: "تعيين الرمز",
+        .pinConfirmTitle: "تأكيد الرمز",
+        .pinRequirementNote: "6 أرقام على الأقل · لا استعادة",
+        .pinMismatch: "الرمزان غير متطابقين",
     ]
 }

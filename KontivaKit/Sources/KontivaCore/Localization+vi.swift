@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "Tiếp",
         .navMore: "Thêm",
         .actionLock: "Khóa",
+        .pinSetTitle: "Đặt mã",
+        .pinConfirmTitle: "Xác nhận mã",
+        .pinRequirementNote: "Tối thiểu 6 chữ số · không khôi phục",
+        .pinMismatch: "Mã không khớp",
     ]
 }

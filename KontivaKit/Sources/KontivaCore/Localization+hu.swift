@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "Tovább",
         .navMore: "Továbbiak",
         .actionLock: "Zárolás",
+        .pinSetTitle: "Kód beállítása",
+        .pinConfirmTitle: "Kód megerősítése",
+        .pinRequirementNote: "Min. 6 számjegy · nincs helyreállítás",
+        .pinMismatch: "A kódok nem egyeznek",
     ]
 }

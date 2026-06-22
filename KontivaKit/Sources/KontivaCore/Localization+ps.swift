@@ -292,5 +292,9 @@ extension Localization {
         .commonNext: "بل",
         .navMore: "نور",
         .actionLock: "بندول",
+        .pinSetTitle: "کوډ وټاکئ",
+        .pinConfirmTitle: "کوډ تایید کړئ",
+        .pinRequirementNote: "لږ تر لږه ۶ عددونه · بیا راوستل نشته",
+        .pinMismatch: "کوډونه سره سمون نه خوري",
     ]
 }

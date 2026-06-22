@@ -291,5 +291,9 @@ extension Localization {
         .commonNext: "அடுத்து",
         .navMore: "மேலும்",
         .actionLock: "பூட்டு",
+        .pinSetTitle: "குறியீட்டை அமை",
+        .pinConfirmTitle: "குறியீட்டை உறுதிப்படுத்து",
+        .pinRequirementNote: "குறைந்தது 6 இலக்கங்கள் · மீட்பு இல்லை",
+        .pinMismatch: "குறியீடுகள் பொருந்தவில்லை",
     ]
 }

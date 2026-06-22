@@ -175,7 +175,9 @@ struct BillsView: View {
 
     private func togglePaid(_ bill: OneOffBill) {
         var updated = bill
-        updated.status = (bill.status == .paid) ? .open : .paid
+        let nowPaid = bill.status != .paid
+        updated.status = nowPaid ? .paid : .open
+        nowPaid ? Haptics.success() : Haptics.tap()   // satisfying confirm when ticking off a bill
         Task { await model.upsertBill(updated) }
     }
 }

@@ -291,5 +291,9 @@ extension Localization {
         .commonNext: "ඊළඟ",
         .navMore: "තවත්",
         .actionLock: "අගුළු දමන්න",
+        .pinSetTitle: "කේතය සකසන්න",
+        .pinConfirmTitle: "කේතය තහවුරු කරන්න",
+        .pinRequirementNote: "අවම අංක 6 · ප්‍රතිසාධනයක් නැත",
+        .pinMismatch: "කේත නොගැලපේ",
     ]
 }

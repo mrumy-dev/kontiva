@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "Nästa",
         .navMore: "Mer",
         .actionLock: "Lås",
+        .pinSetTitle: "Ange kod",
+        .pinConfirmTitle: "Bekräfta kod",
+        .pinRequirementNote: "Minst 6 siffror · ingen återställning",
+        .pinMismatch: "Koderna stämmer inte överens",
     ]
 }

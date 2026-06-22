@@ -26,6 +26,7 @@ struct MonthSelector: View {
             }
         }
         .tint(KontivaTheme.accent)
+        .sensoryFeedback(.selection, trigger: model.selectedMonth)
     }
 
     private var monthLabel: String {

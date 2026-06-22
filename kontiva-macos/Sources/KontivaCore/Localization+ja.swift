@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "次へ",
         .navMore: "その他",
         .actionLock: "ロック",
+        .pinSetTitle: "コードを設定",
+        .pinConfirmTitle: "コードを確認",
+        .pinRequirementNote: "6桁以上 · 復元なし",
+        .pinMismatch: "コードが一致しません",
     ]
 }

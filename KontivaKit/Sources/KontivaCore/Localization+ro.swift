@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "Înainte",
         .navMore: "Mai multe",
         .actionLock: "Blochează",
+        .pinSetTitle: "Setează codul",
+        .pinConfirmTitle: "Confirmă codul",
+        .pinRequirementNote: "Min. 6 cifre · fără recuperare",
+        .pinMismatch: "Codurile nu se potrivesc",
     ]
 }

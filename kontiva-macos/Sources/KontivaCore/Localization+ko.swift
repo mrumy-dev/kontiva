@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "다음",
         .navMore: "더 보기",
         .actionLock: "잠금",
+        .pinSetTitle: "코드 설정",
+        .pinConfirmTitle: "코드 확인",
+        .pinRequirementNote: "최소 6자리 · 복구 불가",
+        .pinMismatch: "코드가 일치하지 않습니다",
     ]
 }

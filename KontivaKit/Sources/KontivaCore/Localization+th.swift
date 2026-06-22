@@ -292,5 +292,9 @@ extension Localization {
         .commonNext: "ถัดไป",
         .navMore: "เพิ่มเติม",
         .actionLock: "ล็อก",
+        .pinSetTitle: "ตั้งรหัส",
+        .pinConfirmTitle: "ยืนยันรหัส",
+        .pinRequirementNote: "อย่างน้อย 6 หลัก · กู้คืนไม่ได้",
+        .pinMismatch: "รหัสไม่ตรงกัน",
     ]
 }

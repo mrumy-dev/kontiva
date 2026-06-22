@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "下一步",
         .navMore: "更多",
         .actionLock: "锁定",
+        .pinSetTitle: "设置密码",
+        .pinConfirmTitle: "确认密码",
+        .pinRequirementNote: "至少 6 位 · 无法恢复",
+        .pinMismatch: "密码不一致",
     ]
 }

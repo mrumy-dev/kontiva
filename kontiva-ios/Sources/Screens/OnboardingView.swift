@@ -23,8 +23,8 @@ struct OnboardingView: View {
             Group {
                 switch step {
                 case .welcome: welcomeHero
-                case .choose:  pinStep(title: "Code festlegen", subtitle: noRecoveryNote, error: false)
-                case .confirm: pinStep(title: "Code bestätigen", subtitle: nil, error: mismatch)
+                case .choose:  pinStep(title: loc(.pinSetTitle), subtitle: loc(.pinRequirementNote), error: false)
+                case .confirm: pinStep(title: loc(.pinConfirmTitle), subtitle: nil, error: mismatch)
                 }
             }
             .transition(.asymmetric(insertion: .move(edge: .trailing).combined(with: .opacity),
@@ -86,8 +86,6 @@ struct OnboardingView: View {
 
     // MARK: Steps 2 & 3 — choose / confirm code
 
-    private var noRecoveryNote: String? { "Mind. 6 Ziffern · keine Wiederherstellung" }
-
     private func pinStep(title: String, subtitle: String?, error: Bool) -> some View {
         VStack(spacing: 0) {
             Spacer(minLength: KontivaTheme.Space.lg)
@@ -106,7 +104,7 @@ struct OnboardingView: View {
                 .modifier(Shake(animatableData: CGFloat(attempts)))
                 .padding(.top, KontivaTheme.Space.xl)
 
-            Text("Codes stimmen nicht überein")
+            Text(loc(.pinMismatch))
                 .font(.caption).foregroundStyle(KontivaTheme.swissRed)
                 .opacity(error ? 1 : 0)
                 .padding(.top, KontivaTheme.Space.sm)
@@ -167,7 +165,7 @@ struct OnboardingView: View {
     }
 
     private var securityFooter: some View {
-        HStack(spacing: 5) { Image(systemName: "lock.fill"); Text("AES-256-GCM · kein Server · keine Cloud") }
+        HStack(spacing: 5) { Image(systemName: "lock.fill"); Text("AES-256-GCM") }
             .font(.caption2).foregroundStyle(KontivaTheme.textTertiary)
     }
 }

@@ -293,5 +293,9 @@ extension Localization {
         .commonNext: "Vinavant",
         .navMore: "Dapli",
         .actionLock: "Serrar",
+        .pinSetTitle: "Definir il code",
+        .pinConfirmTitle: "Confermar il code",
+        .pinRequirementNote: "Almain 6 cifras · nagina recuperaziun",
+        .pinMismatch: "Ils codes na correspundan betg",
     ]
 }

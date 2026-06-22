@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "Следно",
         .navMore: "Повеќе",
         .actionLock: "Заклучи",
+        .pinSetTitle: "Постави код",
+        .pinConfirmTitle: "Потврди код",
+        .pinRequirementNote: "Мин. 6 цифри · без враќање",
+        .pinMismatch: "Кодовите не се совпаѓаат",
     ]
 }

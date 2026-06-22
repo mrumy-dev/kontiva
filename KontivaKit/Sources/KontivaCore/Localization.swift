@@ -322,6 +322,12 @@ public enum L10nKey: String, CaseIterable, Sendable {
     // iOS tab chrome (the "More" tab + its lock action)
     case navMore
     case actionLock
+
+    // PIN setup flow (numeric code)
+    case pinSetTitle
+    case pinConfirmTitle
+    case pinRequirementNote
+    case pinMismatch
 }
 
 public struct Localization: Sendable {

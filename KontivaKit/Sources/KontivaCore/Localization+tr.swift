@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "İleri",
         .navMore: "Daha fazla",
         .actionLock: "Kilitle",
+        .pinSetTitle: "Kod belirle",
+        .pinConfirmTitle: "Kodu onayla",
+        .pinRequirementNote: "En az 6 hane · kurtarma yok",
+        .pinMismatch: "Kodlar eşleşmiyor",
     ]
 }

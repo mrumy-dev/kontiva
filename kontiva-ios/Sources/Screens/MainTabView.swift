@@ -20,6 +20,7 @@ struct MainTabView: View {
             MoreTab()
                 .tabItem { Label(loc(.navMore), systemImage: "ellipsis.circle") }.tag(4)
         }
+        .sensoryFeedback(.selection, trigger: model.selectedTab)
     }
 }
 

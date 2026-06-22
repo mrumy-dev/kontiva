@@ -290,5 +290,9 @@ extension Localization {
         .commonNext: "Suivant",
         .navMore: "Plus",
         .actionLock: "Verrouiller",
+        .pinSetTitle: "Définir le code",
+        .pinConfirmTitle: "Confirmer le code",
+        .pinRequirementNote: "Min. 6 chiffres · aucune récupération",
+        .pinMismatch: "Les codes ne correspondent pas",
     ]
 }

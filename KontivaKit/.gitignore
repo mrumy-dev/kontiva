@@ -1,0 +1,17 @@
+# SwiftPM / Xcode build artifacts
+.build/
+.swiftpm/
+.iosverify/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# macOS
+.DS_Store
+
+# Never commit secrets, vaults, or backups (defence in depth — KontivaKit holds none)
+*.kontivabackup
+*.kenc
+keystore.json
+vault/
+backups/

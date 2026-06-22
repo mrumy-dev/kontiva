@@ -1,0 +1,55 @@
+# ── macOS junk ───────────────────────────────────────────────
+.DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# ── Swift / SwiftPM build artifacts ──────────────────────────
+.build/
+.swiftpm/
+Packages/
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+build/
+*.xcarchive
+
+# ── Distribution artifacts (never commit) ────────────────────
+*.dmg
+*.pkg
+*.app/
+Kontiva.app/
+
+# ── PRIVATE DATA — must never be tracked ─────────────────────
+# Encrypted stores, vault, backups, keys, and any real documents.
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.db-wal
+*.db-shm
+keys.json
+*.key
+vault/
+backups/
+*.kontivabackup
+
+# ── Secrets / env ────────────────────────────────────────────
+.env
+.env.*
+secrets.*
+*.pem
+*.p12
+*.mobileprovision
+
+# ── Editor / misc ────────────────────────────────────────────
+*.swp
+*~
+.idea/
+.vscode/
+.claude/settings.local.json
+
+# NOTE: assets/brand/** ARE tracked on purpose (approved brand masters).
+# Generated app-icon outputs live in Resources/AppIcon/ and are derived only
+# from approved masters; they are safe to track.

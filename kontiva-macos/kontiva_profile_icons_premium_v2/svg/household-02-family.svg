@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Kontiva premium profile icon family 02">
+  <rect width="256" height="256" rx="58" fill="#F6F7F8"/>
+  <rect x="24" y="24" width="208" height="208" rx="46" fill="#FFFFFF" stroke="#DCE1E5" stroke-width="4"/>
+  <circle cx="98" cy="94" r="26" fill="#121A22"/>
+  <circle cx="158" cy="94" r="26" fill="#121A22"/>
+  <circle cx="128" cy="130" r="20" fill="#121A22"/>
+  <path d="M56 184c8-31 24-46 42-46s34 15 42 46" fill="none" stroke="#121A22" stroke-width="14" stroke-linecap="round"/>
+  <path d="M116 184c8-31 24-46 42-46s34 15 42 46" fill="none" stroke="#121A22" stroke-width="14" stroke-linecap="round"/>
+  <rect x="184" y="62" width="15" height="15" rx="3" fill="#E11D2E"/>
+</svg>

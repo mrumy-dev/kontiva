@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Kontiva premium profile icon human 05">
+  <rect width="256" height="256" rx="58" fill="#F8F7F4"/>
+  <rect x="24" y="24" width="208" height="208" rx="46" fill="#121A22"/>
+  <circle cx="128" cy="96" r="30" fill="#F6F7F8"/>
+  <path d="M78 184c10-34 29-50 50-50s40 16 50 50" fill="none" stroke="#F6F7F8" stroke-width="16" stroke-linecap="round"/>
+  <path d="M68 68c30-22 90-22 120 0" fill="none" stroke="#E11D2E" stroke-width="8" stroke-linecap="round"/>
+</svg>

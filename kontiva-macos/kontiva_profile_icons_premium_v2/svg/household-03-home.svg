@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Kontiva premium profile icon household 03">
+  <rect width="256" height="256" rx="58" fill="#F8F7F4"/>
+  <rect x="34" y="34" width="188" height="188" rx="44" fill="#121A22"/>
+  <path d="M74 116l54-42 54 42" fill="none" stroke="#F6F7F8" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M88 114v66h80v-66" fill="none" stroke="#F6F7F8" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="114" cy="144" r="11" fill="#F6F7F8"/>
+  <circle cx="142" cy="144" r="11" fill="#F6F7F8"/>
+  <circle cx="184" cy="70" r="7" fill="#E11D2E"/>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Kontiva premium profile icon monogram R">
+  <rect width="256" height="256" rx="58" fill="#F8F7F4"/>
+  <rect x="34" y="34" width="188" height="188" rx="44" fill="#121A22"/>
+  <text x="128" y="158" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, SF Pro Display, Inter, Arial, sans-serif" font-size="86" font-weight="650" fill="#F6F7F8">R</text>
+  <rect x="74" y="184" width="108" height="8" rx="4" fill="#DCE1E5"/>
+  <circle cx="190" cy="70" r="7" fill="#E11D2E"/>
+</svg>

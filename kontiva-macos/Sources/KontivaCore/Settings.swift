@@ -151,6 +151,62 @@ public enum AppLanguage: String, Codable, Sendable, CaseIterable, Identifiable {
         default: return .european
         }
     }
+
+    /// The best-matching supported language for the device, walking the user's
+    /// preferred-language order. Falls back to Swiss German (the app's home market).
+    public static func bestForDevice(
+        preferred: [String] = Locale.preferredLanguages
+    ) -> AppLanguage {
+        for identifier in preferred {
+            let locale = Locale(identifier: identifier)
+            guard let code = locale.language.languageCode?.identifier else { continue }
+            if let match = matching(code: code, region: locale.region?.identifier) {
+                return match
+            }
+        }
+        return .deCH
+    }
+
+    private static func matching(code: String, region: String?) -> AppLanguage? {
+        switch code {
+        // German / French / Italian → the Swiss variants (this is a Swiss app).
+        case "de": return .deCH
+        case "fr": return .frCH
+        case "it": return .itCH
+        case "rm": return .rm
+        case "en": return .en
+        case "es": return .es
+        case "pt": return region == "BR" ? .ptBR : .ptPT
+        case "nl": return .nl
+        case "da": return .da
+        case "nb", "nn", "no": return .nb
+        case "sv": return .sv
+        case "fi": return .fi
+        case "pl": return .pl
+        case "ro": return .ro
+        case "hu": return .hu
+        case "sq": return .sq
+        case "sr": return .sr
+        case "hr": return .hr
+        case "bs": return .bs
+        case "mk": return .mk
+        case "tr": return .tr
+        case "ru": return .ru
+        case "uk": return .uk
+        case "ar": return .ar
+        case "zh": return .zhHans          // only Simplified is bundled
+        case "ja": return .ja
+        case "ko": return .ko
+        case "vi": return .vi
+        case "th": return .th
+        case "hi": return .hi
+        case "ta": return .ta
+        case "si": return .si
+        case "ur": return .ur
+        case "ps": return .ps
+        default:   return nil
+        }
+    }
 }
 
 public enum AppAppearance: String, Codable, Sendable, CaseIterable {

@@ -43,8 +43,15 @@ final class AppModel: ObservableObject {
     private static let accentKey = "kontiva.ui.accent"
 
     init() {
-        let savedLanguage = UserDefaults.standard.string(forKey: Self.languageKey)
-            .flatMap(AppLanguage.init(rawValue:)) ?? .deCH
+        // First run → match the phone's system language; afterwards, the saved choice.
+        let savedLanguage: AppLanguage
+        if let raw = UserDefaults.standard.string(forKey: Self.languageKey),
+           let lang = AppLanguage(rawValue: raw) {
+            savedLanguage = lang
+        } else {
+            savedLanguage = AppLanguage.bestForDevice()
+            UserDefaults.standard.set(savedLanguage.rawValue, forKey: Self.languageKey)
+        }
         self.localizer = Localizer(language: savedLanguage)
         let location = (try? StoreLocation.applicationSupport())
             ?? StoreLocation(directory: FileManager.default.temporaryDirectory

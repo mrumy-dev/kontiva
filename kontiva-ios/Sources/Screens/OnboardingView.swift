@@ -37,7 +37,9 @@ struct OnboardingView: View {
 
     private var welcomeHero: some View {
         VStack(spacing: 0) {
-            Spacer(minLength: KontivaTheme.Space.lg)
+            HStack { Spacer(); languageMenu }
+
+            Spacer(minLength: KontivaTheme.Space.md)
 
             WordmarkHero()
 
@@ -82,6 +84,37 @@ struct OnboardingView: View {
             Spacer(minLength: 0)
         }
         .padding(KontivaTheme.Space.md)
+    }
+
+    /// Language picker for first-run — pre-selected to the phone's language,
+    /// changeable here. Same ordered roster (Swiss → European → Asian) as Settings.
+    private var languageMenu: some View {
+        Menu {
+            ForEach(AppLanguage.allCases) { lang in
+                Button {
+                    withAnimation(.snappy) { model.setLanguage(lang) }
+                } label: {
+                    if lang == loc.language {
+                        Label(lang.displayName, systemImage: "checkmark")
+                    } else {
+                        Text(lang.displayName)
+                    }
+                }
+            }
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "globe")
+                Text(loc.language.displayName)
+                Image(systemName: "chevron.down").font(.caption2)
+            }
+            .font(.subheadline.weight(.medium))
+            .foregroundStyle(KontivaTheme.textSecondary)
+            .padding(.horizontal, KontivaTheme.Space.sm)
+            .padding(.vertical, 7)
+            .background(Capsule().fill(KontivaTheme.cardSurface))
+            .overlay(Capsule().strokeBorder(KontivaTheme.softBorder.opacity(0.5), lineWidth: 1))
+        }
+        .accessibilityLabel(loc(.settingsLanguage))
     }
 
     // MARK: Steps 2 & 3 — choose / confirm code

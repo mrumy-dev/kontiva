@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light-mode window background (matches KontivaTheme.pageBackground light). -->
+    <color name="kontiva_page_background">#F8F7F4</color>
+    <!-- Adaptive launcher icon background (brand charcoal). -->
+    <color name="ic_launcher_background">#121A22</color>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark-mode window background (matches KontivaTheme.pageBackground dark). -->
+    <color name="kontiva_page_background">#0F151B</color>
+</resources>

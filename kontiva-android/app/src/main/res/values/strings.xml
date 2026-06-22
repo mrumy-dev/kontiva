@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name only; all in-app copy is resolved at runtime via L10nKey so the
+         in-app language picker can override the device locale (mirrors iOS). -->
+    <string name="app_name">Kontiva</string>
+</resources>

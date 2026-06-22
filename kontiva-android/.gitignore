@@ -1,0 +1,15 @@
+# Android / Gradle build artifacts — never committed
+.gradle/
+build/
+app/build/
+local.properties
+*.iml
+.idea/
+captures/
+.cxx/
+.kotlin/
+
+# Keystores / secrets (never commit signing material)
+*.jks
+*.keystore
+keystore.properties

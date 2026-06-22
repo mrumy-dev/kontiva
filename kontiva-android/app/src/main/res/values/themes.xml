@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Plain Material3 DayNight base. Compose (KontivaTheme) does the real styling;
+         this just gives a sane window background + no action bar + RTL support. -->
+    <style name="Theme.Kontiva" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/kontiva_page_background</item>
+    </style>
+</resources>

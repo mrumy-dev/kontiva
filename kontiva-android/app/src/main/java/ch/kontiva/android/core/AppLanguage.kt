@@ -1,5 +1,6 @@
 package ch.kontiva.android.core
 
+import kotlinx.serialization.Serializable
 import java.util.Locale
 
 /** Region grouping for the language picker (Swiss first, then European, then Asian). */
@@ -10,6 +11,7 @@ enum class LanguageGroup { SWISS, EUROPEAN, ASIAN }
  * Declaration order = picker order. The enum constant names match the generated
  * `LOC_<name>` tables in [ch.kontiva.android.core.l10n].
  */
+@Serializable
 enum class AppLanguage(
     /** Persistence id; identical to the iOS rawValue. */
     val code: String,

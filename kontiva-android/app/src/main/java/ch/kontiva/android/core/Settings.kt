@@ -1,8 +1,10 @@
 package ch.kontiva.android.core
 
 import ch.kontiva.android.core.l10n.L10nKey
+import kotlinx.serialization.Serializable
 
 /** Light / dark / follow-system. */
+@Serializable
 enum class AppAppearance { SYSTEM, LIGHT, DARK }
 
 /**
@@ -10,6 +12,7 @@ enum class AppAppearance { SYSTEM, LIGHT, DARK }
  * (negative balances, overdue, errors) always stay red. 1:1 with iOS `AccentTheme`.
  * The actual Compose Color lives in the UI layer (see KontivaTheme.accentColor).
  */
+@Serializable
 enum class AccentTheme(val labelKey: L10nKey) {
     SWISS_RED(L10nKey.themeSwissRed), // brand default
     ORANGE(L10nKey.themeOrange),
@@ -22,6 +25,7 @@ enum class AccentTheme(val labelKey: L10nKey) {
 }
 
 /** Idle time before the app re-locks. */
+@Serializable
 enum class AutoLockInterval(val seconds: Long?, val displayLabel: String) {
     ONE_MINUTE(60, "1 Min."),
     FIVE_MINUTES(5 * 60, "5 Min."),
@@ -30,6 +34,7 @@ enum class AutoLockInterval(val seconds: Long?, val displayLabel: String) {
 }
 
 /** Non-secret application settings. */
+@Serializable
 data class AppSettings(
     val language: AppLanguage = AppLanguage.deCH,
     val appearance: AppAppearance = AppAppearance.SYSTEM,
@@ -40,6 +45,7 @@ data class AppSettings(
  * Security configuration. Contains NO secrets — only parameters and state.
  * Real key material lives in the security layer, only ever wrapped.
  */
+@Serializable
 data class SecuritySettings(
     val autoLock: AutoLockInterval = AutoLockInterval.FIVE_MINUTES,
     val hasPassphrase: Boolean = false,

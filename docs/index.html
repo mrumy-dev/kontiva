@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontiva — Private Swiss household budgeting</title>
+<meta name="description" content="A calm, private home for your Swiss household budget. Everything stays on your iPhone, encrypted — no cloud, no accounts, no tracking.">
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body {
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    padding: 2rem 1.25rem; color: #1d1d1f; background: #fbfbfd;
+  }
+  .card { max-width: 560px; text-align: center; }
+  .brand { display: inline-flex; align-items: baseline; gap: .45rem;
+           font-weight: 700; font-size: 2.6rem; letter-spacing: -.02em; margin: 0 0 .4rem; }
+  .brand .dot { color: #d32f2f; }
+  p.tag { font-size: 1.2rem; color: #1d1d1f; margin: .2rem 0 1.6rem; }
+  ul.points { list-style: none; padding: 0; margin: 0 auto 2rem; max-width: 420px;
+              text-align: left; color: #3a3a3c; }
+  ul.points li { padding: .35rem 0 .35rem 1.6rem; position: relative; }
+  ul.points li::before { content: "🔒"; position: absolute; left: 0; }
+  ul.points li:nth-child(2)::before { content: "🇨🇭"; }
+  ul.points li:nth-child(3)::before { content: "✓"; color: #2e7d32; font-weight: 700; }
+  .links a { color: #d32f2f; text-decoration: none; font-weight: 600; margin: 0 .6rem; }
+  .links a:hover { text-decoration: underline; }
+  footer { margin-top: 2.2rem; color: #6e6e73; font-size: .9rem; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #f5f5f7; background: #000; }
+    p.tag { color: #f5f5f7; }
+    ul.points { color: #c7c7cc; }
+    .links a { color: #ff6b6b; }
+    footer { color: #98989d; }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="brand">Kontiva<span class="dot">.</span></p>
+  <p class="tag">A calm, private home for your Swiss household budget.</p>
+  <ul class="points">
+    <li>Fully on-device — no cloud, no accounts, no tracking</li>
+    <li>Made for Switzerland, in 35 languages</li>
+    <li>Encrypted with AES-256-GCM, precise to the Rappen</li>
+  </ul>
+  <p class="links">
+    <a href="./privacy.html">Privacy Policy</a> ·
+    <a href="mailto:mohamed.rumy@bluewin.ch">Support</a>
+  </p>
+  <footer>© 2026 Kontiva</footer>
+</div>
+</body>
+</html>

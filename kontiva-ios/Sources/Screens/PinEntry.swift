@@ -35,7 +35,9 @@ struct PinDots: View {
                             error ? KontivaTheme.swissRed
                                   : (i < filled ? .clear : KontivaTheme.textTertiary.opacity(0.45)),
                             lineWidth: 1.5))
-                    .animation(.snappy(duration: 0.18), value: filled)
+                    // Springy "pop" as each digit lands — the native passcode feel.
+                    .scaleEffect(i < filled ? 1 : 0.82)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.5), value: filled)
             }
         }
     }

@@ -39,26 +39,13 @@ struct OnboardingView: View {
         VStack(spacing: 0) {
             Spacer(minLength: KontivaTheme.Space.lg)
 
-            ZStack {
-                Circle().fill(KontivaTheme.accent.opacity(0.12)).frame(width: 132, height: 132)
-                Image("BrandIcon")
-                    .resizable().scaledToFit()
-                    .frame(width: 92, height: 92)
-                    .clipShape(RoundedRectangle(cornerRadius: 21, style: .continuous))
-                    .shadow(color: KontivaTheme.charcoal.opacity(0.18), radius: 14, y: 7)
-            }
-
-            Text(loc(.lockWelcomeSetup))
-                .font(.system(size: 26, weight: .semibold))
-                .foregroundStyle(KontivaTheme.textPrimary)
-                .multilineTextAlignment(.center)
-                .padding(.top, KontivaTheme.Space.md)
+            WordmarkHero()
 
             Text(loc(.onboardingIntroBody))
                 .font(.callout).foregroundStyle(KontivaTheme.textSecondary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, KontivaTheme.Space.xs)
+                .padding(.top, KontivaTheme.Space.md)
                 .padding(.horizontal, KontivaTheme.Space.sm)
 
             VStack(spacing: 0) {
@@ -182,5 +169,31 @@ struct OnboardingView: View {
     private var securityFooter: some View {
         HStack(spacing: 5) { Image(systemName: "lock.fill"); Text("AES-256-GCM · kein Server · keine Cloud") }
             .font(.caption2).foregroundStyle(KontivaTheme.textTertiary)
+    }
+}
+
+/// The brand wordmark as the welcome hero: large and edge-to-edge, revealed with
+/// a left-to-right wipe on appear so it "expands" across the screen.
+private struct WordmarkHero: View {
+    @State private var reveal: CGFloat = 0
+    @State private var settle = false
+
+    var body: some View {
+        Image("Wordmark")
+            .resizable()
+            .scaledToFit()
+            .frame(maxWidth: .infinity)
+            .frame(maxHeight: 88)
+            .mask(alignment: .leading) {
+                GeometryReader { geo in
+                    Rectangle().frame(width: max(0, geo.size.width * reveal))
+                }
+            }
+            .scaleEffect(settle ? 1 : 0.98)
+            .onAppear {
+                withAnimation(.easeOut(duration: 0.85).delay(0.15)) { reveal = 1 }
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.15)) { settle = true }
+            }
+            .accessibilityLabel("Kontiva")
     }
 }

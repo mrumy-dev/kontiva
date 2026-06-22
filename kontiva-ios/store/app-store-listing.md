@@ -12,8 +12,8 @@ placeholders. Primary market is Swiss‑German, so German (de‑CH) is given alo
 - **Secondary category:** (optional) Productivity
 - **Age rating:** 4+ (no objectionable content)
 - **Price:** Free
-- **Privacy policy URL:** [host privacy-policy.md and paste the URL]
-- **Support URL:** [a simple page or `mailto:` link]
+- **Privacy policy URL:** `https://mrumy-dev.github.io/kontiva/privacy.html`
+- **Support URL:** `mailto:mohamed.rumy@bluewin.ch` (or a simple support page)
 - **Marketing URL:** (optional)
 
 ## App Privacy ("nutrition label")
@@ -119,7 +119,7 @@ Answer **"No, we do not collect data from this app."** → label shows **Data No
 
 - **Beta App Description**
   > Kontiva is a private, on-device Swiss household budgeting app — everything stays encrypted on your iPhone. Please test onboarding (language + profile + code), adding income/costs/bills/savings, the monthly overview figures, switching language and theme, and locking/unlocking (incl. Face ID). No account needed; nothing leaves the device.
-- **What to test / feedback email:** [your-support-email@example.com]
+- **What to test / feedback email:** mohamed.rumy@bluewin.ch
 - **Sign-in required?** No (the app has no accounts).
 - **Demo account:** Not applicable.
 - **Notes for the reviewer:** All data is local and encrypted; the app makes no network calls. Standard AES‑256 only (export-exempt — declared in Info.plist).
@@ -128,13 +128,16 @@ Answer **"No, we do not collect data from this app."** → label shows **Data No
 
 ## Screenshots (required for submission)
 
-Need **6.9"** (iPhone 17 Pro Max class) and ideally **6.5"** sets. Good candidates from the app:
-1. Welcome / onboarding (the wordmark hero)
-2. Overview with the donut + "available this month"
-3. Monthly Planning (income + fixed + variable)
-4. Bills (due / paid)
-5. Savings goal with the progress ring
-6. Settings (language list + theme)
+A captured **6.9"** set (1320 × 2868, iPhone 17 Pro Max, de-CH) lives in
+[`./screenshots/`](./screenshots/) — ready to drop straight into App Store Connect:
 
-> Tip: capture them from the simulator with `xcrun simctl io booted screenshot name.png`,
-> then drop into App Store Connect (no device frame needed — Apple accepts raw screenshots).
+1. `01-welcome.png`  — welcome / onboarding (the wordmark hero)
+2. `02-overview.png` — overview with the donut + "verfügbar diesen Monat" *(hero)*
+3. `03-planning.png` — Monatsplanung (income + fixed + variable)
+4. `04-bills.png`    — Rechnungen (one open + one paid)
+5. `05-savings.png`  — Sparen goal with the progress ring
+6. `06-settings.png` — Einstellungen (profile, language, colour theme)
+
+> Re-capture any time with `xcrun simctl io booted screenshot name.png` (no device
+> frame needed — Apple accepts raw screenshots). A 6.5" set is optional; the 6.9"
+> set above satisfies submission on its own.

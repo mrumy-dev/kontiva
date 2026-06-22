@@ -42,4 +42,4 @@ If this policy changes, the updated version will be posted at this address with 
 
 ## Contact
 
-Questions about your privacy? Contact **[your-support-email@example.com]**.
+Questions about your privacy? Contact **mohamed.rumy@bluewin.ch**.

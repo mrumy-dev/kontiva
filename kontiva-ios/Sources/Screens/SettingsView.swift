@@ -88,33 +88,43 @@ struct SettingsView: View {
 
     private var themeSection: some View {
         Section {
-            HStack(spacing: KontivaTheme.Space.sm) {
-                ForEach(AccentTheme.allCases) { accentSwatch($0) }
-                Spacer(minLength: 0)
+            HStack(spacing: 0) {
+                ForEach(AccentTheme.allCases) { theme in
+                    accentSwatch(theme).frame(maxWidth: .infinity)
+                }
             }
-            .padding(.vertical, KontivaTheme.Space.xxs)
+            .padding(.vertical, KontivaTheme.Space.sm)
         } header: {
             Text(loc(.settingsTheme))
         } footer: {
             Text(loc(model.settings.accent.labelKey))
+                .animation(.snappy, value: model.settings.accent)
         }
     }
 
+    /// One accent swatch, iOS-style: a filled dot that, when selected, sits
+    /// inside a same-colour ring with a clear gap (no checkmark).
     private func accentSwatch(_ theme: AccentTheme) -> some View {
         let selected = model.settings.accent == theme
         return Button { withAnimation(.snappy) { model.setAccent(theme) } } label: {
-            ZStack {
-                Circle().fill(theme.color).frame(width: 30, height: 30)
-                    .overlay(Circle().strokeBorder(.white.opacity(0.45), lineWidth: 1))
-                if selected {
-                    Image(systemName: "checkmark").font(.system(size: 12, weight: .bold)).foregroundStyle(.white)
+            Circle()
+                .fill(theme.color)
+                .frame(width: 28, height: 28)
+                .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5)) // edge on white
+                .shadow(color: theme.color.opacity(selected ? 0.45 : 0), radius: 5, y: 1)
+                .padding(5) // gap for the selection ring
+                .overlay {
+                    Circle()
+                        .strokeBorder(theme.color, lineWidth: 2.5)
+                        .opacity(selected ? 1 : 0)
+                        .scaleEffect(selected ? 1 : 0.72)
                 }
-            }
-            .padding(3)
-            .overlay(Circle().strokeBorder(selected ? theme.color : .clear, lineWidth: 2))
-            .contentShape(Circle())
+                .contentShape(Circle())
+                .animation(.snappy(duration: 0.22), value: selected)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(loc(theme.labelKey))
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
     }
 
     private var securitySection: some View {

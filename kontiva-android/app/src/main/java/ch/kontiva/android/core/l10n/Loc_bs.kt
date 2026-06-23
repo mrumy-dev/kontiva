@@ -59,6 +59,7 @@ internal val LOC_bs: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Manjak",
     L10nKey.commonAdd to "Dodaj",
     L10nKey.commonEdit to "Izmijeni",
+    L10nKey.commonActivate to "Aktiviraj",
     L10nKey.commonDelete to "Obriši",
     L10nKey.commonCancel to "Otkaži",
     L10nKey.commonSave to "Sačuvaj",

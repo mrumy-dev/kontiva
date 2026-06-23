@@ -59,6 +59,7 @@ internal val LOC_ru: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Дефицит",
     L10nKey.commonAdd to "Добавить",
     L10nKey.commonEdit to "Изменить",
+    L10nKey.commonActivate to "Включить",
     L10nKey.commonDelete to "Удалить",
     L10nKey.commonCancel to "Отмена",
     L10nKey.commonSave to "Сохранить",

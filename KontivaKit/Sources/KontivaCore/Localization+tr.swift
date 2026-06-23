@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Ekle",
         .commonEdit: "Düzenle",
+        .commonActivate: "Etkinleştir",
         .commonDelete: "Sil",
         .commonCancel: "İptal",
         .commandsAdd: "Kayıt ekle",

@@ -70,6 +70,7 @@ extension Localization {
 
         .commonAdd: "شامل کریں",
         .commonEdit: "ترمیم",
+        .commonActivate: "فعال کریں",
         .commonDelete: "حذف کریں",
         .commonCancel: "منسوخ",
         .commandsAdd: "اندراج شامل کریں",

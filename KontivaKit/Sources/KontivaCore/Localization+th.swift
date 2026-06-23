@@ -71,6 +71,7 @@ extension Localization {
 
         .commonAdd: "เพิ่ม",
         .commonEdit: "แก้ไข",
+        .commonActivate: "เปิดใช้งาน",
         .commonDelete: "ลบ",
         .commonCancel: "ยกเลิก",
         .commandsAdd: "เพิ่มรายการ",

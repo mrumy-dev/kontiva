@@ -59,6 +59,7 @@ internal val LOC_rm: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Mancanza",
     L10nKey.commonAdd to "Agiuntar",
     L10nKey.commonEdit to "Modifitgar",
+    L10nKey.commonActivate to "Activar",
     L10nKey.commonDelete to "Stizzar",
     L10nKey.commonCancel to "Interrumper",
     L10nKey.commonSave to "Memorisar",

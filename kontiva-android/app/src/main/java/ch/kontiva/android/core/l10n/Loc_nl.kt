@@ -59,6 +59,7 @@ internal val LOC_nl: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Tekort",
     L10nKey.commonAdd to "Toevoegen",
     L10nKey.commonEdit to "Bewerken",
+    L10nKey.commonActivate to "Inschakelen",
     L10nKey.commonDelete to "Verwijderen",
     L10nKey.commonCancel to "Annuleren",
     L10nKey.commonSave to "Bewaren",

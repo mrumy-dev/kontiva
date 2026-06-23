@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "添加",
         .commonEdit: "编辑",
+        .commonActivate: "启用",
         .commonDelete: "删除",
         .commonCancel: "取消",
         .commandsAdd: "添加条目",

@@ -70,6 +70,7 @@ extension Localization {
 
         .commonAdd: "சேர்",
         .commonEdit: "திருத்து",
+        .commonActivate: "இயக்கு",
         .commonDelete: "நீக்கு",
         .commonCancel: "ரத்து",
         .commandsAdd: "உள்ளீட்டைச் சேர்",

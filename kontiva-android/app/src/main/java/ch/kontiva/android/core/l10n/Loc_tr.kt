@@ -59,6 +59,7 @@ internal val LOC_tr: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Açık",
     L10nKey.commonAdd to "Ekle",
     L10nKey.commonEdit to "Düzenle",
+    L10nKey.commonActivate to "Etkinleştir",
     L10nKey.commonDelete to "Sil",
     L10nKey.commonCancel to "İptal",
     L10nKey.commonSave to "Kaydet",

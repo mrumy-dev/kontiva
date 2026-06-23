@@ -59,6 +59,7 @@ internal val LOC_ar: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "عجز",
     L10nKey.commonAdd to "إضافة",
     L10nKey.commonEdit to "تعديل",
+    L10nKey.commonActivate to "تفعيل",
     L10nKey.commonDelete to "حذف",
     L10nKey.commonCancel to "إلغاء",
     L10nKey.commonSave to "حفظ",

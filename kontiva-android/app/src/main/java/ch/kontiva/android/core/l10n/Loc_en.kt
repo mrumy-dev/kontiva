@@ -59,6 +59,7 @@ internal val LOC_en: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Shortfall",
     L10nKey.commonAdd to "Add",
     L10nKey.commonEdit to "Edit",
+    L10nKey.commonActivate to "Enable",
     L10nKey.commonDelete to "Delete",
     L10nKey.commonCancel to "Cancel",
     L10nKey.commonSave to "Save",

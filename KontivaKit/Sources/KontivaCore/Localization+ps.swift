@@ -71,6 +71,7 @@ extension Localization {
 
         .commonAdd: "ورزیات کړئ",
         .commonEdit: "سمون",
+        .commonActivate: "فعالول",
         .commonDelete: "ړنګول",
         .commonCancel: "لغوه",
         .commandsAdd: "ننوتنه ورزیاته کړئ",

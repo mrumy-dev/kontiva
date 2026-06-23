@@ -59,6 +59,7 @@ internal val LOC_ta: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "பற்றாக்குறை",
     L10nKey.commonAdd to "சேர்",
     L10nKey.commonEdit to "திருத்து",
+    L10nKey.commonActivate to "இயக்கு",
     L10nKey.commonDelete to "நீக்கு",
     L10nKey.commonCancel to "ரத்து",
     L10nKey.commonSave to "சேமி",

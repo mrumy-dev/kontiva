@@ -59,6 +59,7 @@ internal val LOC_zhHans: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "缺口",
     L10nKey.commonAdd to "添加",
     L10nKey.commonEdit to "编辑",
+    L10nKey.commonActivate to "启用",
     L10nKey.commonDelete to "删除",
     L10nKey.commonCancel to "取消",
     L10nKey.commonSave to "保存",

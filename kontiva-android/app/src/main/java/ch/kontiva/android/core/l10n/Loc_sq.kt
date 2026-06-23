@@ -59,6 +59,7 @@ internal val LOC_sq: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Mungesë",
     L10nKey.commonAdd to "Shto",
     L10nKey.commonEdit to "Modifiko",
+    L10nKey.commonActivate to "Aktivizo",
     L10nKey.commonDelete to "Fshi",
     L10nKey.commonCancel to "Anulo",
     L10nKey.commonSave to "Ruaj",

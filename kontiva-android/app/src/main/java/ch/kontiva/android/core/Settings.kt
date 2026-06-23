@@ -24,9 +24,11 @@ enum class AccentTheme(val labelKey: L10nKey) {
     PINK(L10nKey.themePink),
 }
 
-/** Idle time before the app re-locks. */
+/** Idle time before the app re-locks. IMMEDIATE locks the moment you leave the app
+ *  or the phone screen turns off. */
 @Serializable
 enum class AutoLockInterval(val seconds: Long?, val displayLabel: String) {
+    IMMEDIATE(0, "Sofort"),
     ONE_MINUTE(60, "1 Min."),
     FIVE_MINUTES(5 * 60, "5 Min."),
     FIFTEEN_MINUTES(15 * 60, "15 Min."),
@@ -83,7 +85,7 @@ data class AppSettings(
  */
 @Serializable
 data class SecuritySettings(
-    val autoLock: AutoLockInterval = AutoLockInterval.FIVE_MINUTES,
+    val autoLock: AutoLockInterval = AutoLockInterval.IMMEDIATE,
     val hasPassphrase: Boolean = false,
     val recoveryWarningAcknowledged: Boolean = false,
 )

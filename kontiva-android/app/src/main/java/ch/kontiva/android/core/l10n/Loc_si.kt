@@ -59,6 +59,7 @@ internal val LOC_si: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "හිඟය",
     L10nKey.commonAdd to "එක් කරන්න",
     L10nKey.commonEdit to "සංස්කරණය",
+    L10nKey.commonActivate to "සක්‍රිය කරන්න",
     L10nKey.commonDelete to "මකන්න",
     L10nKey.commonCancel to "අවලංගු කරන්න",
     L10nKey.commonSave to "සුරකින්න",

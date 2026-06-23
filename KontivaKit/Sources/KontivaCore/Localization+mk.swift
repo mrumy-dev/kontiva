@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Додај",
         .commonEdit: "Уреди",
+        .commonActivate: "Овозможи",
         .commonDelete: "Избриши",
         .commonCancel: "Откажи",
         .commandsAdd: "Додај запис",

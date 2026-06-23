@@ -59,6 +59,7 @@ internal val LOC_ps: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "کمښت",
     L10nKey.commonAdd to "ورزیات کړئ",
     L10nKey.commonEdit to "سمون",
+    L10nKey.commonActivate to "فعالول",
     L10nKey.commonDelete to "ړنګول",
     L10nKey.commonCancel to "لغوه",
     L10nKey.commonSave to "خوندي کړئ",

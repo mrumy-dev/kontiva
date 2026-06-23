@@ -87,6 +87,11 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     /** Whether the device offers a usable biometric (fingerprint/face). */
     val biometricAvailable: Boolean get() = BiometricAuth.isAvailable(getApplication())
 
+    /** One-shot: offer to enable biometric unlock right after onboarding finishes. */
+    var offerBiometricSetup by mutableStateOf(false)
+        private set
+    fun dismissBiometricOffer() { offerBiometricSetup = false }
+
     /** The month the whole app is viewing (first of month). Drives availability,
      *  bill classification, savings accumulation, and insights. */
     var selectedMonth by mutableStateOf(LocalDate.now().withDayOfMonth(1))
@@ -99,6 +104,11 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     // chosen interval (NEVER disables it). Driven by the Activity lifecycle.
     private var backgroundedAt: Long? = null
 
+    /** Set before launching an in-app system activity (file picker, share sheet) so the
+     *  immediate auto-lock doesn't fire when that activity backgrounds us and returns. */
+    private var suppressAutoLockOnce = false
+    fun suppressNextAutoLock() { suppressAutoLockOnce = true }
+
     fun onAppBackgrounded() {
         if (phase == AppPhase.UNLOCKED) backgroundedAt = System.currentTimeMillis()
     }
@@ -106,6 +116,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun onAppForegrounded() {
         val since = backgroundedAt ?: return
         backgroundedAt = null
+        if (suppressAutoLockOnce) { suppressAutoLockOnce = false; return }
         val interval = dataset.securitySettings.autoLock.seconds ?: return
         if ((System.currentTimeMillis() - since) / 1000 >= interval) lock()
     }
@@ -190,6 +201,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
             household = hh
             dataset = store.snapshot()
             busy = false
+            offerBiometricSetup = biometricAvailable && !biometricEnabled
             phase = AppPhase.UNLOCKED
         }
     }

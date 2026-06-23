@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "추가",
         .commonEdit: "편집",
+        .commonActivate: "사용",
         .commonDelete: "삭제",
         .commonCancel: "취소",
         .commandsAdd: "항목 추가",

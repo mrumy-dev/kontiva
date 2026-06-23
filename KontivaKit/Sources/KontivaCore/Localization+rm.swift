@@ -72,6 +72,7 @@ extension Localization {
 
         .commonAdd: "Agiuntar",
         .commonEdit: "Modifitgar",
+        .commonActivate: "Activar",
         .commonDelete: "Stizzar",
         .commonCancel: "Interrumper",
         .commandsAdd: "Agiuntar endataziun",

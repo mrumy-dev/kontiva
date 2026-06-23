@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Tilføj",
         .commonEdit: "Rediger",
+        .commonActivate: "Aktivér",
         .commonDelete: "Slet",
         .commonCancel: "Annuller",
         .commandsAdd: "Tilføj post",

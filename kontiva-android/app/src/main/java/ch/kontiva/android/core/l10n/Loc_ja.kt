@@ -59,6 +59,7 @@ internal val LOC_ja: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "不足",
     L10nKey.commonAdd to "追加",
     L10nKey.commonEdit to "編集",
+    L10nKey.commonActivate to "有効にする",
     L10nKey.commonDelete to "削除",
     L10nKey.commonCancel to "キャンセル",
     L10nKey.commonSave to "保存",

@@ -319,10 +319,11 @@ public struct AppSettings: Equatable, Codable, Sendable {
 
 /// Auto-lock interval (idle time before the app re-locks).
 public enum AutoLockInterval: String, Codable, Sendable, CaseIterable {
-    case oneMinute, fiveMinutes, fifteenMinutes, never
+    case immediately, oneMinute, fiveMinutes, fifteenMinutes, never
 
     public var seconds: TimeInterval? {
         switch self {
+        case .immediately:   return 0
         case .oneMinute:     return 60
         case .fiveMinutes:   return 5 * 60
         case .fifteenMinutes:return 15 * 60
@@ -333,6 +334,7 @@ public enum AutoLockInterval: String, Codable, Sendable, CaseIterable {
     /// Compact, language-neutral display label (Swiss "Min." abbreviation).
     public var displayLabel: String {
         switch self {
+        case .immediately:   return "Sofort"
         case .oneMinute:     return "1 Min."
         case .fiveMinutes:   return "5 Min."
         case .fifteenMinutes:return "15 Min."
@@ -348,7 +350,7 @@ public struct SecuritySettings: Equatable, Codable, Sendable {
     public var hasPassphrase: Bool
     public var recoveryWarningAcknowledged: Bool
 
-    public init(autoLock: AutoLockInterval = .fiveMinutes,
+    public init(autoLock: AutoLockInterval = .immediately,
                 hasPassphrase: Bool = false,
                 recoveryWarningAcknowledged: Bool = false) {
         self.autoLock = autoLock

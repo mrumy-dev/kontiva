@@ -60,6 +60,7 @@ enum class L10nKey {
     fragShortfall,
     commonAdd,
     commonEdit,
+    commonActivate,
     commonDelete,
     commonCancel,
     commonSave,

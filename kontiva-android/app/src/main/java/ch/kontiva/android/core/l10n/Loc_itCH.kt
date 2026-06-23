@@ -59,6 +59,7 @@ internal val LOC_itCH: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Disavanzo",
     L10nKey.commonAdd to "Aggiungi",
     L10nKey.commonEdit to "Modifica",
+    L10nKey.commonActivate to "Attiva",
     L10nKey.commonDelete to "Elimina",
     L10nKey.commonCancel to "Annulla",
     L10nKey.commonSave to "Salva",

@@ -59,6 +59,7 @@ internal val LOC_mk: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Недостиг",
     L10nKey.commonAdd to "Додај",
     L10nKey.commonEdit to "Уреди",
+    L10nKey.commonActivate to "Овозможи",
     L10nKey.commonDelete to "Избриши",
     L10nKey.commonCancel to "Откажи",
     L10nKey.commonSave to "Зачувај",

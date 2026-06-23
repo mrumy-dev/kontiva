@@ -26,10 +26,13 @@ final class AppModel: ObservableObject {
     /// apply on the lock screen, before the encrypted store is unlocked.
     @Published var settings = AppSettings()
     /// Idle auto-lock interval (stored encrypted in the vault, mirrored here).
-    @Published var autoLock: AutoLockInterval = .fiveMinutes
+    @Published var autoLock: AutoLockInterval = .immediately
     /// Whether a passphrase is stored behind biometrics (Face ID / Touch ID).
     @Published private(set) var biometricEnabled = BiometricVault.hasStored
     var biometricKind: BiometricKind { Biometrics.kind }
+    /// One-shot: offer to enable biometric unlock right after onboarding finishes.
+    @Published private(set) var offerBiometricSetup = false
+    func dismissBiometricOffer() { offerBiometricSetup = false }
 
     let localizer: Localizer
 
@@ -83,6 +86,7 @@ final class AppModel: ObservableObject {
             try await store.createVault(passphrase: passphrase)
             sessionPassphrase = passphrase
             await refresh()
+            offerBiometricSetup = biometricKind.isAvailable && !biometricEnabled
             lockState = .unlocked
         } catch { }
     }

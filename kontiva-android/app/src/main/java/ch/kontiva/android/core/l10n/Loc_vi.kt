@@ -59,6 +59,7 @@ internal val LOC_vi: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Thiếu hụt",
     L10nKey.commonAdd to "Thêm",
     L10nKey.commonEdit to "Sửa",
+    L10nKey.commonActivate to "Bật",
     L10nKey.commonDelete to "Xóa",
     L10nKey.commonCancel to "Hủy",
     L10nKey.commonSave to "Lưu",

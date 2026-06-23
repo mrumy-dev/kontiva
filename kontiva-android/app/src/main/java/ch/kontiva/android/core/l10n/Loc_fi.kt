@@ -59,6 +59,7 @@ internal val LOC_fi: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Vajaus",
     L10nKey.commonAdd to "Lisää",
     L10nKey.commonEdit to "Muokkaa",
+    L10nKey.commonActivate to "Ota käyttöön",
     L10nKey.commonDelete to "Poista",
     L10nKey.commonCancel to "Peruuta",
     L10nKey.commonSave to "Tallenna",

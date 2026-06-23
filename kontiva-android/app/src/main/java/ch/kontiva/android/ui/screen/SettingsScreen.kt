@@ -192,7 +192,7 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
         item {
             SettingsCard(loc(L10nKey.settingsData)) {
                 NavRow(loc(L10nKey.settingsBackup)) { showBackupPass = true }
-                NavRow(loc(L10nKey.settingsRestore)) { restorePicker.launch(arrayOf("*/*")) }
+                NavRow(loc(L10nKey.settingsRestore)) { vm.suppressNextAutoLock(); restorePicker.launch(arrayOf("*/*")) }
                 NavRow(loc(L10nKey.exportReport)) {
                     val monthLabel = vm.selectedMonth
                         .format(DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale))
@@ -204,6 +204,7 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                         putExtra(Intent.EXTRA_STREAM, uri)
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
+                    vm.suppressNextAutoLock()
                     context.startActivity(Intent.createChooser(intent, "Kontiva"))
                 }
             }
@@ -237,7 +238,7 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
         title = loc(L10nKey.settingsBackup),
         hint = loc(L10nKey.backupHint),
         onDismiss = { showBackupPass = false },
-        onSubmit = { pass -> pendingBackupPass = pass; showBackupPass = false; backupSaver.launch("kontiva-backup.kontivabackup") },
+        onSubmit = { pass -> pendingBackupPass = pass; showBackupPass = false; vm.suppressNextAutoLock(); backupSaver.launch("kontiva-backup.kontivabackup") },
     )
     restoreData?.let { data ->
         BackupPassphraseSheet(

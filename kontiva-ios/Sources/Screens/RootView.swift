@@ -21,5 +21,12 @@ struct RootView: View {
         // Mirror the whole UI for right-to-left scripts (Arabic, Urdu, Pashto).
         // `loc` republishes on language change, so this updates live.
         .environment(\.layoutDirection, loc.language.isRTL ? .rightToLeft : .leftToRight)
+        // Offer biometric unlock right after onboarding (the code stays the fallback).
+        .alert(loc(.settingsBiometric), isPresented: Binding(
+            get: { model.offerBiometricSetup },
+            set: { if !$0 { model.dismissBiometricOffer() } })) {
+            Button(loc(.commonActivate)) { _ = model.enableBiometric(); model.dismissBiometricOffer() }
+            Button(loc(.onboardingSkip), role: .cancel) { model.dismissBiometricOffer() }
+        }
     }
 }

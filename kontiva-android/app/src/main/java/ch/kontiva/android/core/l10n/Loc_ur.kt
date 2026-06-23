@@ -59,6 +59,7 @@ internal val LOC_ur: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "کمی",
     L10nKey.commonAdd to "شامل کریں",
     L10nKey.commonEdit to "ترمیم",
+    L10nKey.commonActivate to "فعال کریں",
     L10nKey.commonDelete to "حذف کریں",
     L10nKey.commonCancel to "منسوخ",
     L10nKey.commonSave to "محفوظ کریں",

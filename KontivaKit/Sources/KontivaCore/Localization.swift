@@ -70,6 +70,7 @@ public enum L10nKey: String, CaseIterable, Sendable {
     // Common
     case commonAdd
     case commonEdit
+    case commonActivate
     case commonDelete
     case commonCancel
     case commonSave

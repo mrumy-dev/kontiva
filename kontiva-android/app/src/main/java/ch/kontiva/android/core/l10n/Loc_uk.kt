@@ -59,6 +59,7 @@ internal val LOC_uk: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Дефіцит",
     L10nKey.commonAdd to "Додати",
     L10nKey.commonEdit to "Змінити",
+    L10nKey.commonActivate to "Увімкнути",
     L10nKey.commonDelete to "Видалити",
     L10nKey.commonCancel to "Скасувати",
     L10nKey.commonSave to "Зберегти",

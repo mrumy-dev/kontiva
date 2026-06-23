@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Thêm",
         .commonEdit: "Sửa",
+        .commonActivate: "Bật",
         .commonDelete: "Xóa",
         .commonCancel: "Hủy",
         .commandsAdd: "Thêm mục",

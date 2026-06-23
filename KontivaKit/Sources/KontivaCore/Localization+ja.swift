@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "追加",
         .commonEdit: "編集",
+        .commonActivate: "有効にする",
         .commonDelete: "削除",
         .commonCancel: "キャンセル",
         .commandsAdd: "項目を追加",

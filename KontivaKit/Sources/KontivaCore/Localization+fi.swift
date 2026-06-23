@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Lisää",
         .commonEdit: "Muokkaa",
+        .commonActivate: "Ota käyttöön",
         .commonDelete: "Poista",
         .commonCancel: "Peruuta",
         .commandsAdd: "Lisää merkintä",

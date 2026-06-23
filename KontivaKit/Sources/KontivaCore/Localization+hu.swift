@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Hozzáadás",
         .commonEdit: "Szerkesztés",
+        .commonActivate: "Bekapcsolás",
         .commonDelete: "Törlés",
         .commonCancel: "Mégse",
         .commandsAdd: "Bejegyzés hozzáadása",

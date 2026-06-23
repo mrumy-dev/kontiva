@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Ajouter",
         .commonEdit: "Modifier",
+        .commonActivate: "Activer",
         .commonDelete: "Supprimer",
         .commonCancel: "Annuler",
         .commandsAdd: "Ajouter une entrée",

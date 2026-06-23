@@ -69,6 +69,7 @@ extension Localization {
 
         .commonAdd: "Shto",
         .commonEdit: "Modifiko",
+        .commonActivate: "Aktivizo",
         .commonDelete: "Fshi",
         .commonCancel: "Anulo",
         .commandsAdd: "Shto hyrje",

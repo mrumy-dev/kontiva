@@ -59,6 +59,7 @@ internal val LOC_ko: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "부족액",
     L10nKey.commonAdd to "추가",
     L10nKey.commonEdit to "편집",
+    L10nKey.commonActivate to "사용",
     L10nKey.commonDelete to "삭제",
     L10nKey.commonCancel to "취소",
     L10nKey.commonSave to "저장",

@@ -59,6 +59,7 @@ internal val LOC_ro: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Deficit",
     L10nKey.commonAdd to "Adaugă",
     L10nKey.commonEdit to "Editează",
+    L10nKey.commonActivate to "Activează",
     L10nKey.commonDelete to "Șterge",
     L10nKey.commonCancel to "Anulează",
     L10nKey.commonSave to "Salvează",

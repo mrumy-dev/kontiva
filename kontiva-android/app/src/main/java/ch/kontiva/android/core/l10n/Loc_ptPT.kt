@@ -59,6 +59,7 @@ internal val LOC_ptPT: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Défice",
     L10nKey.commonAdd to "Adicionar",
     L10nKey.commonEdit to "Editar",
+    L10nKey.commonActivate to "Ativar",
     L10nKey.commonDelete to "Eliminar",
     L10nKey.commonCancel to "Cancelar",
     L10nKey.commonSave to "Guardar",

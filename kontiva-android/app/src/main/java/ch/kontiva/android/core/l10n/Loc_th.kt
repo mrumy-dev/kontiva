@@ -59,6 +59,7 @@ internal val LOC_th: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "ส่วนที่ขาด",
     L10nKey.commonAdd to "เพิ่ม",
     L10nKey.commonEdit to "แก้ไข",
+    L10nKey.commonActivate to "เปิดใช้งาน",
     L10nKey.commonDelete to "ลบ",
     L10nKey.commonCancel to "ยกเลิก",
     L10nKey.commonSave to "บันทึก",

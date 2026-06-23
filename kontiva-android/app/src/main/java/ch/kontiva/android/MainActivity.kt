@@ -5,13 +5,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.core.l10n.Localizer
 import ch.kontiva.android.ui.AppPhase
@@ -56,6 +60,22 @@ private fun KontivaRoot(vm: KontivaViewModel) {
                     AppPhase.ONBOARDING -> OnboardingFlow(vm)
                     AppPhase.LOCKED -> LockScreen(vm)
                     AppPhase.UNLOCKED -> MainScaffold(vm)
+                }
+                if (vm.offerBiometricSetup && vm.phase == AppPhase.UNLOCKED) {
+                    AlertDialog(
+                        onDismissRequest = { vm.dismissBiometricOffer() },
+                        title = { Text(localizer(L10nKey.settingsBiometric)) },
+                        confirmButton = {
+                            TextButton(onClick = { vm.enableBiometric(); vm.dismissBiometricOffer() }) {
+                                Text(localizer(L10nKey.commonActivate))
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { vm.dismissBiometricOffer() }) {
+                                Text(localizer(L10nKey.onboardingSkip))
+                            }
+                        },
+                    )
                 }
             }
         }

@@ -59,6 +59,7 @@ internal val LOC_hu: Map<L10nKey, String> = mapOf(
     L10nKey.fragShortfall to "Hiány",
     L10nKey.commonAdd to "Hozzáadás",
     L10nKey.commonEdit to "Szerkesztés",
+    L10nKey.commonActivate to "Bekapcsolás",
     L10nKey.commonDelete to "Törlés",
     L10nKey.commonCancel to "Mégse",
     L10nKey.commonSave to "Mentés",

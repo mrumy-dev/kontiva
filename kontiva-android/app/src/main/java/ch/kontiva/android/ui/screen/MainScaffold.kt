@@ -18,6 +18,7 @@ import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.ChevronRight
 import androidx.compose.material.icons.rounded.CreditCard
 import androidx.compose.material.icons.rounded.GridView
+import androidx.compose.material.icons.rounded.Feedback
 import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.MoreHoriz
@@ -119,7 +120,7 @@ private fun ComingSoon(title: String) {
     }
 }
 
-private enum class MoreDest { MENU, SETTINGS, DEBTS, INSIGHTS }
+private enum class MoreDest { MENU, SETTINGS, DEBTS, INSIGHTS, REPORT }
 
 @Composable
 private fun MoreTab(vm: KontivaViewModel) {
@@ -129,6 +130,7 @@ private fun MoreTab(vm: KontivaViewModel) {
         MoreDest.SETTINGS -> SettingsScreen(vm, onBack = { dest = MoreDest.MENU })
         MoreDest.DEBTS -> DebtsScreen(vm, onBack = { dest = MoreDest.MENU })
         MoreDest.INSIGHTS -> InsightsScreen(vm, onBack = { dest = MoreDest.MENU })
+        MoreDest.REPORT -> ReportProblemScreen(vm, onBack = { dest = MoreDest.MENU })
     }
 }
 
@@ -143,6 +145,7 @@ private fun MoreMenu(vm: KontivaViewModel, onOpen: (MoreDest) -> Unit) {
                 MenuRow(Icons.Rounded.CreditCard, loc(L10nKey.navSchulden)) { onOpen(MoreDest.DEBTS) }
                 MenuRow(Icons.Rounded.Lightbulb, loc(L10nKey.navInsights)) { onOpen(MoreDest.INSIGHTS) }
                 MenuRow(Icons.Rounded.Settings, loc(L10nKey.settingsTitle)) { onOpen(MoreDest.SETTINGS) }
+                MenuRow(Icons.Rounded.Feedback, loc(L10nKey.navReport)) { onOpen(MoreDest.REPORT) }
             }
         }
         Spacer(Modifier.weight(1f))

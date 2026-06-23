@@ -31,6 +31,8 @@ object InsightEngine {
         today: LocalDate = LocalDate.now(),
     ): List<Insight> {
         val out = mutableListOf<Insight>()
+        // Only standing orders active this month feed the burden/largest-cost rules.
+        val fixedCosts = fixedCosts.filter { it.isActive(today) }
         val income = availability.netIncomeThisMonth
         val available = availability.available
 

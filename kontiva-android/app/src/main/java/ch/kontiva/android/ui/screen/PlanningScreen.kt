@@ -39,8 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.FixedExpenseCategory
 import ch.kontiva.android.core.VariableBudgetCategory
+import ch.kontiva.android.core.RecurringFixedExpense
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
+import ch.kontiva.android.core.l10n.Localizer
 import ch.kontiva.android.ui.KontivaViewModel
 import ch.kontiva.android.ui.theme.KontivaTheme
 import ch.kontiva.android.ui.theme.icon
@@ -60,8 +62,14 @@ fun PlanningScreen(vm: KontivaViewModel) {
     var initFixedCat by remember { mutableStateOf<FixedExpenseCategory?>(null) }
     var initVarCat by remember { mutableStateOf<VariableBudgetCategory?>(null) }
     var init13th by remember { mutableStateOf("") }
+    var initLimited by remember { mutableStateOf(false) }
+    var initStartMonth by remember { mutableStateOf<java.time.LocalDate?>(null) }
+    var initInstallments by remember { mutableStateOf<Int?>(null) }
 
-    fun startAdd(k: Sheet) { editId = null; initName = ""; initAmt = ""; initFixedCat = null; initVarCat = null; init13th = ""; sheet = k }
+    fun startAdd(k: Sheet) {
+        editId = null; initName = ""; initAmt = ""; initFixedCat = null; initVarCat = null; init13th = ""
+        initLimited = false; initStartMonth = null; initInstallments = null; sheet = k
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -112,8 +120,11 @@ fun PlanningScreen(vm: KontivaViewModel) {
             ) {
                 d.fixedCosts.forEach { e ->
                     EntryRow(
-                        e.category.icon(), e.name, loc(e.category.labelKey), e.monthlyAmount.formattedCHF(),
-                        onClick = { editId = e.id; initName = e.name; initAmt = e.monthlyAmount.formattedCHF(false); initFixedCat = e.category; sheet = Sheet.FIXED },
+                        e.category.icon(), e.name, fixedSubtitle(e, loc), e.monthlyAmount.formattedCHF(),
+                        onClick = {
+                            editId = e.id; initName = e.name; initAmt = e.monthlyAmount.formattedCHF(false); initFixedCat = e.category
+                            initLimited = e.isLimited; initStartMonth = e.startMonth; initInstallments = e.installments; sheet = Sheet.FIXED
+                        },
                         onDelete = { vm.deleteFixedCost(e.id) },
                     )
                 }
@@ -147,15 +158,15 @@ fun PlanningScreen(vm: KontivaViewModel) {
                 editId?.let { vm.updateIncome(it, name, amount, thirteenth) } ?: vm.addIncome(name, amount, thirteenth); sheet = null
             },
         )
-        Sheet.FIXED -> EntrySheet(
-            title = loc(L10nKey.planningFixed),
+        Sheet.FIXED -> FixedCostSheet(
             categories = FixedExpenseCategory.entries,
-            categoryLabel = { loc(it.labelKey) },
             initialName = initName, initialAmount = initAmt, initialCategory = initFixedCat,
+            initialLimited = initLimited, initialStartMonth = initStartMonth, initialInstallments = initInstallments,
             onDismiss = { sheet = null },
-            onSave = { name, amount, cat ->
-                val c = cat ?: FixedExpenseCategory.OTHER
-                editId?.let { vm.updateFixedCost(it, name, amount, c) } ?: vm.addFixedCost(name, amount, c); sheet = null
+            onSave = { name, amount, cat, startMonth, installments ->
+                editId?.let { vm.updateFixedCost(it, name, amount, cat, startMonth, installments) }
+                    ?: vm.addFixedCost(name, amount, cat, startMonth, installments)
+                sheet = null
             },
         )
         Sheet.VARIABLE -> EntrySheet(
@@ -258,4 +269,15 @@ private fun EntryRow(icon: ImageVector, name: String, subtitle: String?, amount:
         }
         Text(amount, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = colors.textPrimary)
     }
+}
+
+/** Fixed-cost row subtitle: category, plus the standing-order window when limited
+ *  (e.g. "Leasing · Dauerauftrag · 6× Juni 2026"). 1:1 with iOS fixedSubtitle. */
+private fun fixedSubtitle(e: RecurringFixedExpense, loc: Localizer): String {
+    val cat = loc(e.category.labelKey)
+    val start = e.startMonth ?: return cat
+    val count = e.installments ?: return cat
+    if (!e.isLimited) return cat
+    val fmt = java.time.format.DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale)
+    return "$cat · ${loc(L10nKey.planningStandingOrder)} · ${count}× ${start.format(fmt).replaceFirstChar { it.uppercase() }}"
 }

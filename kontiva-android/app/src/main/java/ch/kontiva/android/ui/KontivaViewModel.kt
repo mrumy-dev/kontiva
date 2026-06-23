@@ -219,8 +219,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun addIncome(label: String, amount: Money, thirteenth: Money? = null) =
         edit { it.copy(incomes = it.incomes + Income(label = label, monthlyNet = amount, thirteenthAmount = thirteenth)) }
 
-    fun addFixedCost(name: String, amount: Money, category: FixedExpenseCategory) =
-        edit { it.copy(fixedCosts = it.fixedCosts + RecurringFixedExpense(name = name, monthlyAmount = amount, category = category)) }
+    fun addFixedCost(name: String, amount: Money, category: FixedExpenseCategory, startMonth: LocalDate? = null, installments: Int? = null) =
+        edit { it.copy(fixedCosts = it.fixedCosts + RecurringFixedExpense(name = name, monthlyAmount = amount, category = category, startMonth = startMonth, installments = installments)) }
 
     fun addVariableBudget(name: String, amount: Money, category: VariableBudgetCategory) =
         edit { it.copy(variableBudgets = it.variableBudgets + VariableMonthlyBudget(name = name, plannedAmount = amount, category = category)) }
@@ -255,8 +255,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun updateIncome(id: String, label: String, amount: Money, thirteenth: Money?) =
         edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount, thirteenthAmount = thirteenth) else it }) }
 
-    fun updateFixedCost(id: String, name: String, amount: Money, category: FixedExpenseCategory) =
-        edit { ds -> ds.copy(fixedCosts = ds.fixedCosts.map { if (it.id == id) it.copy(name = name, monthlyAmount = amount, category = category) else it }) }
+    fun updateFixedCost(id: String, name: String, amount: Money, category: FixedExpenseCategory, startMonth: LocalDate? = null, installments: Int? = null) =
+        edit { ds -> ds.copy(fixedCosts = ds.fixedCosts.map { if (it.id == id) it.copy(name = name, monthlyAmount = amount, category = category, startMonth = startMonth, installments = installments) else it }) }
 
     fun updateVariableBudget(id: String, name: String, amount: Money, category: VariableBudgetCategory) =
         edit { ds -> ds.copy(variableBudgets = ds.variableBudgets.map { if (it.id == id) it.copy(name = name, plannedAmount = amount, category = category) else it }) }

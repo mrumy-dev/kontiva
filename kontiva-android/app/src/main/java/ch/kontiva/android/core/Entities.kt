@@ -2,6 +2,8 @@ package ch.kontiva.android.core
 
 import ch.kontiva.android.core.l10n.L10nKey
 import kotlinx.serialization.Serializable
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 /** How a 13th salary is treated (1:1 with iOS). */
@@ -46,9 +48,32 @@ data class RecurringFixedExpense(
     val name: String,
     val monthlyAmount: Money,
     val category: FixedExpenseCategory = FixedExpenseCategory.OTHER,
-    // Limited standing-order window (startMonth + installments) comes with the
-    // engine-polish stage; for now every fixed cost is open-ended.
-)
+    // Limited standing-order window: open-ended unless both are set (1:1 with iOS).
+    @Serializable(with = LocalDateSerializer::class) val startMonth: LocalDate? = null,
+    val installments: Int? = null,
+) {
+    /** A finite standing order (leasing, a loan, a fixed-term plan). */
+    val isLimited: Boolean get() = startMonth != null && (installments ?: 0) > 0
+
+    /** Whether the cost applies in [month]. Open-ended costs always apply; limited
+     *  ones only within their instalment window. */
+    fun isActive(month: LocalDate): Boolean {
+        val start = startMonth ?: return true
+        val count = installments ?: return true
+        if (count <= 0) return true
+        val startM = start.withDayOfMonth(1)
+        val m = month.withDayOfMonth(1)
+        if (m.isBefore(startM)) return false
+        return ChronoUnit.MONTHS.between(startM, m) < count
+    }
+
+    /** For a limited order: which instalment (1…count) [month] is, or null if outside. */
+    fun installmentNumber(month: LocalDate): Int? {
+        if (!isLimited || !isActive(month)) return null
+        val start = startMonth ?: return null
+        return ChronoUnit.MONTHS.between(start.withDayOfMonth(1), month.withDayOfMonth(1)).toInt() + 1
+    }
+}
 
 /** Planned variable-budget categories — order = picker order, labels 1:1 with iOS. */
 @Serializable

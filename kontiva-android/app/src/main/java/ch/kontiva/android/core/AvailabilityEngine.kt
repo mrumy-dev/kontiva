@@ -74,7 +74,8 @@ object AvailabilityEngine {
         today: java.time.LocalDate = java.time.LocalDate.now(),
     ): MonthlyAvailability = compute(
         incomes = incomes,
-        fixedCosts = fixedCosts,
+        // Limited standing orders only count inside their instalment window.
+        fixedCosts = fixedCosts.filter { it.isActive(today) },
         variableBudgets = variableBudgets,
         plannedSavings = savingsGoals.mapNotNull { it.monthlyContribution }.total(),
         openBillsDueThisMonth = BillClassifier.amount(BillState.DUE_THIS_MONTH, bills, today),

@@ -125,7 +125,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13वाँ वेतन (अलग)",
         .overviewRecurringFixed: "स्थिर लागत",
         .overviewPlannedVariable: "परिवर्तनीय व्यय",
-        .overviewBillsDueThisMonth: "इस माह बकाया बिल",
+        .overviewBillsDueThisMonth: "इस माह के बिल",
         .overviewOverdueBills: "अतिदेय बिल",
         .overviewSavingsTarget: "बचत लक्ष्य",
         .overviewSecurityStatus: "सुरक्षा स्थिति",

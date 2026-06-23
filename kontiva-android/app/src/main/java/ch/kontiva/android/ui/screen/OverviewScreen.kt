@@ -111,7 +111,7 @@ private fun BreakdownCard(a: MonthlyAvailability) {
     val rows = listOf(
         Triple(colors.chartFixed, loc(L10nKey.overviewRecurringFixed), a.recurringFixedCosts),
         Triple(colors.chartVariable, loc(L10nKey.overviewPlannedVariable), a.plannedVariableBudgets),
-        Triple(colors.chartBills, loc(L10nKey.overviewBillsDueThisMonth), a.openBillsDueThisMonth + a.overdueOpenBills),
+        Triple(colors.chartBills, loc(L10nKey.overviewBillsDueThisMonth), a.billsDueThisMonth + a.overdueOpenBills),
         Triple(colors.chartSavings, loc(L10nKey.overviewPlannedSavings), a.plannedSavings),
         Triple(colors.chartAvailable, loc(L10nKey.overviewAvailableThisMonth), avail),
     )

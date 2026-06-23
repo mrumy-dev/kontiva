@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13.º salário (em separado)",
         .overviewRecurringFixed: "Custos fixos",
         .overviewPlannedVariable: "Despesas variáveis",
-        .overviewBillsDueThisMonth: "Faturas a vencer este mês",
+        .overviewBillsDueThisMonth: "Faturas deste mês",
         .overviewOverdueBills: "Faturas em atraso",
         .overviewSavingsTarget: "Objetivo de poupança",
         .overviewSecurityStatus: "Estado de segurança",

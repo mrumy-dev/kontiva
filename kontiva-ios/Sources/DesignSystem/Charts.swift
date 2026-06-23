@@ -98,7 +98,7 @@ struct SpendingDonut: View {
         }
         add(.overviewRecurringFixed, availability.recurringFixedCosts, KontivaTheme.chartFixed)
         add(.overviewPlannedVariable, availability.plannedVariableBudgets, KontivaTheme.chartVariable)
-        add(.billsTitle, availability.openBillsDueThisMonth + availability.overdueOpenBills, KontivaTheme.chartBills)
+        add(.billsTitle, availability.billsDueThisMonth + availability.overdueOpenBills, KontivaTheme.chartBills)
         add(.overviewPlannedSavings, availability.plannedSavings, KontivaTheme.chartSavings)
         add(.overviewAvailableThisMonth, availability.available, KontivaTheme.chartAvailable)
         return result

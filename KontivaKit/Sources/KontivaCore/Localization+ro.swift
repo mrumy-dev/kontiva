@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "Al 13-lea salariu (separat)",
         .overviewRecurringFixed: "Costuri fixe",
         .overviewPlannedVariable: "Cheltuieli variabile",
-        .overviewBillsDueThisMonth: "Facturi de plată luna aceasta",
+        .overviewBillsDueThisMonth: "Facturi luna aceasta",
         .overviewOverdueBills: "Facturi restante",
         .overviewSavingsTarget: "Obiectiv de economisire",
         .overviewSecurityStatus: "Stare de securitate",

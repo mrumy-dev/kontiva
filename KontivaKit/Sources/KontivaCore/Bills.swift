@@ -90,6 +90,21 @@ public enum BillClassifier {
             .total()
     }
 
+    /// Total of bills whose due date falls in `reference`'s month, PAID OR UNPAID —
+    /// what this month's budget commits. Paying a bill checks it off; it doesn't give
+    /// the money back, so the deduction is invariant to status.
+    public static func amountDueInMonth(_ bills: [OneOffBill],
+                                        asOf reference: Date = Date(),
+                                        calendar: Calendar = .swiss) -> Money {
+        guard let interval = calendar.dateInterval(of: .month, for: reference) else {
+            return bills.filter { calendar.isDate($0.dueDate, equalTo: reference, toGranularity: .month) }
+                .map(\.amount).total()
+        }
+        return bills
+            .filter { $0.dueDate >= interval.start && $0.dueDate < interval.end }
+            .map(\.amount).total()
+    }
+
     /// Total of bills in a specific state (e.g. just the overdue ones).
     public static func amount(in target: BillState,
                               bills: [OneOffBill],

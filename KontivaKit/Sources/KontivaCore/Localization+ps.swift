@@ -126,7 +126,7 @@ extension Localization {
         .overviewThirteenthSeparate: "۱۳مه میاشتنۍ معاش (جلا)",
         .overviewRecurringFixed: "ثابت لګښتونه",
         .overviewPlannedVariable: "متغیر لګښتونه",
-        .overviewBillsDueThisMonth: "د دې میاشتې پرانیستي بلونه",
+        .overviewBillsDueThisMonth: "د دې میاشتې بیلونه",
         .overviewOverdueBills: "ناوخته بلونه",
         .overviewSavingsTarget: "د سپما موخه",
         .overviewSecurityStatus: "د خوندیتوب حالت",

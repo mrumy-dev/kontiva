@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "Lương tháng 13 (riêng)",
         .overviewRecurringFixed: "Chi phí cố định",
         .overviewPlannedVariable: "Chi tiêu biến đổi",
-        .overviewBillsDueThisMonth: "Hóa đơn chưa trả tháng này",
+        .overviewBillsDueThisMonth: "Hóa đơn tháng này",
         .overviewOverdueBills: "Hóa đơn quá hạn",
         .overviewSavingsTarget: "Mục tiêu tiết kiệm",
         .overviewSecurityStatus: "Trạng thái bảo mật",

@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13a mensilità (indicata separatamente)",
         .overviewRecurringFixed: "Costi fissi",
         .overviewPlannedVariable: "Spese variabili",
-        .overviewBillsDueThisMonth: "Fatture aperte questo mese",
+        .overviewBillsDueThisMonth: "Fatture di questo mese",
         .overviewOverdueBills: "Fatture scadute",
         .overviewSavingsTarget: "Obiettivo di risparmio",
         .overviewSecurityStatus: "Stato di sicurezza",

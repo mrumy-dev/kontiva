@@ -129,7 +129,7 @@ internal val LOC_ro: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "Al 13-lea salariu (separat)",
     L10nKey.overviewRecurringFixed to "Costuri fixe",
     L10nKey.overviewPlannedVariable to "Cheltuieli variabile",
-    L10nKey.overviewBillsDueThisMonth to "Facturi de plată luna aceasta",
+    L10nKey.overviewBillsDueThisMonth to "Facturi luna aceasta",
     L10nKey.overviewOverdueBills to "Facturi restante",
     L10nKey.overviewSavingsTarget to "Obiectiv de economisire",
     L10nKey.overviewPlannedSavings to "Economii în această lună",

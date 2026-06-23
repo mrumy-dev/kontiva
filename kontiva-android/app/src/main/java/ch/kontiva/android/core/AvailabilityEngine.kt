@@ -6,13 +6,13 @@ data class MonthlyAvailability(
     val thirteenthShownSeparately: Money?,
     val recurringFixedCosts: Money,
     val plannedVariableBudgets: Money,
-    val openBillsDueThisMonth: Money,
+    val billsDueThisMonth: Money,
     val overdueOpenBills: Money,
     val plannedSavings: Money,
     val available: Money,
 ) {
     val totalCommitted: Money
-        get() = recurringFixedCosts + plannedVariableBudgets + openBillsDueThisMonth +
+        get() = recurringFixedCosts + plannedVariableBudgets + billsDueThisMonth +
             overdueOpenBills + plannedSavings
 }
 
@@ -45,19 +45,19 @@ object AvailabilityEngine {
         fixedCosts: List<RecurringFixedExpense>,
         variableBudgets: List<VariableMonthlyBudget>,
         plannedSavings: Money = Money.zero,
-        openBillsDueThisMonth: Money = Money.zero,
+        billsDueThisMonth: Money = Money.zero,
         overdueOpenBills: Money = Money.zero,
     ): MonthlyAvailability {
         val netIncome = netIncomeThisMonth(incomes)
         val fixed = fixedCosts.map { it.monthlyAmount }.total()
         val variable = variableBudgets.map { it.plannedAmount }.total()
-        val available = netIncome - fixed - variable - openBillsDueThisMonth - overdueOpenBills - plannedSavings
+        val available = netIncome - fixed - variable - billsDueThisMonth - overdueOpenBills - plannedSavings
         return MonthlyAvailability(
             netIncomeThisMonth = netIncome,
             thirteenthShownSeparately = thirteenthShownSeparately(incomes),
             recurringFixedCosts = fixed,
             plannedVariableBudgets = variable,
-            openBillsDueThisMonth = openBillsDueThisMonth,
+            billsDueThisMonth = billsDueThisMonth,
             overdueOpenBills = overdueOpenBills,
             plannedSavings = plannedSavings,
             available = available,
@@ -79,7 +79,8 @@ object AvailabilityEngine {
         variableBudgets = variableBudgets,
         // Savings only cost from their start month onward (a future plan is CHF 0 now).
         plannedSavings = savingsGoals.filter { it.contributesIn(today) }.mapNotNull { it.monthlyContribution }.total(),
-        openBillsDueThisMonth = BillClassifier.amount(BillState.DUE_THIS_MONTH, bills, today),
+        // All bills due this month count, paid or not — paying one doesn't free up money.
+        billsDueThisMonth = BillClassifier.amountDueInMonth(bills, today),
         overdueOpenBills = BillClassifier.amount(BillState.OVERDUE, bills, today),
     )
 }

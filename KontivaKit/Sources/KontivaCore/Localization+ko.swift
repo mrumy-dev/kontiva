@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13개월째 급여 (별도)",
         .overviewRecurringFixed: "고정 비용",
         .overviewPlannedVariable: "변동 지출",
-        .overviewBillsDueThisMonth: "이번 달 미납 청구서",
+        .overviewBillsDueThisMonth: "이번 달 청구서",
         .overviewOverdueBills: "연체된 청구서",
         .overviewSavingsTarget: "저축 목표",
         .overviewSecurityStatus: "보안 상태",

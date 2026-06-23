@@ -129,7 +129,7 @@ internal val LOC_ptPT: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13.º salário (em separado)",
     L10nKey.overviewRecurringFixed to "Custos fixos",
     L10nKey.overviewPlannedVariable to "Despesas variáveis",
-    L10nKey.overviewBillsDueThisMonth to "Faturas a vencer este mês",
+    L10nKey.overviewBillsDueThisMonth to "Faturas deste mês",
     L10nKey.overviewOverdueBills to "Faturas em atraso",
     L10nKey.overviewSavingsTarget to "Objetivo de poupança",
     L10nKey.overviewPlannedSavings to "Poupança este mês",

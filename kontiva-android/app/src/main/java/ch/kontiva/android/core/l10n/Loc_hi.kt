@@ -129,7 +129,7 @@ internal val LOC_hi: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13वाँ वेतन (अलग)",
     L10nKey.overviewRecurringFixed to "स्थिर लागत",
     L10nKey.overviewPlannedVariable to "परिवर्तनीय व्यय",
-    L10nKey.overviewBillsDueThisMonth to "इस माह बकाया बिल",
+    L10nKey.overviewBillsDueThisMonth to "इस माह के बिल",
     L10nKey.overviewOverdueBills to "अतिदेय बिल",
     L10nKey.overviewSavingsTarget to "बचत लक्ष्य",
     L10nKey.overviewPlannedSavings to "इस माह की बचत",

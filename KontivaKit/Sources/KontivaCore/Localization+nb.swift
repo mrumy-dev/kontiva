@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13. månedslønn (vist separat)",
         .overviewRecurringFixed: "Faste utgifter",
         .overviewPlannedVariable: "Variable utgifter",
-        .overviewBillsDueThisMonth: "Åpne regninger denne måneden",
+        .overviewBillsDueThisMonth: "Regninger denne måneden",
         .overviewOverdueBills: "Forfalte regninger",
         .overviewSavingsTarget: "Sparemål",
         .overviewSecurityStatus: "Sikkerhetsstatus",

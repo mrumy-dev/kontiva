@@ -129,7 +129,7 @@ internal val LOC_ja: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13か月目の給与（個別）",
     L10nKey.overviewRecurringFixed to "固定費",
     L10nKey.overviewPlannedVariable to "変動支出",
-    L10nKey.overviewBillsDueThisMonth to "今月の未払い請求",
+    L10nKey.overviewBillsDueThisMonth to "今月の請求",
     L10nKey.overviewOverdueBills to "支払期限を過ぎた請求",
     L10nKey.overviewSavingsTarget to "貯蓄目標",
     L10nKey.overviewPlannedSavings to "今月の貯蓄",

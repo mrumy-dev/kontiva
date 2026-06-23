@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13. pensja (osobno)",
         .overviewRecurringFixed: "Koszty stałe",
         .overviewPlannedVariable: "Wydatki zmienne",
-        .overviewBillsDueThisMonth: "Rachunki do zapłaty w tym miesiącu",
+        .overviewBillsDueThisMonth: "Rachunki w tym miesiącu",
         .overviewOverdueBills: "Zaległe rachunki",
         .overviewSavingsTarget: "Cel oszczędnościowy",
         .overviewSecurityStatus: "Status bezpieczeństwa",

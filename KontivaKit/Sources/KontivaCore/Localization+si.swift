@@ -125,7 +125,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13වන මස වැටුප (වෙනම)",
         .overviewRecurringFixed: "ස්ථාවර වියදම්",
         .overviewPlannedVariable: "විචල්‍ය වියදම්",
-        .overviewBillsDueThisMonth: "මෙම මස හිඟ බිල්පත්",
+        .overviewBillsDueThisMonth: "මෙම මාසයේ බිල්පත්",
         .overviewOverdueBills: "කල් ඉකුත් වූ බිල්පත්",
         .overviewSavingsTarget: "ඉතිරිකිරීමේ ඉලක්කය",
         .overviewSecurityStatus: "ආරක්ෂක තත්ත්වය",

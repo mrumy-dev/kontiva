@@ -129,7 +129,7 @@ internal val LOC_hr: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13. plaća (zasebno)",
     L10nKey.overviewRecurringFixed to "Fiksni troškovi",
     L10nKey.overviewPlannedVariable to "Promjenjivi izdaci",
-    L10nKey.overviewBillsDueThisMonth to "Otvoreni računi ovaj mjesec",
+    L10nKey.overviewBillsDueThisMonth to "Računi ovog mjeseca",
     L10nKey.overviewOverdueBills to "Dospjeli računi",
     L10nKey.overviewSavingsTarget to "Cilj štednje",
     L10nKey.overviewPlannedSavings to "Štednja ovaj mjesec",

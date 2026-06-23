@@ -285,7 +285,7 @@ enum ReportBuilder {
         }
         add(.overviewRecurringFixed, a.recurringFixedCosts, ReportStyle.chartFixed)
         add(.overviewPlannedVariable, a.plannedVariableBudgets, ReportStyle.chartVariable)
-        add(.billsTitle, a.openBillsDueThisMonth + a.overdueOpenBills, ReportStyle.chartBills)
+        add(.billsTitle, a.billsDueThisMonth + a.overdueOpenBills, ReportStyle.chartBills)
         add(.overviewPlannedSavings, a.plannedSavings, ReportStyle.chartSavings)
         add(.overviewAvailableThisMonth, a.available, ReportStyle.chartAvailable)
         return result
@@ -447,7 +447,7 @@ struct ReportSummaryBody: View {
                     Rectangle().fill(ReportStyle.hair).frame(height: 1)
                     line(loc.string(.overviewRecurringFixed), a.recurringFixedCosts, subtractive: true)
                     line(loc.string(.overviewPlannedVariable), a.plannedVariableBudgets, subtractive: true)
-                    line(loc.string(.overviewBillsDueThisMonth), a.openBillsDueThisMonth, subtractive: true)
+                    line(loc.string(.overviewBillsDueThisMonth), a.billsDueThisMonth, subtractive: true)
                     line(loc.string(.overviewOverdueBills), a.overdueOpenBills, subtractive: true)
                     if a.plannedSavings.isPositive {
                         line(loc.string(.overviewPlannedSavings), a.plannedSavings, subtractive: true)

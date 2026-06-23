@@ -129,7 +129,7 @@ internal val LOC_tr: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13. maaş (ayrı)",
     L10nKey.overviewRecurringFixed to "Sabit giderler",
     L10nKey.overviewPlannedVariable to "Değişken harcamalar",
-    L10nKey.overviewBillsDueThisMonth to "Bu ay açık faturalar",
+    L10nKey.overviewBillsDueThisMonth to "Bu ayki faturalar",
     L10nKey.overviewOverdueBills to "Vadesi geçmiş faturalar",
     L10nKey.overviewSavingsTarget to "Tasarruf hedefi",
     L10nKey.overviewPlannedSavings to "Bu ay tasarruf",

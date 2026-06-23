@@ -129,7 +129,7 @@ internal val LOC_ru: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13-я зарплата (отдельно)",
     L10nKey.overviewRecurringFixed to "Постоянные расходы",
     L10nKey.overviewPlannedVariable to "Переменные расходы",
-    L10nKey.overviewBillsDueThisMonth to "Открытые счета в этом месяце",
+    L10nKey.overviewBillsDueThisMonth to "Счета за этот месяц",
     L10nKey.overviewOverdueBills to "Просроченные счета",
     L10nKey.overviewSavingsTarget to "Цель накопления",
     L10nKey.overviewPlannedSavings to "Накопления в этом месяце",

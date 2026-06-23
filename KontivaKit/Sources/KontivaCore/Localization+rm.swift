@@ -127,7 +127,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13avla pajaglia (separà)",
         .overviewRecurringFixed: "Custs fixs",
         .overviewPlannedVariable: "Expensas variablas",
-        .overviewBillsDueThisMonth: "Quints averts quest mais",
+        .overviewBillsDueThisMonth: "Quints quest mais",
         .overviewOverdueBills: "Quints scrudads",
         .overviewSavingsTarget: "Finamira da spargn",
         .overviewSecurityStatus: "Status da segirezza",

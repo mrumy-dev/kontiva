@@ -8,7 +8,7 @@ import Foundation
 ///     Net income this month
 ///   − Recurring fixed costs
 ///   − Planned variable budgets
-///   − Open bills due this month
+///   − Bills due this month (paid or unpaid — paying doesn't free up money)
 ///   − Overdue open bills
 ///   − Planned savings contributions   ("pay yourself first")
 /// ```
@@ -22,14 +22,14 @@ public struct MonthlyAvailability: Equatable, Sendable {
     public let thirteenthShownSeparately: Money?
     public let recurringFixedCosts: Money
     public let plannedVariableBudgets: Money
-    public let openBillsDueThisMonth: Money
+    public let billsDueThisMonth: Money
     public let overdueOpenBills: Money
     public let plannedSavings: Money
     public let available: Money
 
     /// Sum of everything subtracted from net income.
     public var totalCommitted: Money {
-        recurringFixedCosts + plannedVariableBudgets + openBillsDueThisMonth
+        recurringFixedCosts + plannedVariableBudgets + billsDueThisMonth
             + overdueOpenBills + plannedSavings
     }
 }
@@ -81,7 +81,7 @@ public enum AvailabilityEngine {
             .filter { $0.isActive(in: reference, calendar: calendar) }
             .map(\.monthlyAmount).total()
         let variable = variableBudgets.map(\.plannedAmount).total()
-        let dueThisMonth = BillClassifier.amount(in: .dueThisMonth, bills: bills,
+        let dueThisMonth = BillClassifier.amountDueInMonth(bills,
                                                  asOf: reference, calendar: calendar)
         let overdue = BillClassifier.amount(in: .overdue, bills: bills,
                                             asOf: reference, calendar: calendar)
@@ -97,7 +97,7 @@ public enum AvailabilityEngine {
             thirteenthShownSeparately: thirteenthShownSeparately(incomes),
             recurringFixedCosts: fixed,
             plannedVariableBudgets: variable,
-            openBillsDueThisMonth: dueThisMonth,
+            billsDueThisMonth: dueThisMonth,
             overdueOpenBills: overdue,
             plannedSavings: savings,
             available: available

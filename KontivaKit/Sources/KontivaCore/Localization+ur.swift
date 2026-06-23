@@ -125,7 +125,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13واں ماہانہ تنخواہ (علیحدہ)",
         .overviewRecurringFixed: "مقررہ اخراجات",
         .overviewPlannedVariable: "متغیر اخراجات",
-        .overviewBillsDueThisMonth: "اس ماہ کے کھلے بل",
+        .overviewBillsDueThisMonth: "اس ماہ کے بل",
         .overviewOverdueBills: "واجب الادا بل",
         .overviewSavingsTarget: "بچت کا ہدف",
         .overviewSecurityStatus: "سیکیورٹی کی حالت",

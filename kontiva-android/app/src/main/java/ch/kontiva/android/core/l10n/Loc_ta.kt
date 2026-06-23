@@ -129,7 +129,7 @@ internal val LOC_ta: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13வது மாத ஊதியம் (தனியாக)",
     L10nKey.overviewRecurringFixed to "நிலையான செலவுகள்",
     L10nKey.overviewPlannedVariable to "மாறும் செலவுகள்",
-    L10nKey.overviewBillsDueThisMonth to "இந்த மாதம் நிலுவையில் உள்ள பில்கள்",
+    L10nKey.overviewBillsDueThisMonth to "இம்மாத பில்கள்",
     L10nKey.overviewOverdueBills to "தாமதமான பில்கள்",
     L10nKey.overviewSavingsTarget to "சேமிப்பு இலக்கு",
     L10nKey.overviewPlannedSavings to "இந்த மாத சேமிப்பு",

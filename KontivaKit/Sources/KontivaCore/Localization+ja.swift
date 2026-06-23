@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13か月目の給与（個別）",
         .overviewRecurringFixed: "固定費",
         .overviewPlannedVariable: "変動支出",
-        .overviewBillsDueThisMonth: "今月の未払い請求",
+        .overviewBillsDueThisMonth: "今月の請求",
         .overviewOverdueBills: "支払期限を過ぎた請求",
         .overviewSavingsTarget: "貯蓄目標",
         .overviewSecurityStatus: "セキュリティ状態",

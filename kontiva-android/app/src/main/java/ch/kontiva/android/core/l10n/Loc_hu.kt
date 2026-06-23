@@ -129,7 +129,7 @@ internal val LOC_hu: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13. havi fizetés (külön)",
     L10nKey.overviewRecurringFixed to "Állandó költségek",
     L10nKey.overviewPlannedVariable to "Változó kiadások",
-    L10nKey.overviewBillsDueThisMonth to "Nyitott számlák ebben a hónapban",
+    L10nKey.overviewBillsDueThisMonth to "E havi számlák",
     L10nKey.overviewOverdueBills to "Lejárt számlák",
     L10nKey.overviewSavingsTarget to "Megtakarítási cél",
     L10nKey.overviewPlannedSavings to "Megtakarítás ebben a hónapban",

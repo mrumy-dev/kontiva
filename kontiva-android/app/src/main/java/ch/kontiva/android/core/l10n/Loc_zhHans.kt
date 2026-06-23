@@ -129,7 +129,7 @@ internal val LOC_zhHans: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "第 13 个月工资（单独）",
     L10nKey.overviewRecurringFixed to "固定开支",
     L10nKey.overviewPlannedVariable to "可变支出",
-    L10nKey.overviewBillsDueThisMonth to "本月未付账单",
+    L10nKey.overviewBillsDueThisMonth to "本月账单",
     L10nKey.overviewOverdueBills to "逾期账单",
     L10nKey.overviewSavingsTarget to "储蓄目标",
     L10nKey.overviewPlannedSavings to "本月储蓄",

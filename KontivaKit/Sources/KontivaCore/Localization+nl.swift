@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13e maand (apart getoond)",
         .overviewRecurringFixed: "Vaste lasten",
         .overviewPlannedVariable: "Variabele uitgaven",
-        .overviewBillsDueThisMonth: "Openstaande rekeningen deze maand",
+        .overviewBillsDueThisMonth: "Rekeningen deze maand",
         .overviewOverdueBills: "Achterstallige rekeningen",
         .overviewSavingsTarget: "Spaardoel",
         .overviewSecurityStatus: "Beveiligingsstatus",

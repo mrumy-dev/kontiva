@@ -45,4 +45,15 @@ object BillClassifier {
 
     fun amount(target: BillState, bills: List<OneOffBill>, today: LocalDate = LocalDate.now()): Money =
         bills.filter { state(it, today) == target }.map { it.amount }.total()
+
+    /** Total of bills whose due date falls in [today]'s month, PAID OR UNPAID — what
+     *  this month's budget commits. Paying a bill checks it off; it doesn't give the
+     *  money back, so the deduction is invariant to status. */
+    fun amountDueInMonth(bills: List<OneOffBill>, today: LocalDate = LocalDate.now()): Money {
+        val monthStart = today.withDayOfMonth(1)
+        val nextMonthStart = monthStart.plusMonths(1)
+        return bills
+            .filter { !it.dueDate.isBefore(monthStart) && it.dueDate.isBefore(nextMonthStart) }
+            .map { it.amount }.total()
+    }
 }

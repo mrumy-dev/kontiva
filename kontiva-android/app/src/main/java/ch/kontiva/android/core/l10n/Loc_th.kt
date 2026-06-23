@@ -129,7 +129,7 @@ internal val LOC_th: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "เงินเดือนที่ 13 (แยก)",
     L10nKey.overviewRecurringFixed to "ค่าใช้จ่ายคงที่",
     L10nKey.overviewPlannedVariable to "ค่าใช้จ่ายผันแปร",
-    L10nKey.overviewBillsDueThisMonth to "ใบแจ้งหนี้ที่ยังไม่ชำระเดือนนี้",
+    L10nKey.overviewBillsDueThisMonth to "บิลเดือนนี้",
     L10nKey.overviewOverdueBills to "ใบแจ้งหนี้ที่เกินกำหนด",
     L10nKey.overviewSavingsTarget to "เป้าหมายการออม",
     L10nKey.overviewPlannedSavings to "การออมเดือนนี้",

@@ -129,7 +129,7 @@ internal val LOC_da: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13. månedsløn (vist separat)",
     L10nKey.overviewRecurringFixed to "Faste udgifter",
     L10nKey.overviewPlannedVariable to "Variable udgifter",
-    L10nKey.overviewBillsDueThisMonth to "Åbne regninger denne måned",
+    L10nKey.overviewBillsDueThisMonth to "Regninger denne måned",
     L10nKey.overviewOverdueBills to "Forfaldne regninger",
     L10nKey.overviewSavingsTarget to "Opsparingsmål",
     L10nKey.overviewPlannedSavings to "Opsparing denne måned",

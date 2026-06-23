@@ -129,7 +129,7 @@ internal val LOC_itCH: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13a mensilità (indicata separatamente)",
     L10nKey.overviewRecurringFixed to "Costi fissi",
     L10nKey.overviewPlannedVariable to "Spese variabili",
-    L10nKey.overviewBillsDueThisMonth to "Fatture aperte questo mese",
+    L10nKey.overviewBillsDueThisMonth to "Fatture di questo mese",
     L10nKey.overviewOverdueBills to "Fatture scadute",
     L10nKey.overviewSavingsTarget to "Obiettivo di risparmio",
     L10nKey.overviewPlannedSavings to "Risparmio questo mese",

@@ -129,7 +129,7 @@ internal val LOC_deCH: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13. Monatslohn (separat ausgewiesen)",
     L10nKey.overviewRecurringFixed to "Fixkosten",
     L10nKey.overviewPlannedVariable to "Variable Ausgaben",
-    L10nKey.overviewBillsDueThisMonth to "Offene Rechnungen diesen Monat",
+    L10nKey.overviewBillsDueThisMonth to "Rechnungen diesen Monat",
     L10nKey.overviewOverdueBills to "Überfällige Rechnungen",
     L10nKey.overviewSavingsTarget to "Sparziel",
     L10nKey.overviewPlannedSavings to "Sparen diesen Monat",

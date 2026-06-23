@@ -41,7 +41,7 @@ final class AvailabilityTests: XCTestCase {
         XCTAssertEqual(result.netIncomeThisMonth, Money.parse("6'500.00"))
         XCTAssertEqual(result.recurringFixedCosts, Money.parse("2'150.00"))
         XCTAssertEqual(result.plannedVariableBudgets, Money.parse("600.00"))
-        XCTAssertEqual(result.openBillsDueThisMonth, Money.parse("300.00"))
+        XCTAssertEqual(result.billsDueThisMonth, Money.parse("300.00"))
         XCTAssertEqual(result.overdueOpenBills, Money.parse("250.00"))
         XCTAssertEqual(result.available, Money.parse("3'200.00"))
     }

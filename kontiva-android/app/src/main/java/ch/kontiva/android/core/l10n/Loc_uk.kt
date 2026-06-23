@@ -129,7 +129,7 @@ internal val LOC_uk: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13-та зарплата (окремо)",
     L10nKey.overviewRecurringFixed to "Постійні витрати",
     L10nKey.overviewPlannedVariable to "Змінні витрати",
-    L10nKey.overviewBillsDueThisMonth to "Відкриті рахунки цього місяця",
+    L10nKey.overviewBillsDueThisMonth to "Рахунки цього місяця",
     L10nKey.overviewOverdueBills to "Прострочені рахунки",
     L10nKey.overviewSavingsTarget to "Ціль заощадження",
     L10nKey.overviewPlannedSavings to "Заощадження цього місяця",

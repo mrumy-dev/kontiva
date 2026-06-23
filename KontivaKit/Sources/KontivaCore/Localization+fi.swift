@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13. kuukausipalkka (erikseen)",
         .overviewRecurringFixed: "Kiinteät kulut",
         .overviewPlannedVariable: "Muuttuvat menot",
-        .overviewBillsDueThisMonth: "Avoimet laskut tässä kuussa",
+        .overviewBillsDueThisMonth: "Tämän kuun laskut",
         .overviewOverdueBills: "Erääntyneet laskut",
         .overviewSavingsTarget: "Säästötavoite",
         .overviewSecurityStatus: "Suojaustila",

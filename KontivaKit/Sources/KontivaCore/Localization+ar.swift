@@ -126,7 +126,7 @@ extension Localization {
         .overviewThirteenthSeparate: "الراتب الـ13 (منفصل)",
         .overviewRecurringFixed: "التكاليف الثابتة",
         .overviewPlannedVariable: "النفقات المتغيرة",
-        .overviewBillsDueThisMonth: "فواتير مفتوحة هذا الشهر",
+        .overviewBillsDueThisMonth: "فواتير هذا الشهر",
         .overviewOverdueBills: "فواتير متأخرة",
         .overviewSavingsTarget: "هدف الادخار",
         .overviewSecurityStatus: "حالة الأمان",

@@ -59,7 +59,7 @@ object ReportBuilder {
         line(loc(L10nKey.overviewNetIncome), availability.netIncomeThisMonth.formattedCHF())
         line(loc(L10nKey.overviewRecurringFixed), "− ${availability.recurringFixedCosts.formattedCHF()}")
         line(loc(L10nKey.overviewPlannedVariable), "− ${availability.plannedVariableBudgets.formattedCHF()}")
-        line(loc(L10nKey.overviewBillsDueThisMonth), "− ${(availability.openBillsDueThisMonth + availability.overdueOpenBills).formattedCHF()}")
+        line(loc(L10nKey.overviewBillsDueThisMonth), "− ${(availability.billsDueThisMonth + availability.overdueOpenBills).formattedCHF()}")
         line(loc(L10nKey.overviewPlannedSavings), "− ${availability.plannedSavings.formattedCHF()}")
         y += 4f
         c.drawLine(left, y, right, y, muted); y += 22f

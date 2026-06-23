@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13. havi fizetés (külön)",
         .overviewRecurringFixed: "Állandó költségek",
         .overviewPlannedVariable: "Változó kiadások",
-        .overviewBillsDueThisMonth: "Nyitott számlák ebben a hónapban",
+        .overviewBillsDueThisMonth: "E havi számlák",
         .overviewOverdueBills: "Lejárt számlák",
         .overviewSavingsTarget: "Megtakarítási cél",
         .overviewSecurityStatus: "Biztonsági állapot",

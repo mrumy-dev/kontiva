@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13. plaća (zasebno)",
         .overviewRecurringFixed: "Fiksni troškovi",
         .overviewPlannedVariable: "Promjenjivi izdaci",
-        .overviewBillsDueThisMonth: "Otvoreni računi ovaj mjesec",
+        .overviewBillsDueThisMonth: "Računi ovog mjeseca",
         .overviewOverdueBills: "Dospjeli računi",
         .overviewSavingsTarget: "Cilj štednje",
         .overviewSecurityStatus: "Status sigurnosti",

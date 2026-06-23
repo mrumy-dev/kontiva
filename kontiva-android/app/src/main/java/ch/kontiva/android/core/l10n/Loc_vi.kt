@@ -129,7 +129,7 @@ internal val LOC_vi: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "Lương tháng 13 (riêng)",
     L10nKey.overviewRecurringFixed to "Chi phí cố định",
     L10nKey.overviewPlannedVariable to "Chi tiêu biến đổi",
-    L10nKey.overviewBillsDueThisMonth to "Hóa đơn chưa trả tháng này",
+    L10nKey.overviewBillsDueThisMonth to "Hóa đơn tháng này",
     L10nKey.overviewOverdueBills to "Hóa đơn quá hạn",
     L10nKey.overviewSavingsTarget to "Mục tiêu tiết kiệm",
     L10nKey.overviewPlannedSavings to "Tiết kiệm tháng này",

@@ -126,7 +126,7 @@ extension Localization {
         .overviewThirteenthSeparate: "เงินเดือนที่ 13 (แยก)",
         .overviewRecurringFixed: "ค่าใช้จ่ายคงที่",
         .overviewPlannedVariable: "ค่าใช้จ่ายผันแปร",
-        .overviewBillsDueThisMonth: "ใบแจ้งหนี้ที่ยังไม่ชำระเดือนนี้",
+        .overviewBillsDueThisMonth: "บิลเดือนนี้",
         .overviewOverdueBills: "ใบแจ้งหนี้ที่เกินกำหนด",
         .overviewSavingsTarget: "เป้าหมายการออม",
         .overviewSecurityStatus: "สถานะความปลอดภัย",

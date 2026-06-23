@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "Paga e 13-të (veçmas)",
         .overviewRecurringFixed: "Kosto fikse",
         .overviewPlannedVariable: "Shpenzime të ndryshueshme",
-        .overviewBillsDueThisMonth: "Fatura të hapura këtë muaj",
+        .overviewBillsDueThisMonth: "Faturat e këtij muaji",
         .overviewOverdueBills: "Fatura të vonuara",
         .overviewSavingsTarget: "Qëllimi i kursimit",
         .overviewSecurityStatus: "Statusi i sigurisë",

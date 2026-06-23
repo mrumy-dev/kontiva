@@ -129,7 +129,7 @@ internal val LOC_ps: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "۱۳مه میاشتنۍ معاش (جلا)",
     L10nKey.overviewRecurringFixed to "ثابت لګښتونه",
     L10nKey.overviewPlannedVariable to "متغیر لګښتونه",
-    L10nKey.overviewBillsDueThisMonth to "د دې میاشتې پرانیستي بلونه",
+    L10nKey.overviewBillsDueThisMonth to "د دې میاشتې بیلونه",
     L10nKey.overviewOverdueBills to "ناوخته بلونه",
     L10nKey.overviewSavingsTarget to "د سپما موخه",
     L10nKey.overviewPlannedSavings to "د دې میاشتې سپما",

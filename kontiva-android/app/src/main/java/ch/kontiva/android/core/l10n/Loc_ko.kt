@@ -129,7 +129,7 @@ internal val LOC_ko: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13개월째 급여 (별도)",
     L10nKey.overviewRecurringFixed to "고정 비용",
     L10nKey.overviewPlannedVariable to "변동 지출",
-    L10nKey.overviewBillsDueThisMonth to "이번 달 미납 청구서",
+    L10nKey.overviewBillsDueThisMonth to "이번 달 청구서",
     L10nKey.overviewOverdueBills to "연체된 청구서",
     L10nKey.overviewSavingsTarget to "저축 목표",
     L10nKey.overviewPlannedSavings to "이번 달 저축",

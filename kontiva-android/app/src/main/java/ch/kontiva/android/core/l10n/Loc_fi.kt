@@ -129,7 +129,7 @@ internal val LOC_fi: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13. kuukausipalkka (erikseen)",
     L10nKey.overviewRecurringFixed to "Kiinteät kulut",
     L10nKey.overviewPlannedVariable to "Muuttuvat menot",
-    L10nKey.overviewBillsDueThisMonth to "Avoimet laskut tässä kuussa",
+    L10nKey.overviewBillsDueThisMonth to "Tämän kuun laskut",
     L10nKey.overviewOverdueBills to "Erääntyneet laskut",
     L10nKey.overviewSavingsTarget to "Säästötavoite",
     L10nKey.overviewPlannedSavings to "Säästöt tässä kuussa",

@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "第 13 个月工资（单独）",
         .overviewRecurringFixed: "固定开支",
         .overviewPlannedVariable: "可变支出",
-        .overviewBillsDueThisMonth: "本月未付账单",
+        .overviewBillsDueThisMonth: "本月账单",
         .overviewOverdueBills: "逾期账单",
         .overviewSavingsTarget: "储蓄目标",
         .overviewSecurityStatus: "安全状态",

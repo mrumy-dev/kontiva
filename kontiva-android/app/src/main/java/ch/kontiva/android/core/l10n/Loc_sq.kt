@@ -129,7 +129,7 @@ internal val LOC_sq: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "Paga e 13-të (veçmas)",
     L10nKey.overviewRecurringFixed to "Kosto fikse",
     L10nKey.overviewPlannedVariable to "Shpenzime të ndryshueshme",
-    L10nKey.overviewBillsDueThisMonth to "Fatura të hapura këtë muaj",
+    L10nKey.overviewBillsDueThisMonth to "Faturat e këtij muaji",
     L10nKey.overviewOverdueBills to "Fatura të vonuara",
     L10nKey.overviewSavingsTarget to "Qëllimi i kursimit",
     L10nKey.overviewPlannedSavings to "Kursime këtë muaj",

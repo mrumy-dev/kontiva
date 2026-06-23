@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13. maaş (ayrı)",
         .overviewRecurringFixed: "Sabit giderler",
         .overviewPlannedVariable: "Değişken harcamalar",
-        .overviewBillsDueThisMonth: "Bu ay açık faturalar",
+        .overviewBillsDueThisMonth: "Bu ayki faturalar",
         .overviewOverdueBills: "Vadesi geçmiş faturalar",
         .overviewSavingsTarget: "Tasarruf hedefi",
         .overviewSecurityStatus: "Güvenlik durumu",

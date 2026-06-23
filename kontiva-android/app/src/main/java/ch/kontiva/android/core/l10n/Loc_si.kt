@@ -129,7 +129,7 @@ internal val LOC_si: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13වන මස වැටුප (වෙනම)",
     L10nKey.overviewRecurringFixed to "ස්ථාවර වියදම්",
     L10nKey.overviewPlannedVariable to "විචල්‍ය වියදම්",
-    L10nKey.overviewBillsDueThisMonth to "මෙම මස හිඟ බිල්පත්",
+    L10nKey.overviewBillsDueThisMonth to "මෙම මාසයේ බිල්පත්",
     L10nKey.overviewOverdueBills to "කල් ඉකුත් වූ බිල්පත්",
     L10nKey.overviewSavingsTarget to "ඉතිරිකිරීමේ ඉලක්කය",
     L10nKey.overviewPlannedSavings to "මෙම මස ඉතිරිකිරීම්",

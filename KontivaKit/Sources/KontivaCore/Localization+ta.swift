@@ -125,7 +125,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13வது மாத ஊதியம் (தனியாக)",
         .overviewRecurringFixed: "நிலையான செலவுகள்",
         .overviewPlannedVariable: "மாறும் செலவுகள்",
-        .overviewBillsDueThisMonth: "இந்த மாதம் நிலுவையில் உள்ள பில்கள்",
+        .overviewBillsDueThisMonth: "இம்மாத பில்கள்",
         .overviewOverdueBills: "தாமதமான பில்கள்",
         .overviewSavingsTarget: "சேமிப்பு இலக்கு",
         .overviewSecurityStatus: "பாதுகாப்பு நிலை",

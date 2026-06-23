@@ -129,7 +129,7 @@ internal val LOC_nl: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13e maand (apart getoond)",
     L10nKey.overviewRecurringFixed to "Vaste lasten",
     L10nKey.overviewPlannedVariable to "Variabele uitgaven",
-    L10nKey.overviewBillsDueThisMonth to "Openstaande rekeningen deze maand",
+    L10nKey.overviewBillsDueThisMonth to "Rekeningen deze maand",
     L10nKey.overviewOverdueBills to "Achterstallige rekeningen",
     L10nKey.overviewSavingsTarget to "Spaardoel",
     L10nKey.overviewPlannedSavings to "Sparen deze maand",

@@ -99,7 +99,7 @@ struct OverviewView: View {
                            icon: "banknote.fill", iconColor: KontivaTheme.positive,
                            caption: "\(loc(.sparenAccumulatedTotal)): \(model.totalAccumulatedSavings.formattedCHF())")
             }
-            MetricTile(title: loc(.navBills), value: a.openBillsDueThisMonth.formattedCHF(),
+            MetricTile(title: loc(.navBills), value: a.billsDueThisMonth.formattedCHF(),
                        icon: "doc.text.fill")
             if model.hasAnyDebt {
                 MetricTile(title: loc(.navSchulden), value: model.totalDebt.formattedCHF(),
@@ -150,7 +150,7 @@ struct OverviewView: View {
             Divider()
             MoneyRow(label: loc(.overviewRecurringFixed), amount: a.recurringFixedCosts, subtractive: true)
             MoneyRow(label: loc(.overviewPlannedVariable), amount: a.plannedVariableBudgets, subtractive: true)
-            MoneyRow(label: loc(.overviewBillsDueThisMonth), amount: a.openBillsDueThisMonth, subtractive: true)
+            MoneyRow(label: loc(.overviewBillsDueThisMonth), amount: a.billsDueThisMonth, subtractive: true)
             MoneyRow(label: loc(.overviewOverdueBills), amount: a.overdueOpenBills, subtractive: true)
             if a.plannedSavings.isPositive {
                 MoneyRow(label: loc(.overviewPlannedSavings), amount: a.plannedSavings, subtractive: true)

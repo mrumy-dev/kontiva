@@ -129,7 +129,7 @@ internal val LOC_rm: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "13avla pajaglia (separà)",
     L10nKey.overviewRecurringFixed to "Custs fixs",
     L10nKey.overviewPlannedVariable to "Expensas variablas",
-    L10nKey.overviewBillsDueThisMonth to "Quints averts quest mais",
+    L10nKey.overviewBillsDueThisMonth to "Quints quest mais",
     L10nKey.overviewOverdueBills to "Quints scrudads",
     L10nKey.overviewSavingsTarget to "Finamira da spargn",
     L10nKey.overviewPlannedSavings to "Spargn quest mais",

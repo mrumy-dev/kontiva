@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13-та плата (одделно)",
         .overviewRecurringFixed: "Фиксни трошоци",
         .overviewPlannedVariable: "Променливи трошоци",
-        .overviewBillsDueThisMonth: "Отворени сметки овој месец",
+        .overviewBillsDueThisMonth: "Сметки овој месец",
         .overviewOverdueBills: "Достасани сметки",
         .overviewSavingsTarget: "Цел за штедење",
         .overviewSecurityStatus: "Статус на безбедност",

@@ -124,7 +124,7 @@ extension Localization {
         .overviewThirteenthSeparate: "13-та зарплата (окремо)",
         .overviewRecurringFixed: "Постійні витрати",
         .overviewPlannedVariable: "Змінні витрати",
-        .overviewBillsDueThisMonth: "Відкриті рахунки цього місяця",
+        .overviewBillsDueThisMonth: "Рахунки цього місяця",
         .overviewOverdueBills: "Прострочені рахунки",
         .overviewSavingsTarget: "Ціль заощадження",
         .overviewSecurityStatus: "Стан безпеки",

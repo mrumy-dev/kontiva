@@ -129,7 +129,7 @@ internal val LOC_ar: Map<L10nKey, String> = mapOf(
     L10nKey.overviewThirteenthSeparate to "الراتب الـ13 (منفصل)",
     L10nKey.overviewRecurringFixed to "التكاليف الثابتة",
     L10nKey.overviewPlannedVariable to "النفقات المتغيرة",
-    L10nKey.overviewBillsDueThisMonth to "فواتير مفتوحة هذا الشهر",
+    L10nKey.overviewBillsDueThisMonth to "فواتير هذا الشهر",
     L10nKey.overviewOverdueBills to "فواتير متأخرة",
     L10nKey.overviewSavingsTarget to "هدف الادخار",
     L10nKey.overviewPlannedSavings to "ادخار هذا الشهر",

@@ -4,6 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,12 +35,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ch.kontiva.android.R
 import ch.kontiva.android.ui.theme.KontivaBrand
 import ch.kontiva.android.ui.theme.KontivaTheme
 import kotlin.math.roundToInt
@@ -94,10 +98,12 @@ fun PinEntry(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(KontivaTheme.spaceXxl))
-        Row {
-            Text("Kontiva", fontSize = 26.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-            Text(".", fontSize = 26.sp, fontWeight = FontWeight.Bold, color = KontivaBrand.SwissRed)
-        }
+        Image(
+            painter = painterResource(R.drawable.wordmark),
+            contentDescription = "Kontiva",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.height(30.dp),
+        )
         Spacer(Modifier.height(KontivaTheme.spaceMd))
         Text(title, fontSize = 19.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
         if (note != null) {

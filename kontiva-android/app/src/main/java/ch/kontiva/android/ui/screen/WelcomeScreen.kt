@@ -1,5 +1,6 @@
 package ch.kontiva.android.ui.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,10 +26,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ch.kontiva.android.R
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.theme.KontivaBrand
@@ -50,21 +54,13 @@ fun WelcomeScreen(onStart: () -> Unit) {
         Spacer(Modifier.height(KontivaTheme.spaceXxl))
         Spacer(Modifier.weight(0.6f))
 
-        // Wordmark: "Kontiva" with the brand-red accent dot.
-        Row(verticalAlignment = Alignment.Top) {
-            Text(
-                text = loc(L10nKey.appName),
-                fontSize = 46.sp,
-                fontWeight = FontWeight.Bold,
-                color = colors.textPrimary,
-            )
-            Text(
-                text = ".",
-                fontSize = 46.sp,
-                fontWeight = FontWeight.Bold,
-                color = KontivaBrand.SwissRed,
-            )
-        }
+        // Wordmark — the real iOS logotype, expanding edge to edge.
+        Image(
+            painter = painterResource(R.drawable.wordmark),
+            contentDescription = loc(L10nKey.appName),
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier.fillMaxWidth(0.84f),
+        )
 
         Spacer(Modifier.height(KontivaTheme.spaceMd))
         Text(

@@ -82,7 +82,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
             Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(KontivaTheme.spaceLg),
+            contentPadding = PaddingValues(start = KontivaTheme.spaceLg, top = KontivaTheme.spaceLg, end = KontivaTheme.spaceLg, bottom = KontivaTheme.spaceLg + 56.dp),
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
         ) {
         item { MonthHeader(loc(L10nKey.navSparen), vm) }

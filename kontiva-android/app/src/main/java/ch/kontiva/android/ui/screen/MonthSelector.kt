@@ -67,15 +67,17 @@ fun MonthHeader(title: String, vm: KontivaViewModel) {
     }
 }
 
-/** Thumb-reachable add button, pinned bottom-end (the top-right + was a reach). */
+/** Thumb-reachable add button, pinned bottom-end (the top-right + was a reach).
+ *  Kept compact (48dp) so it covers as little list content as possible; the lists
+ *  add bottom padding so the last row can scroll clear of it. */
 @Composable
 fun BoxScope.AddFab(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
-        modifier = Modifier.align(Alignment.BottomEnd).padding(KontivaTheme.spaceLg),
+        modifier = Modifier.align(Alignment.BottomEnd).padding(KontivaTheme.spaceLg).size(48.dp),
         containerColor = KontivaTheme.accent,
         contentColor = Color.White,
-    ) { Icon(Icons.Rounded.Add, contentDescription = "add") }
+    ) { Icon(Icons.Rounded.Add, contentDescription = "add", modifier = Modifier.size(22.dp)) }
 }
 
 /** ‹ Juni 2026 › — drives the app-wide selected month (localized month name). */

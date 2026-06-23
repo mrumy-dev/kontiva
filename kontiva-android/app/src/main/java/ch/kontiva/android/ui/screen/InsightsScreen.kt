@@ -106,5 +106,9 @@ private fun detailFor(insight: Insight, loc: Localizer): String = when (insight)
     is Insight.OverdueBills -> "${insight.count} · ${insight.total.formattedCHF()}"
     Insight.NoSavings -> loc(L10nKey.insightNoSavingsDetail)
     is Insight.GoodSavingsRate -> "${insight.monthly.formattedCHF()} · ${insight.pct}% ${loc(L10nKey.fragOfNetIncome)}"
+    is Insight.ExtraIncomeThisMonth -> "+${insight.amount.formattedCHF()}"
+    is Insight.SavingsGoalProgress -> "${insight.name} · ${insight.saved.formattedCHF()} / ${insight.target.formattedCHF()} · ${insight.pct}%"
+    is Insight.BillsDueSoon -> "${insight.count} · ${insight.total.formattedCHF()}"
+    Insight.GettingStarted -> loc(L10nKey.insightGettingStartedDetail)
     Insight.AllHealthy -> loc(L10nKey.insightAllHealthyDetail)
 }

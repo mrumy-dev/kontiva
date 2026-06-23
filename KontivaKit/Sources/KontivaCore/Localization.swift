@@ -63,6 +63,13 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case insightHousingHint
     case insightNoSavingsDetail
     case insightAllHealthyDetail
+    case insightExtraIncome
+    case insightGoalProgress
+    case insightBillsDueSoon
+    case insightGettingStarted
+    case insightGettingStartedDetail
+    case schuldenEncourageTitle
+    case schuldenEncourageBody
     case fragOfNetIncome
     case fragOfFixedCosts
     case fragShortfall

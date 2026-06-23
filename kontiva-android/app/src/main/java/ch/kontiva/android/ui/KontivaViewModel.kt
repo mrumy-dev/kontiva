@@ -312,7 +312,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Rule-based insights about this month's plan. */
     val insights: List<Insight>
-        get() = InsightEngine.analyze(dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals, availability, selectedMonth)
+        get() = InsightEngine.analyze(dataset.incomes, dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals, availability, selectedMonth)
 
     fun lock() {
         store.lock()

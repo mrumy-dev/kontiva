@@ -30,6 +30,10 @@ public enum Insight: Equatable, Sendable, Identifiable {
     case overdueBills(count: Int, total: Money)
     case noSavings
     case goodSavingsRate(monthly: Money, pct: Int)
+    case extraIncomeThisMonth(amount: Money)
+    case savingsGoalProgress(name: String, pct: Int, saved: Money, target: Money)
+    case billsDueSoon(count: Int, total: Money)
+    case gettingStarted
     case allHealthy
 
     public var id: String {
@@ -44,6 +48,10 @@ public enum Insight: Equatable, Sendable, Identifiable {
         case .overdueBills:    return "overdueBills"
         case .noSavings:       return "noSavings"
         case .goodSavingsRate: return "goodSavingsRate"
+        case .extraIncomeThisMonth: return "extraIncomeThisMonth"
+        case .savingsGoalProgress:  return "savingsGoalProgress"
+        case .billsDueSoon:         return "billsDueSoon"
+        case .gettingStarted:       return "gettingStarted"
         case .allHealthy:      return "allHealthy"
         }
     }
@@ -52,9 +60,11 @@ public enum Insight: Equatable, Sendable, Identifiable {
         switch self {
         case .overspending, .overdueBills:       return .warning
         case .highFixedBurden, .highHousing,
-             .noSavings, .tightBudget:           return .tip
+             .noSavings, .tightBudget,
+             .billsDueSoon, .gettingStarted:     return .tip
         case .largestFixedCost, .largestVariable:return .info
         case .healthySurplus, .goodSavingsRate,
+             .extraIncomeThisMonth, .savingsGoalProgress,
              .allHealthy:                        return .positive
         }
     }
@@ -80,6 +90,9 @@ public enum InsightEngine {
         var insights: [Insight] = []
         let income = availability.netIncomeThisMonth
         let available = availability.available
+
+        // Brand-new plan: nudge the first useful step instead of a hollow "all good".
+        if incomes.isEmpty { insights.append(.gettingStarted) }
 
         // Available balance health.
         if available.isNegative {
@@ -144,6 +157,33 @@ public enum InsightEngine {
                 let pct = monthlySavings.percent(of: income)
                 if pct >= 10 { insights.append(.goodSavingsRate(monthly: monthlySavings, pct: pct)) }
             }
+        }
+
+        // Unpaid bills still due this month — a gentle nudge before they go overdue.
+        let dueSoon = bills.filter {
+            $0.status == .open
+                && BillClassifier.state(of: $0, asOf: reference, calendar: calendar) != .overdue
+                && calendar.isDate($0.dueDate, equalTo: reference, toGranularity: .month)
+        }
+        if !dueSoon.isEmpty {
+            insights.append(.billsDueSoon(count: dueSoon.count, total: dueSoon.map(\.amount).total()))
+        }
+
+        // Extra income landing this month (13th-salary slice + bonuses) — encouraging.
+        let extraIncome = incomes
+            .map { AvailabilityEngine.netIncomeThisMonth($0, asOf: reference, calendar: calendar) - $0.monthlyNet }
+            .total()
+        if extraIncome.isPositive { insights.append(.extraIncomeThisMonth(amount: extraIncome)) }
+
+        // A savings goal in reach — celebrate the momentum.
+        if let best = savingsGoals
+            .filter({ $0.hasTarget && $0.contributesIn(reference, calendar: calendar) })
+            .map({ ($0, $0.progressPercent(asOf: reference, calendar: calendar)) })
+            .filter({ $0.1 >= 25 })
+            .max(by: { $0.1 < $1.1 }) {
+            insights.append(.savingsGoalProgress(
+                name: best.0.name, pct: min(100, max(0, best.1)),
+                saved: best.0.accumulated(asOf: reference, calendar: calendar), target: best.0.target))
         }
 
         if insights.isEmpty { insights.append(.allHealthy) }

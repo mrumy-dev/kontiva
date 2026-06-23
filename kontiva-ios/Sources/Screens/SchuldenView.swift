@@ -35,6 +35,7 @@ struct SchuldenView: View {
                 }
             } else {
                 ScreenScroll {
+                    encouragementBanner
                     summaryCard
                     if !model.overdueBills.isEmpty { overdueBillsCard }
                     ForEach(debtsByType, id: \.type) { group in
@@ -58,6 +59,21 @@ struct SchuldenView: View {
         .sheet(item: $editing) { route in
             if case .edit(let debt) = route {
                 DebtFormSheet(existing: debt).environmentObject(model).environmentObject(loc)
+            }
+        }
+    }
+
+    /// Warm banner that frames the situation supportively before the numbers.
+    private var encouragementBanner: some View {
+        KontivaCard(fill: KontivaTheme.accent.opacity(0.08)) {
+            HStack(spacing: KontivaTheme.Space.sm) {
+                KontivaIconTile("figure.walk")
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(loc(.schuldenEncourageTitle)).font(.system(size: 15, weight: .semibold)).foregroundStyle(KontivaTheme.textPrimary)
+                    Text(loc(.schuldenEncourageBody)).font(.caption).foregroundStyle(KontivaTheme.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
             }
         }
     }

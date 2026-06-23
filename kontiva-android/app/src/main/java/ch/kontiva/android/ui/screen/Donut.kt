@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +35,7 @@ fun Donut(
     centerValue: String,
     centerBottom: String,
     modifier: Modifier = Modifier,
-    diameter: androidx.compose.ui.unit.Dp = 190.dp,
+    diameter: androidx.compose.ui.unit.Dp = 212.dp,
 ) {
     val colors = KontivaTheme.colors
     val total = segments.sumOf { it.value }.coerceAtLeast(1L)
@@ -47,7 +48,7 @@ fun Donut(
     }
     Box(modifier = modifier.size(diameter), contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(diameter)) {
-            val strokeW = size.minDimension * 0.135f
+            val strokeW = size.minDimension * 0.12f
             val inset = strokeW / 2
             val arcSize = Size(size.width - strokeW, size.height - strokeW)
             val topLeft = Offset(inset, inset)
@@ -80,14 +81,15 @@ fun Donut(
         // Keep the labels inside the ring's hole so nothing collides with the arc.
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.widthIn(max = diameter * 0.70f),
+            modifier = Modifier.widthIn(max = diameter * 0.74f),
         ) {
             androidx.compose.material3.Text(
-                centerTop, fontSize = 9.sp, color = colors.textTertiary,
-                textAlign = TextAlign.Center, maxLines = 2, lineHeight = 11.sp,
+                centerTop, fontSize = 10.sp, color = colors.textSecondary, fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center, maxLines = 2, lineHeight = 12.5.sp,
             )
-            AnimatedAmount(centerValue, fontSize = 17.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-            androidx.compose.material3.Text(centerBottom, fontSize = 9.sp, color = colors.textTertiary)
+            Spacer(Modifier.size(2.dp))
+            AnimatedAmount(centerValue, fontSize = 21.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+            androidx.compose.material3.Text(centerBottom, fontSize = 11.sp, color = colors.textTertiary, fontWeight = FontWeight.Medium)
         }
     }
 }

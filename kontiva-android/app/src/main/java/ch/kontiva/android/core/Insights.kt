@@ -17,12 +17,17 @@ sealed class Insight(val severity: InsightSeverity, val titleKey: L10nKey) {
     data class OverdueBills(val count: Int, val total: Money) : Insight(InsightSeverity.WARNING, L10nKey.insightOverdue)
     data object NoSavings : Insight(InsightSeverity.TIP, L10nKey.insightNoSavings)
     data class GoodSavingsRate(val monthly: Money, val pct: Int) : Insight(InsightSeverity.POSITIVE, L10nKey.insightGoodSavings)
+    data class ExtraIncomeThisMonth(val amount: Money) : Insight(InsightSeverity.POSITIVE, L10nKey.insightExtraIncome)
+    data class SavingsGoalProgress(val name: String, val pct: Int, val saved: Money, val target: Money) : Insight(InsightSeverity.POSITIVE, L10nKey.insightGoalProgress)
+    data class BillsDueSoon(val count: Int, val total: Money) : Insight(InsightSeverity.TIP, L10nKey.insightBillsDueSoon)
+    data object GettingStarted : Insight(InsightSeverity.TIP, L10nKey.insightGettingStarted)
     data object AllHealthy : Insight(InsightSeverity.POSITIVE, L10nKey.insightAllHealthy)
 }
 
 /** Rule-based analysis of this month's plan (Swiss thresholds). 1:1 with iOS. */
 object InsightEngine {
     fun analyze(
+        incomes: List<Income>,
         fixedCosts: List<RecurringFixedExpense>,
         variableBudgets: List<VariableMonthlyBudget>,
         bills: List<OneOffBill>,
@@ -35,6 +40,9 @@ object InsightEngine {
         val fixedCosts = fixedCosts.filter { it.isActive(today) }
         val income = availability.netIncomeThisMonth
         val available = availability.available
+
+        // Brand-new plan: nudge the first useful step instead of a hollow "all good".
+        if (incomes.isEmpty()) out.add(Insight.GettingStarted)
 
         if (available.isNegative) {
             out.add(Insight.Overspending(-available))
@@ -78,6 +86,24 @@ object InsightEngine {
                 if (pct >= 10) out.add(Insight.GoodSavingsRate(monthlySavings, pct))
             }
         }
+
+        // Unpaid bills still due this month — a gentle nudge before they go overdue.
+        val dueSoon = bills.filter {
+            it.status == BillStatus.OPEN && BillClassifier.state(it, today) != BillState.OVERDUE &&
+                it.dueDate.year == today.year && it.dueDate.monthValue == today.monthValue
+        }
+        if (dueSoon.isNotEmpty()) out.add(Insight.BillsDueSoon(dueSoon.size, dueSoon.map { it.amount }.total()))
+
+        // Extra income landing this month (13th-salary slice + bonuses) — encouraging.
+        val extraIncome = incomes.map { AvailabilityEngine.netIncomeThisMonth(it, today) - it.monthlyNet }.total()
+        if (extraIncome.isPositive) out.add(Insight.ExtraIncomeThisMonth(extraIncome))
+
+        // A savings goal in reach — celebrate the momentum.
+        savingsGoals.filter { it.hasTarget && it.contributesIn(today) }
+            .map { it to it.progressPercent(today) }
+            .filter { it.second >= 25 }
+            .maxByOrNull { it.second }
+            ?.let { (g, pct) -> out.add(Insight.SavingsGoalProgress(g.name, pct.coerceIn(0, 100), g.accumulated(today), g.target)) }
 
         if (out.isEmpty()) out.add(Insight.AllHealthy)
         return out.sortedWith(compareBy { it.severity.priority }) // stable

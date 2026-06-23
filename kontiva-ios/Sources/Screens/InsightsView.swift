@@ -84,6 +84,18 @@ struct InsightsView: View {
         case .goodSavingsRate(let monthly, let pct):
             return ("checkmark.circle.fill", KontivaTheme.positive,
                     loc(.insightGoodSavings), "\(monthly.formattedCHF()) · \(pctIncome(pct))")
+        case .extraIncomeThisMonth(let amount):
+            return ("gift.fill", KontivaTheme.positive,
+                    loc(.insightExtraIncome), "+\(amount.formattedCHF())")
+        case .savingsGoalProgress(let name, let pct, let saved, let target):
+            return ("target", KontivaTheme.positive,
+                    loc(.insightGoalProgress), "\(name) · \(saved.formattedCHF()) / \(target.formattedCHF()) · \(pct)%")
+        case .billsDueSoon(let count, let total):
+            return ("clock.badge.exclamationmark", KontivaTheme.warning,
+                    loc(.insightBillsDueSoon), "\(count) × · \(total.formattedCHF())")
+        case .gettingStarted:
+            return ("sparkles", KontivaTheme.accent,
+                    loc(.insightGettingStarted), loc(.insightGettingStartedDetail))
         case .allHealthy:
             return ("checkmark.seal.fill", KontivaTheme.positive,
                     loc(.insightAllHealthy), loc(.insightAllHealthyDetail))

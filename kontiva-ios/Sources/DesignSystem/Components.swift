@@ -4,7 +4,11 @@ import KontivaCore
 /// A calm, bordered surface used for grouping content.
 struct KontivaCard<Content: View>: View {
     private let content: Content
-    init(@ViewBuilder content: () -> Content) { self.content = content() }
+    private let fill: Color
+    init(fill: Color = KontivaTheme.cardSurface, @ViewBuilder content: () -> Content) {
+        self.content = content()
+        self.fill = fill
+    }
 
     var body: some View {
         content
@@ -12,7 +16,7 @@ struct KontivaCard<Content: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 RoundedRectangle(cornerRadius: KontivaTheme.Radius.card, style: .continuous)
-                    .fill(KontivaTheme.cardSurface))
+                    .fill(fill))
             .overlay(
                 RoundedRectangle(cornerRadius: KontivaTheme.Radius.card, style: .continuous)
                     .strokeBorder(KontivaTheme.softBorder.opacity(0.5), lineWidth: 1))

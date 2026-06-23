@@ -340,6 +340,15 @@ enum ReportBuilder {
             return (dot, loc.string(.insightNoSavings), loc.string(.insightNoSavingsDetail))
         case .goodSavingsRate(let monthly, let pct):
             return (dot, loc.string(.insightGoodSavings), "\(monthly.formattedCHF()) · \(pctIncome(pct))")
+        case .extraIncomeThisMonth(let amount):
+            return (dot, loc.string(.insightExtraIncome), "+\(amount.formattedCHF())")
+        case .savingsGoalProgress(let name, let pct, let saved, let target):
+            return (dot, loc.string(.insightGoalProgress),
+                    "\(name) · \(saved.formattedCHF()) / \(target.formattedCHF()) · \(pct)%")
+        case .billsDueSoon(let count, let total):
+            return (dot, loc.string(.insightBillsDueSoon), "\(count) × · \(total.formattedCHF())")
+        case .gettingStarted:
+            return (dot, loc.string(.insightGettingStarted), loc.string(.insightGettingStartedDetail))
         case .allHealthy:
             return (dot, loc.string(.insightAllHealthy), loc.string(.insightAllHealthyDetail))
         }

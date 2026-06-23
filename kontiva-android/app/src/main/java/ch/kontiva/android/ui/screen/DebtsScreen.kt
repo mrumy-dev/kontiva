@@ -1,6 +1,7 @@
 package ch.kontiva.android.ui.screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,14 +17,25 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.Article
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.DirectionsWalk
+import androidx.compose.material.icons.rounded.Forum
+import androidx.compose.material.icons.rounded.Gavel
+import androidx.compose.material.icons.rounded.Lightbulb
+import androidx.compose.material.icons.rounded.Shield
+import androidx.compose.material.icons.rounded.VolunteerActivism
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.ui.draw.clip
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -89,8 +101,9 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
             }
         }
         if (overdueBills.isEmpty() && debts.isEmpty()) {
-            item { EmptyCard(loc(L10nKey.schuldenEmpty)) }
+            item { SchuldenEmptyCard(loc) { editDebt = null; showSheet = true } }
         } else {
+            item { EncouragementBanner(loc) }
             item {
                 Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(KontivaTheme.spaceMd)) {
@@ -144,14 +157,20 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                 }
             }
         }
-        // Guidance
+        // Guidance — supportive, actionable ways out.
         item {
             Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(KontivaTheme.spaceMd), verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceSm)) {
-                    Text(loc(L10nKey.schuldenGuidanceTitle), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
-                    Tip(loc(L10nKey.schuldenTipContactTitle), loc(L10nKey.schuldenTipContactBody))
-                    Tip(loc(L10nKey.schuldenTipBetreibungTitle), loc(L10nKey.schuldenTipBetreibungBody))
-                    Tip(loc(L10nKey.schuldenTipCounselingTitle), loc(L10nKey.schuldenTipCounselingBody))
+                Column(Modifier.padding(KontivaTheme.spaceMd), verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Rounded.Lightbulb, contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.size(KontivaTheme.spaceXs))
+                        Text(loc(L10nKey.schuldenGuidanceTitle), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                    }
+                    Tip(Icons.Rounded.Forum, colors.positive, loc(L10nKey.schuldenTipContactTitle), loc(L10nKey.schuldenTipContactBody))
+                    Tip(Icons.Rounded.Gavel, colors.warning, loc(L10nKey.schuldenTipBetreibungTitle), loc(L10nKey.schuldenTipBetreibungBody))
+                    Tip(Icons.Rounded.Shield, colors.chartFixed, loc(L10nKey.schuldenTipExistenzminimumTitle), loc(L10nKey.schuldenTipExistenzminimumBody))
+                    Tip(Icons.Rounded.Article, colors.chartFixed, loc(L10nKey.schuldenTipVerlustscheinTitle), loc(L10nKey.schuldenTipVerlustscheinBody))
+                    Tip(Icons.Rounded.VolunteerActivism, KontivaTheme.accent, loc(L10nKey.schuldenTipCounselingTitle), loc(L10nKey.schuldenTipCounselingBody))
                 }
             }
         }
@@ -197,11 +216,62 @@ private fun DebtRow(creditor: String, type: String, amount: String, onClick: () 
 }
 
 @Composable
-private fun Tip(title: String, body: String) {
+private fun Tip(icon: androidx.compose.ui.graphics.vector.ImageVector, tint: Color, title: String, body: String) {
     val colors = KontivaTheme.colors
-    Column {
-        Text(title, fontSize = 13.sp, fontWeight = FontWeight.Medium, color = colors.textPrimary)
-        Text(body, fontSize = 12.sp, color = colors.textSecondary)
+    Row(verticalAlignment = Alignment.Top) {
+        Box(Modifier.size(30.dp).clip(CircleShape).background(tint.copy(alpha = 0.14f)), contentAlignment = Alignment.Center) {
+            Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(17.dp))
+        }
+        Spacer(Modifier.size(KontivaTheme.spaceSm))
+        Column(Modifier.weight(1f)) {
+            Text(title, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+            Text(body, fontSize = 12.sp, color = colors.textSecondary)
+        }
+    }
+}
+
+/** Warm banner shown when debts/overdue exist — reassures and frames the steps below. */
+@Composable
+private fun EncouragementBanner(loc: ch.kontiva.android.core.l10n.Localizer) {
+    val colors = KontivaTheme.colors
+    Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = KontivaTheme.accent.copy(alpha = 0.08f), modifier = Modifier.fillMaxWidth()) {
+        Row(Modifier.padding(KontivaTheme.spaceMd), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(38.dp).clip(CircleShape).background(KontivaTheme.accent.copy(alpha = 0.16f)), contentAlignment = Alignment.Center) {
+                Icon(Icons.Rounded.DirectionsWalk, contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(22.dp))
+            }
+            Spacer(Modifier.size(KontivaTheme.spaceSm))
+            Column(Modifier.weight(1f)) {
+                Text(loc(L10nKey.schuldenEncourageTitle), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                Text(loc(L10nKey.schuldenEncourageBody), fontSize = 12.sp, color = colors.textSecondary)
+            }
+        }
+    }
+}
+
+/** Reassuring empty state with a clear, discoverable way to record a debt. */
+@Composable
+private fun SchuldenEmptyCard(loc: ch.kontiva.android.core.l10n.Localizer, onAdd: () -> Unit) {
+    val colors = KontivaTheme.colors
+    Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
+        Column(
+            Modifier.padding(KontivaTheme.spaceLg).fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
+        ) {
+            Box(Modifier.size(56.dp).clip(CircleShape).background(colors.positive.copy(alpha = 0.14f)), contentAlignment = Alignment.Center) {
+                Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.positive, modifier = Modifier.size(30.dp))
+            }
+            Text(loc(L10nKey.schuldenEmpty), fontSize = 14.sp, color = colors.textSecondary, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+            OutlinedButton(
+                onClick = onAdd,
+                shape = RoundedCornerShape(KontivaTheme.radiusControl),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = KontivaTheme.accent),
+            ) {
+                Icon(Icons.Rounded.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.size(KontivaTheme.spaceXs))
+                Text(loc(L10nKey.schuldenAddCta), fontWeight = FontWeight.SemiBold)
+            }
+        }
     }
 }
 

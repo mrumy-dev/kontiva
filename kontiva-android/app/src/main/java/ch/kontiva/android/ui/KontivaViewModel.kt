@@ -11,6 +11,7 @@ import ch.kontiva.android.core.AppLanguage
 import ch.kontiva.android.core.AppSettings
 import ch.kontiva.android.core.AutoLockInterval
 import ch.kontiva.android.core.AvailabilityEngine
+import ch.kontiva.android.core.BillSort
 import ch.kontiva.android.core.BillStatus
 import ch.kontiva.android.core.Canton
 import ch.kontiva.android.core.DebtItem
@@ -117,6 +118,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun setLanguage(language: AppLanguage) = applySettings(settings.copy(language = language))
     fun setAccent(accent: AccentTheme) = applySettings(settings.copy(accent = accent))
     fun setSavingsSort(sort: SavingsSort) = applySettings(settings.copy(savingsSort = sort))
+    fun setBillSort(sort: BillSort) = applySettings(settings.copy(billSort = sort))
 
     private fun applySettings(updated: AppSettings) {
         settings = updated

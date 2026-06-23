@@ -42,6 +42,7 @@ final class AppModel: ObservableObject {
     private static let languageKey = "kontiva.ui.language"
     private static let accentKey = "kontiva.ui.accent"
     private static let savingsSortKey = "kontiva.ui.savingsSort"
+    private static let billSortKey = "kontiva.ui.billSort"
 
     init() {
         // First run → match the phone's system language; afterwards, the saved choice.
@@ -69,6 +70,8 @@ final class AppModel: ObservableObject {
         KontivaTheme.accent = savedAccent.color
         self.settings.savingsSort = UserDefaults.standard.string(forKey: Self.savingsSortKey)
             .flatMap(SavingsSort.init(rawValue:)) ?? .startMonth
+        self.settings.billSort = UserDefaults.standard.string(forKey: Self.billSortKey)
+            .flatMap(BillSort.init(rawValue:)) ?? .dueDate
     }
 
     // MARK: Lock gate
@@ -131,6 +134,13 @@ final class AppModel: ObservableObject {
         guard sort != settings.savingsSort else { return }
         settings.savingsSort = sort
         UserDefaults.standard.set(sort.rawValue, forKey: Self.savingsSortKey)
+    }
+
+    /// Persisted sort order for the Rechnungen list.
+    func setBillSort(_ sort: BillSort) {
+        guard sort != settings.billSort else { return }
+        settings.billSort = sort
+        UserDefaults.standard.set(sort.rawValue, forKey: Self.billSortKey)
     }
 
     func setAutoLock(_ interval: AutoLockInterval) async {

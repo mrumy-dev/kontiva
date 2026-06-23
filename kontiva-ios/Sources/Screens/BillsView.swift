@@ -24,7 +24,7 @@ struct BillsView: View {
     private let order: [BillState] = [.overdue, .dueThisMonth, .future, .paid]
 
     private func bills(in state: BillState) -> [OneOffBill] {
-        filtered.filter { BillClassifier.state(of: $0, asOf: month) == state }.sorted { $0.dueDate < $1.dueDate }
+        model.settings.billSort.apply(filtered.filter { BillClassifier.state(of: $0, asOf: month) == state })
     }
     private func total(in state: BillState) -> Money {
         BillClassifier.amount(in: state, bills: model.bills, asOf: month)
@@ -59,6 +59,18 @@ struct BillsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $search)
             .toolbar {
+                if !model.bills.isEmpty {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Menu {
+                            Picker(loc(.sparenSortBy), selection: Binding(
+                                get: { model.settings.billSort },
+                                set: { model.setBillSort($0) })) {
+                                ForEach(BillSort.allCases) { Text(loc($0.titleKey)).tag($0) }
+                            }
+                        } label: { Image(systemName: "arrow.up.arrow.down") }
+                            .tint(KontivaTheme.accent)
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { sheet = .edit(nil) } label: { Image(systemName: "plus") }
                         .tint(KontivaTheme.accent)

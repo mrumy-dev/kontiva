@@ -25,8 +25,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,6 +60,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.BillClassifier
+import ch.kontiva.android.core.BillSort
 import ch.kontiva.android.core.BillState
 import ch.kontiva.android.core.BillStatus
 import ch.kontiva.android.core.Money
@@ -80,6 +84,8 @@ fun BillsScreen(vm: KontivaViewModel) {
     val bills = vm.dataset.bills
     var showSheet by remember { mutableStateOf(false) }
     var editBill by remember { mutableStateOf<OneOffBill?>(null) }
+    var sortMenu by remember { mutableStateOf(false) }
+    val sort = vm.settings.billSort
 
     val month = vm.selectedMonth
     val overdue = bills.filter { BillClassifier.state(it, month) == BillState.OVERDUE }
@@ -120,11 +126,28 @@ fun BillsScreen(vm: KontivaViewModel) {
                 }
             }
         }
+        item {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+                Text(loc(L10nKey.sparenSortBy), fontSize = 12.sp, color = colors.textTertiary)
+                Spacer(Modifier.size(KontivaTheme.spaceXs))
+                Box(Modifier.clip(RoundedCornerShape(KontivaTheme.radiusControl)).clickable { sortMenu = true }.padding(horizontal = KontivaTheme.spaceSm, vertical = 4.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(loc(sort.labelKey), fontSize = 13.sp, color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                        Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = KontivaTheme.accent)
+                    }
+                    DropdownMenu(expanded = sortMenu, onDismissRequest = { sortMenu = false }) {
+                        BillSort.entries.forEach { s ->
+                            DropdownMenuItem(text = { Text(loc(s.labelKey)) }, onClick = { vm.setBillSort(s); sortMenu = false })
+                        }
+                    }
+                }
+            }
+        }
         val onEdit: (OneOffBill) -> Unit = { editBill = it; showSheet = true }
-        billSection(loc(L10nKey.billsStateDueThisMonth), due, vm, onEdit)
-        billSection(loc(L10nKey.billsStateOverdue), overdue, vm, onEdit)
-        billSection(loc(L10nKey.billsStateFuture), future, vm, onEdit)
-        billSection(loc(L10nKey.billsStatusPaid), paid, vm, onEdit)
+        billSection(loc(L10nKey.billsStateDueThisMonth), sort.apply(due), vm, onEdit)
+        billSection(loc(L10nKey.billsStateOverdue), sort.apply(overdue), vm, onEdit)
+        billSection(loc(L10nKey.billsStateFuture), sort.apply(future), vm, onEdit)
+        billSection(loc(L10nKey.billsStatusPaid), sort.apply(paid), vm, onEdit)
     }
 
     if (showSheet) {

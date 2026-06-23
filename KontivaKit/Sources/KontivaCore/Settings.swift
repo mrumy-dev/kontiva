@@ -275,19 +275,45 @@ public enum SavingsSort: String, Codable, Sendable, CaseIterable, Identifiable {
     private func catIndex(_ c: SavingsCategory) -> Int { SavingsCategory.allCases.firstIndex(of: c) ?? 0 }
 }
 
+/// How the Rechnungen list is ordered within each status section.
+public enum BillSort: String, Codable, Sendable, CaseIterable, Identifiable {
+    case dueDate, amount, provider
+    public var id: String { rawValue }
+
+    public var titleKey: L10nKey {
+        switch self {
+        case .dueDate:  return .billsDueDate
+        case .amount:   return .formAmount
+        case .provider: return .billsProvider
+        }
+    }
+
+    /// Order one section's `bills` by this criterion.
+    public func apply(_ bills: [OneOffBill]) -> [OneOffBill] {
+        switch self {
+        case .dueDate:  return bills.sorted { $0.dueDate < $1.dueDate }
+        case .amount:   return bills.sorted { $0.amount.rappen > $1.amount.rappen }
+        case .provider: return bills.sorted { $0.provider.localizedCaseInsensitiveCompare($1.provider) == .orderedAscending }
+        }
+    }
+}
+
 public struct AppSettings: Equatable, Codable, Sendable {
     public var language: AppLanguage
     public var appearance: AppAppearance
     public var accent: AccentTheme
     public var savingsSort: SavingsSort
+    public var billSort: BillSort
 
     // Follows the system appearance by default (fluid light/dark).
     public init(language: AppLanguage = .deCH, appearance: AppAppearance = .system,
-                accent: AccentTheme = .swissRed, savingsSort: SavingsSort = .startMonth) {
+                accent: AccentTheme = .swissRed, savingsSort: SavingsSort = .startMonth,
+                billSort: BillSort = .dueDate) {
         self.language = language
         self.appearance = appearance
         self.accent = accent
         self.savingsSort = savingsSort
+        self.billSort = billSort
     }
 }
 

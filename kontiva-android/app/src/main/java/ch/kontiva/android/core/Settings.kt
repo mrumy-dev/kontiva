@@ -52,6 +52,21 @@ enum class SavingsSort(val labelKey: L10nKey) {
     }
 }
 
+/** How the Rechnungen list is ordered within each status section. 1:1 with iOS `BillSort`. */
+@Serializable
+enum class BillSort(val labelKey: L10nKey) {
+    DUE_DATE(L10nKey.billsDueDate),
+    AMOUNT(L10nKey.formAmount),
+    PROVIDER(L10nKey.billsProvider);
+
+    /** Order one section's [bills] by this criterion. */
+    fun apply(bills: List<OneOffBill>): List<OneOffBill> = when (this) {
+        DUE_DATE -> bills.sortedBy { it.dueDate }
+        AMOUNT -> bills.sortedByDescending { it.amount.rappen }
+        PROVIDER -> bills.sortedBy { it.provider.lowercase() }
+    }
+}
+
 /** Non-secret application settings. */
 @Serializable
 data class AppSettings(
@@ -59,6 +74,7 @@ data class AppSettings(
     val appearance: AppAppearance = AppAppearance.SYSTEM,
     val accent: AccentTheme = AccentTheme.SWISS_RED,
     val savingsSort: SavingsSort = SavingsSort.START_MONTH,
+    val billSort: BillSort = BillSort.DUE_DATE,
 )
 
 /**

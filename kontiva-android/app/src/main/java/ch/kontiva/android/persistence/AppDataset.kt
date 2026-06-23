@@ -45,6 +45,15 @@ data class AppDataset(
     val appSettings: AppSettings = AppSettings(),
     val securitySettings: SecuritySettings = SecuritySettings(),
 ) {
+    /** Item counts for backup metadata / restore preview. */
+    fun counts(): Map<String, Int> = mapOf(
+        "incomes" to incomes.size,
+        "fixedCosts" to fixedCosts.size,
+        "variableBudgets" to variableBudgets.size,
+        "savingsGoals" to savingsGoals.size,
+        "bills" to bills.size,
+    )
+
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1
         val empty get() = AppDataset()

@@ -1,5 +1,7 @@
 package ch.kontiva.android.ui.screen
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -49,10 +51,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.content.Intent
+import android.widget.Toast
+import ch.kontiva.android.export.ReportBuilder
+import java.time.format.DateTimeFormatter
 import ch.kontiva.android.core.AccentTheme
 import ch.kontiva.android.core.AppLanguage
 import ch.kontiva.android.core.AutoLockInterval
@@ -67,9 +74,24 @@ import ch.kontiva.android.ui.theme.color
 fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
+    val context = LocalContext.current
     var showLangPicker by remember { mutableStateOf(false) }
     var showChangePass by remember { mutableStateOf(false) }
     var showDeleteConfirm by remember { mutableStateOf(false) }
+    var showBackupPass by remember { mutableStateOf(false) }
+    var pendingBackupPass by remember { mutableStateOf<String?>(null) }
+    var restoreData by remember { mutableStateOf<ByteArray?>(null) }
+
+    val backupSaver = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
+        val pass = pendingBackupPass
+        pendingBackupPass = null
+        if (uri != null && pass != null) {
+            runCatching { context.contentResolver.openOutputStream(uri)?.use { it.write(vm.makeBackup(pass)) } }
+        }
+    }
+    val restorePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) restoreData = runCatching { context.contentResolver.openInputStream(uri)?.use { it.readBytes() } }.getOrNull()
+    }
     var name by remember(vm.household) { mutableStateOf(vm.household?.name ?: "") }
     var canton by remember(vm.household) { mutableStateOf(vm.household?.canton) }
     var cantonMenu by remember { mutableStateOf(false) }
@@ -148,6 +170,27 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
             }
         }
 
+        // Daten
+        item {
+            SettingsCard(loc(L10nKey.settingsData)) {
+                NavRow(loc(L10nKey.settingsBackup)) { showBackupPass = true }
+                NavRow(loc(L10nKey.settingsRestore)) { restorePicker.launch(arrayOf("*/*")) }
+                NavRow(loc(L10nKey.exportReport)) {
+                    val monthLabel = vm.selectedMonth
+                        .format(DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale))
+                        .replaceFirstChar { it.uppercase() }
+                    val file = ReportBuilder.makePdf(context, vm.dataset, vm.availability, monthLabel, loc)
+                    val uri = ReportBuilder.shareUri(context, file)
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "application/pdf"
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    context.startActivity(Intent.createChooser(intent, "Kontiva"))
+                }
+            }
+        }
+
         // Gefahrenzone
         item {
             SettingsCard(loc(L10nKey.settingsDangerZone)) {
@@ -163,6 +206,25 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     }
 
     if (showChangePass) ChangePassphraseSheet(onDismiss = { showChangePass = false }, onSubmit = { old, new, done -> vm.changePassphrase(old, new) { ok -> if (ok) showChangePass = false; done(ok) } })
+
+    if (showBackupPass) BackupPassphraseSheet(
+        title = loc(L10nKey.settingsBackup),
+        hint = loc(L10nKey.backupHint),
+        onDismiss = { showBackupPass = false },
+        onSubmit = { pass -> pendingBackupPass = pass; showBackupPass = false; backupSaver.launch("kontiva-backup.kontivabackup") },
+    )
+    restoreData?.let { data ->
+        BackupPassphraseSheet(
+            title = loc(L10nKey.settingsRestore),
+            hint = loc(L10nKey.restoreWarning),
+            onDismiss = { restoreData = null },
+            onSubmit = { pass ->
+                val ok = vm.restoreBackup(data, pass)
+                restoreData = null
+                Toast.makeText(context, if (ok) loc(L10nKey.commonSaved) else loc(L10nKey.lockWrongPassphrase), Toast.LENGTH_SHORT).show()
+            },
+        )
+    }
 
     if (showDeleteConfirm) {
         AlertDialog(
@@ -248,6 +310,32 @@ private fun ChangePassphraseSheet(onDismiss: () -> Unit, onSubmit: (String, Stri
                 enabled = old.length >= 4 && new.length >= 6,
                 modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(KontivaTheme.radiusControl),
+                colors = ButtonDefaults.buttonColors(containerColor = KontivaTheme.accent, contentColor = Color.White),
+            ) { Text(loc(L10nKey.commonSave), fontWeight = FontWeight.SemiBold) }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun BackupPassphraseSheet(title: String, hint: String, onDismiss: () -> Unit, onSubmit: (String) -> Unit) {
+    val loc = LocalLocalizer.current
+    val colors = KontivaTheme.colors
+    var pass by remember { mutableStateOf("") }
+    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = colors.cardSurface, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
+        Column(
+            Modifier.padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding(),
+            verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
+        ) {
+            Text(title, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+            Text(hint, fontSize = 12.sp, color = colors.textTertiary)
+            OutlinedTextField(
+                pass, { pass = it }, label = { Text(loc(L10nKey.backupPassphrase)) }, singleLine = true,
+                visualTransformation = PasswordVisualTransformation(), modifier = Modifier.fillMaxWidth(),
+            )
+            Button(
+                onClick = { if (pass.length >= 6) onSubmit(pass) }, enabled = pass.length >= 6,
+                modifier = Modifier.fillMaxWidth().height(52.dp), shape = RoundedCornerShape(KontivaTheme.radiusControl),
                 colors = ButtonDefaults.buttonColors(containerColor = KontivaTheme.accent, contentColor = Color.White),
             ) { Text(loc(L10nKey.commonSave), fontWeight = FontWeight.SemiBold) }
         }

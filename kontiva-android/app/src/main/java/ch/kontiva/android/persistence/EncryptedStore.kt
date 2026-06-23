@@ -3,6 +3,7 @@ package ch.kontiva.android.persistence
 import ch.kontiva.android.security.Crypto
 import ch.kontiva.android.security.KeyVault
 import ch.kontiva.android.security.WrappedKeyMaterial
+import ch.kontiva.android.security.WrongPassphraseException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -88,6 +89,64 @@ class EncryptedStore(private val loc: StoreLocation) {
         loc.keystore.delete()
     }
 
+    // Portable encrypted backup (separate backup passphrase) ------------------
+
+    /** Produce a `.kontivabackup` blob protected by a separate backup passphrase. */
+    fun makeBackup(backupPassphrase: String, appVersion: String): ByteArray {
+        val dataset = current ?: throw StoreLockedException()
+        val payload = BackupPayload(AppDataset.CURRENT_SCHEMA_VERSION, dataset)
+        val plaintext = json.encodeToString(payload).toByteArray(Charsets.UTF_8)
+        val salt = Crypto.randomBytes(32)
+        val iterations = KeyVault.DEFAULT_ITERATIONS
+        val backupKey = Crypto.pbkdf2Sha256(Crypto.normalizedPasswordBytes(backupPassphrase), salt, iterations, 32)
+        val sealed = Crypto.seal(plaintext, backupKey)
+        val container = BackupContainer(
+            BACKUP_FORMAT, KeyVault.KDF_ID, KeyVault.CIPHER_ID, salt.b64(), iterations,
+            System.currentTimeMillis(), appVersion, dataset.counts(), sealed.b64(),
+        )
+        return json.encodeToString(container).toByteArray(Charsets.UTF_8)
+    }
+
+    /** Validate a backup and preview its contents without changing local data. */
+    fun previewBackup(data: ByteArray, backupPassphrase: String): BackupPreview {
+        val container = decodeContainer(data)
+        openPayload(container, backupPassphrase) // validates the passphrase
+        return BackupPreview(container.createdAt, container.appVersion, container.counts)
+    }
+
+    /** Guarded restore: replace ALL local data with the backup contents. */
+    fun restoreBackup(data: ByteArray, backupPassphrase: String) {
+        val key = masterKey ?: throw StoreLockedException()
+        val container = decodeContainer(data)
+        val payload = openPayload(container, backupPassphrase)
+        writeDataset(payload.dataset, key)
+        current = payload.dataset
+    }
+
+    private fun decodeContainer(data: ByteArray): BackupContainer {
+        val c = try {
+            json.decodeFromString<BackupContainer>(String(data, Charsets.UTF_8))
+        } catch (_: Exception) {
+            throw CorruptVaultException()
+        }
+        if (c.format != BACKUP_FORMAT) throw CorruptVaultException()
+        return c
+    }
+
+    private fun openPayload(container: BackupContainer, passphrase: String): BackupPayload {
+        val backupKey = Crypto.pbkdf2Sha256(Crypto.normalizedPasswordBytes(passphrase), container.salt.unb64(), container.iterations, 32)
+        val plaintext = try {
+            Crypto.open(container.sealed.unb64(), backupKey)
+        } catch (_: Exception) {
+            throw WrongPassphraseException()
+        }
+        return try {
+            json.decodeFromString<BackupPayload>(String(plaintext, Charsets.UTF_8))
+        } catch (_: Exception) {
+            throw CorruptVaultException()
+        }
+    }
+
     // I/O ---------------------------------------------------------------------
 
     private fun readKeystore(): WrappedKeyMaterial =
@@ -117,3 +176,26 @@ class EncryptedStore(private val loc: StoreLocation) {
         }
     }
 }
+
+private const val BACKUP_FORMAT = "kontiva.backup.v1"
+
+@kotlinx.serialization.Serializable
+data class BackupPayload(val schemaVersion: Int, val dataset: AppDataset)
+
+@kotlinx.serialization.Serializable
+data class BackupContainer(
+    val format: String,
+    val kdf: String,
+    val cipher: String,
+    val salt: String,
+    val iterations: Int,
+    val createdAt: Long,
+    val appVersion: String,
+    val counts: Map<String, Int>,
+    val sealed: String,
+)
+
+data class BackupPreview(val createdAt: Long, val appVersion: String, val counts: Map<String, Int>)
+
+private fun ByteArray.b64(): String = java.util.Base64.getEncoder().encodeToString(this)
+private fun String.unb64(): ByteArray = java.util.Base64.getDecoder().decode(this)

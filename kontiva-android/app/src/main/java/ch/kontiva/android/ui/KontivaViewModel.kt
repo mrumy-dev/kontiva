@@ -141,6 +141,19 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         phase = AppPhase.ONBOARDING
     }
 
+    /** Encrypted backup blob under a separate backup passphrase. */
+    fun makeBackup(passphrase: String): ByteArray = store.makeBackup(passphrase, "0.0.1")
+
+    /** Restore from a backup blob; returns false on a wrong passphrase / corrupt file. */
+    fun restoreBackup(data: ByteArray, passphrase: String): Boolean = try {
+        store.restoreBackup(data, passphrase)
+        dataset = store.snapshot()
+        household = dataset.household
+        true
+    } catch (_: Exception) {
+        false
+    }
+
     /** Finish onboarding: create the encrypted vault, store profile + settings, unlock. */
     fun completeSetup(passphrase: String, name: String, avatar: String?) {
         if (busy) return

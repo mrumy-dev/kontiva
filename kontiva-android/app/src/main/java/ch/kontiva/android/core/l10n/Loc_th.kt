@@ -22,6 +22,8 @@ internal val LOC_th: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "ตั้งแต่",
     L10nKey.sparenOpenEnded to "ไม่มียอดเป้าหมาย",
     L10nKey.sparenGoalsLabel to "เป้าหมาย",
+    L10nKey.sparenSortBy to "เรียงลำดับ",
+    L10nKey.sparenSortStartMonth to "เดือนเริ่มต้น",
     L10nKey.savingsCatCar to "รถยนต์",
     L10nKey.savingsCatVacation to "วันหยุดพักผ่อน",
     L10nKey.savingsCatHome to "ที่อยู่อาศัย",

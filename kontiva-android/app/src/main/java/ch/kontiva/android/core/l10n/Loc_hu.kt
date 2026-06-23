@@ -22,6 +22,8 @@ internal val LOC_hu: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "óta",
     L10nKey.sparenOpenEnded to "Nincs célösszeg",
     L10nKey.sparenGoalsLabel to "Célok",
+    L10nKey.sparenSortBy to "Rendezés",
+    L10nKey.sparenSortStartMonth to "Kezdő hónap",
     L10nKey.savingsCatCar to "Autó",
     L10nKey.savingsCatVacation to "Nyaralás",
     L10nKey.savingsCatHome to "Lakhatás",

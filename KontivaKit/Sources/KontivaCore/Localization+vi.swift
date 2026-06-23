@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "từ",
         .sparenOpenEnded: "Không có số mục tiêu",
         .sparenGoalsLabel: "Mục tiêu",
+        .sparenSortBy: "Sắp xếp",
+        .sparenSortStartMonth: "Tháng bắt đầu",
         .savingsCatCar: "Xe hơi",
         .savingsCatVacation: "Kỳ nghỉ",
         .savingsCatHome: "Nhà ở",

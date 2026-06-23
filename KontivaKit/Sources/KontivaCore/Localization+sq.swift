@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "që nga",
         .sparenOpenEnded: "Pa shumë të synuar",
         .sparenGoalsLabel: "Qëllimet",
+        .sparenSortBy: "Rendit",
+        .sparenSortStartMonth: "Muaji i fillimit",
         .savingsCatCar: "Makinë",
         .savingsCatVacation: "Pushime",
         .savingsCatHome: "Banesë",

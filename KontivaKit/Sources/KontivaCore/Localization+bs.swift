@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "od",
         .sparenOpenEnded: "Bez ciljnog iznosa",
         .sparenGoalsLabel: "Ciljevi",
+        .sparenSortBy: "Sortiraj",
+        .sparenSortStartMonth: "Početni mjesec",
         .savingsCatCar: "Automobil",
         .savingsCatVacation: "Odmor",
         .savingsCatHome: "Stanovanje",

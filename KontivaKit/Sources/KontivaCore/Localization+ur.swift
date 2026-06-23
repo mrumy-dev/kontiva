@@ -23,6 +23,8 @@ extension Localization {
         .sparenSince: "سے",
         .sparenOpenEnded: "کوئی ہدف رقم نہیں",
         .sparenGoalsLabel: "اہداف",
+        .sparenSortBy: "ترتیب دیں",
+        .sparenSortStartMonth: "آغاز کا مہینہ",
         .savingsCatCar: "گاڑی",
         .savingsCatVacation: "تعطیلات",
         .savingsCatHome: "رہائش",

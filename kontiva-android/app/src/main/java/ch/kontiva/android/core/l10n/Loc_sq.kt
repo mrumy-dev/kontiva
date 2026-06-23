@@ -22,6 +22,8 @@ internal val LOC_sq: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "që nga",
     L10nKey.sparenOpenEnded to "Pa shumë të synuar",
     L10nKey.sparenGoalsLabel to "Qëllimet",
+    L10nKey.sparenSortBy to "Rendit",
+    L10nKey.sparenSortStartMonth to "Muaji i fillimit",
     L10nKey.savingsCatCar to "Makinë",
     L10nKey.savingsCatVacation to "Pushime",
     L10nKey.savingsCatHome to "Banesë",

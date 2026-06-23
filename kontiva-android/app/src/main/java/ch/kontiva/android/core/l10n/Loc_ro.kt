@@ -22,6 +22,8 @@ internal val LOC_ro: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "din",
     L10nKey.sparenOpenEnded to "Fără sumă-țintă",
     L10nKey.sparenGoalsLabel to "Obiective",
+    L10nKey.sparenSortBy to "Sortează",
+    L10nKey.sparenSortStartMonth to "Luna de început",
     L10nKey.savingsCatCar to "Mașină",
     L10nKey.savingsCatVacation to "Vacanță",
     L10nKey.savingsCatHome to "Locuință",

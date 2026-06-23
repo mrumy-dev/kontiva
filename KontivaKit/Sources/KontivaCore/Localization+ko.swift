@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "부터",
         .sparenOpenEnded: "목표 금액 없음",
         .sparenGoalsLabel: "목표",
+        .sparenSortBy: "정렬",
+        .sparenSortStartMonth: "시작 월",
         .savingsCatCar: "자동차",
         .savingsCatVacation: "휴가",
         .savingsCatHome: "주거",

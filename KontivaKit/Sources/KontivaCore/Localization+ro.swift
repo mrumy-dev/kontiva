@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "din",
         .sparenOpenEnded: "Fără sumă-țintă",
         .sparenGoalsLabel: "Obiective",
+        .sparenSortBy: "Sortează",
+        .sparenSortStartMonth: "Luna de început",
         .savingsCatCar: "Mașină",
         .savingsCatVacation: "Vacanță",
         .savingsCatHome: "Locuință",

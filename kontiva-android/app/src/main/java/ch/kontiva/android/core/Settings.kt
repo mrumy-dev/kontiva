@@ -33,12 +33,32 @@ enum class AutoLockInterval(val seconds: Long?, val displayLabel: String) {
     NEVER(null, "—"),
 }
 
+/** How the Sparen list is ordered. 1:1 with iOS `SavingsSort`. */
+@Serializable
+enum class SavingsSort(val labelKey: L10nKey) {
+    START_MONTH(L10nKey.sparenSortStartMonth),
+    MONTHLY(L10nKey.formMonthlyContribution),
+    ACCUMULATED(L10nKey.sparenAccumulatedTotal),
+    CATEGORY(L10nKey.formCategory),
+    NAME(L10nKey.formName);
+
+    /** Order [goals] by this criterion (accumulated is as-of [month]). */
+    fun apply(goals: List<SavingsGoal>, month: java.time.LocalDate): List<SavingsGoal> = when (this) {
+        START_MONTH -> goals.sortedBy { it.startDate }
+        MONTHLY -> goals.sortedByDescending { it.monthlyContribution?.rappen ?: 0L }
+        ACCUMULATED -> goals.sortedByDescending { it.accumulated(month).rappen }
+        CATEGORY -> goals.sortedBy { it.category.ordinal }
+        NAME -> goals.sortedBy { it.name.lowercase() }
+    }
+}
+
 /** Non-secret application settings. */
 @Serializable
 data class AppSettings(
     val language: AppLanguage = AppLanguage.deCH,
     val appearance: AppAppearance = AppAppearance.SYSTEM,
     val accent: AccentTheme = AccentTheme.SWISS_RED,
+    val savingsSort: SavingsSort = SavingsSort.START_MONTH,
 )
 
 /**

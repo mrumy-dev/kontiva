@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "sinds",
         .sparenOpenEnded: "Geen streefbedrag",
         .sparenGoalsLabel: "Doelen",
+        .sparenSortBy: "Sorteren",
+        .sparenSortStartMonth: "Startmaand",
         .savingsCatCar: "Auto",
         .savingsCatVacation: "Vakantie",
         .savingsCatHome: "Woning",

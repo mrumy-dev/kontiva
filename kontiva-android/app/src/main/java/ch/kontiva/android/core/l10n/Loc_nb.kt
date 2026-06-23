@@ -22,6 +22,8 @@ internal val LOC_nb: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "siden",
     L10nKey.sparenOpenEnded to "Ingen målsum",
     L10nKey.sparenGoalsLabel to "Mål",
+    L10nKey.sparenSortBy to "Sorter",
+    L10nKey.sparenSortStartMonth to "Startmåned",
     L10nKey.savingsCatCar to "Bil",
     L10nKey.savingsCatVacation to "Ferie",
     L10nKey.savingsCatHome to "Bolig",

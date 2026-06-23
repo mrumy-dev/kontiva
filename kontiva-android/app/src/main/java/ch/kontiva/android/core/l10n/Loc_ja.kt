@@ -22,6 +22,8 @@ internal val LOC_ja: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "開始",
     L10nKey.sparenOpenEnded to "目標金額なし",
     L10nKey.sparenGoalsLabel to "目標",
+    L10nKey.sparenSortBy to "並び替え",
+    L10nKey.sparenSortStartMonth to "開始月",
     L10nKey.savingsCatCar to "車",
     L10nKey.savingsCatVacation to "休暇",
     L10nKey.savingsCatHome to "住まい",

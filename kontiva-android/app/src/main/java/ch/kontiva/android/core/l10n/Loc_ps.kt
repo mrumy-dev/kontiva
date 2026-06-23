@@ -22,6 +22,8 @@ internal val LOC_ps: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "له",
     L10nKey.sparenOpenEnded to "د موخې مبلغ نشته",
     L10nKey.sparenGoalsLabel to "موخې",
+    L10nKey.sparenSortBy to "ترتیب",
+    L10nKey.sparenSortStartMonth to "د پیل میاشت",
     L10nKey.savingsCatCar to "موټر",
     L10nKey.savingsCatVacation to "رخصتي",
     L10nKey.savingsCatHome to "استوګنه",

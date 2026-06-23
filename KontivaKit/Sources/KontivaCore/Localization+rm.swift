@@ -25,6 +25,8 @@ extension Localization {
         .sparenSince: "dapi",
         .sparenOpenEnded: "Senza summa finala",
         .sparenGoalsLabel: "Finamiras",
+        .sparenSortBy: "Zavrar",
+        .sparenSortStartMonth: "Mais da partenza",
         .savingsCatCar: "Auto",
         .savingsCatVacation: "Vacanzas",
         .savingsCatHome: "Abitar",

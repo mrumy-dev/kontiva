@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "alkaen",
         .sparenOpenEnded: "Ei tavoitesummaa",
         .sparenGoalsLabel: "Tavoitteet",
+        .sparenSortBy: "Lajittele",
+        .sparenSortStartMonth: "Aloituskuukausi",
         .savingsCatCar: "Auto",
         .savingsCatVacation: "Loma",
         .savingsCatHome: "Asunto",

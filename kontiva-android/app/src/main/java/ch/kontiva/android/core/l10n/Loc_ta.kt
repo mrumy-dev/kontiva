@@ -22,6 +22,8 @@ internal val LOC_ta: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "முதல்",
     L10nKey.sparenOpenEnded to "இலக்குத் தொகை இல்லை",
     L10nKey.sparenGoalsLabel to "இலக்குகள்",
+    L10nKey.sparenSortBy to "வரிசைப்படுத்து",
+    L10nKey.sparenSortStartMonth to "தொடக்க மாதம்",
     L10nKey.savingsCatCar to "கார்",
     L10nKey.savingsCatVacation to "விடுமுறை",
     L10nKey.savingsCatHome to "வீடு",

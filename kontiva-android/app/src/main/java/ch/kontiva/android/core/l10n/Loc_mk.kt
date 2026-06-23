@@ -22,6 +22,8 @@ internal val LOC_mk: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "од",
     L10nKey.sparenOpenEnded to "Без целен износ",
     L10nKey.sparenGoalsLabel to "Цели",
+    L10nKey.sparenSortBy to "Подреди",
+    L10nKey.sparenSortStartMonth to "Почетен месец",
     L10nKey.savingsCatCar to "Автомобил",
     L10nKey.savingsCatVacation to "Одмор",
     L10nKey.savingsCatHome to "Домување",

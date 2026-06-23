@@ -22,6 +22,8 @@ internal val LOC_zhHans: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "自",
     L10nKey.sparenOpenEnded to "无目标金额",
     L10nKey.sparenGoalsLabel to "目标",
+    L10nKey.sparenSortBy to "排序",
+    L10nKey.sparenSortStartMonth to "起始月份",
     L10nKey.savingsCatCar to "汽车",
     L10nKey.savingsCatVacation to "度假",
     L10nKey.savingsCatHome to "住房",

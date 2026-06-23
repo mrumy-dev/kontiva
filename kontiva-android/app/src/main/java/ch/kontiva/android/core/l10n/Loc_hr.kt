@@ -22,6 +22,8 @@ internal val LOC_hr: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "od",
     L10nKey.sparenOpenEnded to "Bez ciljnog iznosa",
     L10nKey.sparenGoalsLabel to "Ciljevi",
+    L10nKey.sparenSortBy to "Razvrstaj",
+    L10nKey.sparenSortStartMonth to "Početni mjesec",
     L10nKey.savingsCatCar to "Automobil",
     L10nKey.savingsCatVacation to "Odmor",
     L10nKey.savingsCatHome to "Stanovanje",

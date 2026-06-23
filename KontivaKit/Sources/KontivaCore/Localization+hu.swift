@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "óta",
         .sparenOpenEnded: "Nincs célösszeg",
         .sparenGoalsLabel: "Célok",
+        .sparenSortBy: "Rendezés",
+        .sparenSortStartMonth: "Kezdő hónap",
         .savingsCatCar: "Autó",
         .savingsCatVacation: "Nyaralás",
         .savingsCatHome: "Lakhatás",

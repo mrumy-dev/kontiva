@@ -32,6 +32,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
@@ -57,8 +58,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.Money
+import java.time.format.DateTimeFormatter
 import ch.kontiva.android.core.SavingsCategory
 import ch.kontiva.android.core.SavingsGoal
+import ch.kontiva.android.core.SavingsSort
 import ch.kontiva.android.core.total
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
@@ -70,9 +73,10 @@ import ch.kontiva.android.ui.theme.icon
 fun SavingsScreen(vm: KontivaViewModel) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
-    val goals = vm.dataset.savingsGoals
+    val goals = vm.settings.savingsSort.apply(vm.dataset.savingsGoals, vm.selectedMonth)
     var showSheet by remember { mutableStateOf(false) }
     var editGoal by remember { mutableStateOf<SavingsGoal?>(null) }
+    var sortMenu by remember { mutableStateOf(false) }
 
     LazyColumn(
         Modifier.fillMaxSize(),
@@ -112,6 +116,23 @@ fun SavingsScreen(vm: KontivaViewModel) {
                 }
             }
         }
+        item {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+                Text(loc(L10nKey.sparenSortBy), fontSize = 12.sp, color = colors.textTertiary)
+                Spacer(Modifier.size(KontivaTheme.spaceXs))
+                Box(Modifier.clip(RoundedCornerShape(KontivaTheme.radiusControl)).clickable { sortMenu = true }.padding(horizontal = KontivaTheme.spaceSm, vertical = 4.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(loc(vm.settings.savingsSort.labelKey), fontSize = 13.sp, color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                        Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = KontivaTheme.accent)
+                    }
+                    DropdownMenu(expanded = sortMenu, onDismissRequest = { sortMenu = false }) {
+                        SavingsSort.entries.forEach { s ->
+                            DropdownMenuItem(text = { Text(loc(s.labelKey)) }, onClick = { vm.setSavingsSort(s); sortMenu = false })
+                        }
+                    }
+                }
+            }
+        }
         for (g in goals) {
             item { GoalCard(g, vm.selectedMonth, onClick = { editGoal = g; showSheet = true }, onDelete = { vm.deleteSavingsGoal(g.id) }) }
         }
@@ -141,30 +162,54 @@ fun SavingsScreen(vm: KontivaViewModel) {
 private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> Unit, onDelete: () -> Unit) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
+    val accumulated = g.accumulated(month)
+    val months = g.monthsContributed(month)
+    val monthFmt = DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale)
     Surface(
         shape = RoundedCornerShape(KontivaTheme.radiusCard),
         color = colors.cardSurface,
         modifier = Modifier.fillMaxWidth().combinedClickable(onClick = onClick, onLongClick = onDelete),
     ) {
-        Row(Modifier.padding(KontivaTheme.spaceMd), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(38.dp).clip(CircleShape).background(KontivaTheme.accent.copy(alpha = 0.12f)), contentAlignment = Alignment.Center) {
-                Icon(g.category.icon(), contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp))
+        Column(Modifier.padding(KontivaTheme.spaceMd), verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd)) {
+            // Header: icon, name + category, monthly contribution.
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(38.dp).clip(CircleShape).background(KontivaTheme.accent.copy(alpha = 0.12f)), contentAlignment = Alignment.Center) {
+                    Icon(g.category.icon(), contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp))
+                }
+                Spacer(Modifier.size(KontivaTheme.spaceSm))
+                Column(Modifier.weight(1f)) {
+                    Text(g.name, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                    Text(loc(g.category.labelKey), fontSize = 12.sp, color = colors.textTertiary)
+                }
+                Spacer(Modifier.size(KontivaTheme.spaceSm))
+                Column(horizontalAlignment = Alignment.End) {
+                    Text((g.monthlyContribution ?: Money.zero).formattedCHF(), fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                    Text(loc(L10nKey.sparenPerMonth), fontSize = 10.sp, color = colors.textTertiary)
+                }
             }
-            Spacer(Modifier.size(KontivaTheme.spaceSm))
-            Column(Modifier.weight(1f)) {
-                Text(g.name, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
-                val sub = buildString {
-                    g.monthlyContribution?.let { append(it.formattedCHF()).append(" ").append(loc(L10nKey.sparenPerMonth)) }
+            HorizontalDivider(color = colors.softBorder.copy(alpha = 0.4f))
+            // Accumulated balance (shown for every goal, target or not) + progress ring.
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(loc(L10nKey.sparenAccumulatedTotal), fontSize = 11.sp, color = colors.textSecondary)
+                    Text(
+                        "$months ${loc(L10nKey.sparenContributions)} · ${loc(L10nKey.sparenSince)} ${g.startDate.format(monthFmt).replaceFirstChar { it.uppercase() }}",
+                        fontSize = 10.sp, color = colors.textTertiary,
+                    )
+                }
+                Spacer(Modifier.size(KontivaTheme.spaceSm))
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(accumulated.formattedCHF(), fontSize = 16.sp, fontWeight = FontWeight.Bold, color = colors.positive)
                     if (g.hasTarget) {
-                        if (isNotEmpty()) append("  ·  ")
-                        append(g.accumulated(month).formattedCHF()).append(" / ").append(g.target.formattedCHF())
+                        Text("${loc(L10nKey.formTarget)}: ${g.target.formattedCHF()}", fontSize = 10.sp, color = colors.textTertiary)
+                    } else {
+                        Text(loc(L10nKey.sparenOpenEnded), fontSize = 10.sp, color = colors.textTertiary)
                     }
                 }
-                if (sub.isNotEmpty()) Text(sub, fontSize = 12.sp, color = colors.textTertiary)
-            }
-            if (g.hasTarget) {
-                Spacer(Modifier.size(KontivaTheme.spaceSm))
-                ProgressRing(g.progressPercent(month))
+                if (g.hasTarget) {
+                    Spacer(Modifier.size(KontivaTheme.spaceSm))
+                    ProgressRing(g.progressPercent(month))
+                }
             }
         }
     }

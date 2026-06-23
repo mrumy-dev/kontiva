@@ -22,6 +22,8 @@ internal val LOC_ur: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "سے",
     L10nKey.sparenOpenEnded to "کوئی ہدف رقم نہیں",
     L10nKey.sparenGoalsLabel to "اہداف",
+    L10nKey.sparenSortBy to "ترتیب دیں",
+    L10nKey.sparenSortStartMonth to "آغاز کا مہینہ",
     L10nKey.savingsCatCar to "گاڑی",
     L10nKey.savingsCatVacation to "تعطیلات",
     L10nKey.savingsCatHome to "رہائش",

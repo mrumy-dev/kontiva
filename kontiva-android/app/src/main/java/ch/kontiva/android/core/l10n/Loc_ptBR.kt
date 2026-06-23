@@ -22,6 +22,8 @@ internal val LOC_ptBR: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "desde",
     L10nKey.sparenOpenEnded to "Sem valor-alvo",
     L10nKey.sparenGoalsLabel to "Metas",
+    L10nKey.sparenSortBy to "Ordenar",
+    L10nKey.sparenSortStartMonth to "Mês de início",
     L10nKey.savingsCatCar to "Carro",
     L10nKey.savingsCatVacation to "Férias",
     L10nKey.savingsCatHome to "Casa",

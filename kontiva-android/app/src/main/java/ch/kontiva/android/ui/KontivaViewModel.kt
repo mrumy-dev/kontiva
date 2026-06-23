@@ -25,6 +25,7 @@ import ch.kontiva.android.core.OneOffBill
 import ch.kontiva.android.core.RecurringFixedExpense
 import ch.kontiva.android.core.SavingsCategory
 import ch.kontiva.android.core.SavingsGoal
+import ch.kontiva.android.core.SavingsSort
 import ch.kontiva.android.core.SettingsStore
 import ch.kontiva.android.core.ThirteenthSalaryModel
 import ch.kontiva.android.core.VariableBudgetCategory
@@ -115,6 +116,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setLanguage(language: AppLanguage) = applySettings(settings.copy(language = language))
     fun setAccent(accent: AccentTheme) = applySettings(settings.copy(accent = accent))
+    fun setSavingsSort(sort: SavingsSort) = applySettings(settings.copy(savingsSort = sort))
 
     private fun applySettings(updated: AppSettings) {
         settings = updated

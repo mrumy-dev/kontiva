@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "од",
         .sparenOpenEnded: "Без целен износ",
         .sparenGoalsLabel: "Цели",
+        .sparenSortBy: "Подреди",
+        .sparenSortStartMonth: "Почетен месец",
         .savingsCatCar: "Автомобил",
         .savingsCatVacation: "Одмор",
         .savingsCatHome: "Домување",

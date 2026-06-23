@@ -22,6 +22,8 @@ internal val LOC_vi: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "từ",
     L10nKey.sparenOpenEnded to "Không có số mục tiêu",
     L10nKey.sparenGoalsLabel to "Mục tiêu",
+    L10nKey.sparenSortBy to "Sắp xếp",
+    L10nKey.sparenSortStartMonth to "Tháng bắt đầu",
     L10nKey.savingsCatCar to "Xe hơi",
     L10nKey.savingsCatVacation to "Kỳ nghỉ",
     L10nKey.savingsCatHome to "Nhà ở",

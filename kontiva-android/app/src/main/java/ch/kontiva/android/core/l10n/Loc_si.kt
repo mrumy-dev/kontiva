@@ -22,6 +22,8 @@ internal val LOC_si: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "සිට",
     L10nKey.sparenOpenEnded to "ඉලක්ක මුදලක් නැත",
     L10nKey.sparenGoalsLabel to "ඉලක්ක",
+    L10nKey.sparenSortBy to "අනුපිළිවෙල",
+    L10nKey.sparenSortStartMonth to "ආරම්භක මාසය",
     L10nKey.savingsCatCar to "මෝටර් රථය",
     L10nKey.savingsCatVacation to "නිවාඩුව",
     L10nKey.savingsCatHome to "නිවාස",

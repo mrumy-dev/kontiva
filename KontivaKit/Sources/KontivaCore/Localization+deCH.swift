@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "seit",
         .sparenOpenEnded: "Ohne Zielbetrag",
         .sparenGoalsLabel: "Sparziele",
+        .sparenSortBy: "Sortieren",
+        .sparenSortStartMonth: "Startmonat",
         .savingsCatCar: "Auto",
         .savingsCatVacation: "Ferien",
         .savingsCatHome: "Eigenheim",

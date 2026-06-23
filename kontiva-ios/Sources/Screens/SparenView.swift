@@ -27,8 +27,8 @@ struct SparenView: View {
                     ScreenScroll {
                         MonthSelector().frame(maxWidth: .infinity, alignment: .center)
                         summaryCard
-                        ForEach(Array(model.savingsGoals.enumerated()), id: \.element.id) { idx, goal in
-                            goalCard(goal, at: idx)
+                        ForEach(model.sortedSavingsGoals) { goal in
+                            goalCard(goal)
                         }
                     }
                     .animation(.snappy, value: model.dataset)
@@ -38,6 +38,18 @@ struct SparenView: View {
             .navigationTitle(loc(.navSparen))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                if !model.savingsGoals.isEmpty {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Menu {
+                            Picker(loc(.sparenSortBy), selection: Binding(
+                                get: { model.settings.savingsSort },
+                                set: { model.setSavingsSort($0) })) {
+                                ForEach(SavingsSort.allCases) { Text(loc($0.titleKey)).tag($0) }
+                            }
+                        } label: { Image(systemName: "arrow.up.arrow.down") }
+                            .tint(KontivaTheme.accent)
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button { editing = SheetBox(goal: nil) } label: { Image(systemName: "plus") }
                         .tint(KontivaTheme.accent)
@@ -75,7 +87,7 @@ struct SparenView: View {
         }
     }
 
-    private func goalCard(_ goal: SavingsGoal, at idx: Int) -> some View {
+    private func goalCard(_ goal: SavingsGoal) -> some View {
         let accumulated = goal.accumulated(asOf: month)
         let months = goal.monthsContributed(asOf: month)
         return KontivaCard {
@@ -124,16 +136,6 @@ struct SparenView: View {
         .onTapGesture { editing = SheetBox(goal: goal) }
         .contextMenu {
             Button(loc(.commonEdit), systemImage: "pencil") { editing = SheetBox(goal: goal) }
-            if idx > 0 {
-                Button(loc(.commonMoveUp), systemImage: "arrow.up") {
-                    Task { await model.moveSavingsGoals(from: IndexSet(integer: idx), to: idx - 1) }
-                }
-            }
-            if idx < model.savingsGoals.count - 1 {
-                Button(loc(.commonMoveDown), systemImage: "arrow.down") {
-                    Task { await model.moveSavingsGoals(from: IndexSet(integer: idx), to: idx + 2) }
-                }
-            }
             Button(loc(.commonDelete), systemImage: "trash", role: .destructive) {
                 Task { await model.deleteSavingsGoal(goal.id) }
             }

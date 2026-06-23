@@ -22,6 +22,8 @@ internal val LOC_fi: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "alkaen",
     L10nKey.sparenOpenEnded to "Ei tavoitesummaa",
     L10nKey.sparenGoalsLabel to "Tavoitteet",
+    L10nKey.sparenSortBy to "Lajittele",
+    L10nKey.sparenSortStartMonth to "Aloituskuukausi",
     L10nKey.savingsCatCar to "Auto",
     L10nKey.savingsCatVacation to "Loma",
     L10nKey.savingsCatHome to "Asunto",

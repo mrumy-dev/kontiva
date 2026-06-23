@@ -22,6 +22,8 @@ internal val LOC_rm: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "dapi",
     L10nKey.sparenOpenEnded to "Senza summa finala",
     L10nKey.sparenGoalsLabel to "Finamiras",
+    L10nKey.sparenSortBy to "Zavrar",
+    L10nKey.sparenSortStartMonth to "Mais da partenza",
     L10nKey.savingsCatCar to "Auto",
     L10nKey.savingsCatVacation to "Vacanzas",
     L10nKey.savingsCatHome to "Abitar",

@@ -22,6 +22,8 @@ internal val LOC_itCH: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "da",
     L10nKey.sparenOpenEnded to "Senza importo obiettivo",
     L10nKey.sparenGoalsLabel to "Obiettivi",
+    L10nKey.sparenSortBy to "Ordina",
+    L10nKey.sparenSortStartMonth to "Mese d'inizio",
     L10nKey.savingsCatCar to "Auto",
     L10nKey.savingsCatVacation to "Vacanze",
     L10nKey.savingsCatHome to "Abitazione",

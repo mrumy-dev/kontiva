@@ -23,6 +23,8 @@ enum class L10nKey {
     sparenSince,
     sparenOpenEnded,
     sparenGoalsLabel,
+    sparenSortBy,
+    sparenSortStartMonth,
     savingsCatCar,
     savingsCatVacation,
     savingsCatHome,

@@ -29,6 +29,8 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case sparenSince
     case sparenOpenEnded
     case sparenGoalsLabel
+    case sparenSortBy
+    case sparenSortStartMonth
     case savingsCatCar
     case savingsCatVacation
     case savingsCatHome

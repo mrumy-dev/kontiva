@@ -24,6 +24,8 @@ extension Localization {
         .sparenSince: "منذ",
         .sparenOpenEnded: "بدون مبلغ مستهدف",
         .sparenGoalsLabel: "الأهداف",
+        .sparenSortBy: "ترتيب",
+        .sparenSortStartMonth: "شهر البدء",
         .savingsCatCar: "سيارة",
         .savingsCatVacation: "إجازة",
         .savingsCatHome: "السكن",

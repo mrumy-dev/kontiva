@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "自",
         .sparenOpenEnded: "无目标金额",
         .sparenGoalsLabel: "目标",
+        .sparenSortBy: "排序",
+        .sparenSortStartMonth: "起始月份",
         .savingsCatCar: "汽车",
         .savingsCatVacation: "度假",
         .savingsCatHome: "住房",

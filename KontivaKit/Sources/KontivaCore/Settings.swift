@@ -246,17 +246,48 @@ public enum AccentTheme: String, Codable, Sendable, CaseIterable, Identifiable {
 }
 
 /// Non-secret application settings.
+/// How the Sparen list is ordered. Label keys reuse existing strings where they fit.
+public enum SavingsSort: String, Codable, Sendable, CaseIterable, Identifiable {
+    case startMonth, monthly, accumulated, category, name
+    public var id: String { rawValue }
+
+    public var titleKey: L10nKey {
+        switch self {
+        case .startMonth:  return .sparenSortStartMonth
+        case .monthly:     return .formMonthlyContribution
+        case .accumulated: return .sparenAccumulatedTotal
+        case .category:    return .formCategory
+        case .name:        return .formName
+        }
+    }
+
+    /// Order `goals` by this criterion (accumulated is as-of `month`).
+    public func apply(_ goals: [SavingsGoal], asOf month: Date) -> [SavingsGoal] {
+        switch self {
+        case .startMonth:  return goals.sorted { $0.startDate < $1.startDate }
+        case .monthly:     return goals.sorted { ($0.monthlyContribution ?? .zero).rappen > ($1.monthlyContribution ?? .zero).rappen }
+        case .accumulated: return goals.sorted { $0.accumulated(asOf: month).rappen > $1.accumulated(asOf: month).rappen }
+        case .category:    return goals.sorted { catIndex($0.category) < catIndex($1.category) }
+        case .name:        return goals.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        }
+    }
+
+    private func catIndex(_ c: SavingsCategory) -> Int { SavingsCategory.allCases.firstIndex(of: c) ?? 0 }
+}
+
 public struct AppSettings: Equatable, Codable, Sendable {
     public var language: AppLanguage
     public var appearance: AppAppearance
     public var accent: AccentTheme
+    public var savingsSort: SavingsSort
 
     // Follows the system appearance by default (fluid light/dark).
     public init(language: AppLanguage = .deCH, appearance: AppAppearance = .system,
-                accent: AccentTheme = .swissRed) {
+                accent: AccentTheme = .swissRed, savingsSort: SavingsSort = .startMonth) {
         self.language = language
         self.appearance = appearance
         self.accent = accent
+        self.savingsSort = savingsSort
     }
 }
 

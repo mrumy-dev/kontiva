@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "з",
         .sparenOpenEnded: "Без цільової суми",
         .sparenGoalsLabel: "Цілі",
+        .sparenSortBy: "Сортувати",
+        .sparenSortStartMonth: "Місяць початку",
         .savingsCatCar: "Автомобіль",
         .savingsCatVacation: "Відпустка",
         .savingsCatHome: "Житло",

@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "sedan",
         .sparenOpenEnded: "Inget målbelopp",
         .sparenGoalsLabel: "Mål",
+        .sparenSortBy: "Sortera",
+        .sparenSortStartMonth: "Startmånad",
         .savingsCatCar: "Bil",
         .savingsCatVacation: "Semester",
         .savingsCatHome: "Bostad",

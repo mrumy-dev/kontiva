@@ -22,6 +22,8 @@ extension Localization {
         .sparenSince: "şu tarihten beri",
         .sparenOpenEnded: "Hedef tutar yok",
         .sparenGoalsLabel: "Hedefler",
+        .sparenSortBy: "Sırala",
+        .sparenSortStartMonth: "Başlangıç ayı",
         .savingsCatCar: "Araba",
         .savingsCatVacation: "Tatil",
         .savingsCatHome: "Konut",

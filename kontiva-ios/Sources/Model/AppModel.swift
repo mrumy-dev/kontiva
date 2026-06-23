@@ -41,6 +41,7 @@ final class AppModel: ObservableObject {
 
     private static let languageKey = "kontiva.ui.language"
     private static let accentKey = "kontiva.ui.accent"
+    private static let savingsSortKey = "kontiva.ui.savingsSort"
 
     init() {
         // First run → match the phone's system language; afterwards, the saved choice.
@@ -66,6 +67,8 @@ final class AppModel: ObservableObject {
             .flatMap(AccentTheme.init(rawValue:)) ?? .swissRed
         self.settings.accent = savedAccent
         KontivaTheme.accent = savedAccent.color
+        self.settings.savingsSort = UserDefaults.standard.string(forKey: Self.savingsSortKey)
+            .flatMap(SavingsSort.init(rawValue:)) ?? .startMonth
     }
 
     // MARK: Lock gate
@@ -121,6 +124,13 @@ final class AppModel: ObservableObject {
         settings.accent = accent
         KontivaTheme.accent = accent.color
         UserDefaults.standard.set(accent.rawValue, forKey: Self.accentKey)
+    }
+
+    /// Persisted sort order for the Sparen list (a non-sensitive UI preference).
+    func setSavingsSort(_ sort: SavingsSort) {
+        guard sort != settings.savingsSort else { return }
+        settings.savingsSort = sort
+        UserDefaults.standard.set(sort.rawValue, forKey: Self.savingsSortKey)
     }
 
     func setAutoLock(_ interval: AutoLockInterval) async {
@@ -240,6 +250,8 @@ final class AppModel: ObservableObject {
     var fixedCosts: [RecurringFixedExpense] { dataset.fixedCosts }
     var variableBudgets: [VariableMonthlyBudget] { dataset.variableBudgets }
     var savingsGoals: [SavingsGoal] { dataset.savingsGoals }
+    /// The Sparen list in the user's chosen order (start month by default).
+    var sortedSavingsGoals: [SavingsGoal] { settings.savingsSort.apply(savingsGoals, asOf: selectedMonth) }
     var bills: [OneOffBill] { dataset.bills }
     var debts: [DebtItem] { dataset.debts }
     var household: Household? { dataset.household }

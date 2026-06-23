@@ -24,6 +24,8 @@ extension Localization {
         .sparenSince: "له",
         .sparenOpenEnded: "د موخې مبلغ نشته",
         .sparenGoalsLabel: "موخې",
+        .sparenSortBy: "ترتیب",
+        .sparenSortStartMonth: "د پیل میاشت",
         .savingsCatCar: "موټر",
         .savingsCatVacation: "رخصتي",
         .savingsCatHome: "استوګنه",

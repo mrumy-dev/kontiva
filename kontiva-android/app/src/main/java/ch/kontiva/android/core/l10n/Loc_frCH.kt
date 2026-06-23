@@ -22,6 +22,8 @@ internal val LOC_frCH: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "depuis",
     L10nKey.sparenOpenEnded to "Sans montant cible",
     L10nKey.sparenGoalsLabel to "Objectifs",
+    L10nKey.sparenSortBy to "Trier",
+    L10nKey.sparenSortStartMonth to "Mois de début",
     L10nKey.savingsCatCar to "Voiture",
     L10nKey.savingsCatVacation to "Vacances",
     L10nKey.savingsCatHome to "Logement",

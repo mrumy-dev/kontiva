@@ -22,6 +22,8 @@ internal val LOC_ru: Map<L10nKey, String> = mapOf(
     L10nKey.sparenSince to "с",
     L10nKey.sparenOpenEnded to "Без целевой суммы",
     L10nKey.sparenGoalsLabel to "Цели",
+    L10nKey.sparenSortBy to "Сортировка",
+    L10nKey.sparenSortStartMonth to "Месяц начала",
     L10nKey.savingsCatCar to "Автомобиль",
     L10nKey.savingsCatVacation to "Отпуск",
     L10nKey.savingsCatHome to "Жильё",

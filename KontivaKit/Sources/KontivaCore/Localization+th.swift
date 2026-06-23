@@ -24,6 +24,8 @@ extension Localization {
         .sparenSince: "ตั้งแต่",
         .sparenOpenEnded: "ไม่มียอดเป้าหมาย",
         .sparenGoalsLabel: "เป้าหมาย",
+        .sparenSortBy: "เรียงลำดับ",
+        .sparenSortStartMonth: "เดือนเริ่มต้น",
         .savingsCatCar: "รถยนต์",
         .savingsCatVacation: "วันหยุดพักผ่อน",
         .savingsCatHome: "ที่อยู่อาศัย",

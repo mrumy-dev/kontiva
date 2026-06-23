@@ -1,5 +1,6 @@
 package ch.kontiva.android.ui.screen
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -195,7 +196,7 @@ private fun SummaryCard(label: String, value: String, income: String, fixed: Str
     Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(KontivaTheme.spaceMd)) {
             Text(label.uppercase(), fontSize = 11.sp, color = colors.textTertiary)
-            Text(value, fontSize = 26.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+            AnimatedAmount(value, fontSize = 26.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
             Spacer(Modifier.size(KontivaTheme.spaceSm))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 MiniStat(KontivaTheme.colors.positive, income)
@@ -224,13 +225,13 @@ private fun SectionCard(
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
     Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(KontivaTheme.spaceMd)) {
+        Column(Modifier.padding(KontivaTheme.spaceMd).animateContentSize()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(icon, contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(22.dp))
                 Spacer(Modifier.size(KontivaTheme.spaceXs))
                 Text(title, fontSize = 17.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
                 Spacer(Modifier.weight(1f))
-                if (count > 0) Text(total, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                if (count > 0) AnimatedAmount(total, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
             }
             content()
             Spacer(Modifier.size(KontivaTheme.spaceXs))

@@ -93,7 +93,7 @@ private fun AvailableCard(a: MonthlyAvailability) {
                     Text(loc(statusKey), fontSize = 11.sp, color = statusColor, fontWeight = FontWeight.Medium)
                 }
             }
-            Text(
+            AnimatedAmount(
                 a.available.formattedCHF(),
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,

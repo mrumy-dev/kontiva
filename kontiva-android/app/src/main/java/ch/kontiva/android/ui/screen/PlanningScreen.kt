@@ -174,6 +174,7 @@ fun PlanningScreen(vm: KontivaViewModel) {
             title = loc(L10nKey.planningVariable),
             categories = VariableBudgetCategory.entries,
             categoryLabel = { loc(it.labelKey) },
+            categoryIcon = { it.icon() },
             initialName = initName, initialAmount = initAmt, initialCategory = initVarCat,
             onDismiss = { sheet = null },
             onSave = { name, amount, cat ->
@@ -253,23 +254,27 @@ private fun SectionCard(
 @Composable
 private fun EntryRow(icon: ImageVector, name: String, subtitle: String?, amount: String, onClick: () -> Unit, onDelete: () -> Unit) {
     val colors = KontivaTheme.colors
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .pressScale()
-            .combinedClickable(onClick = onClick, onLongClick = onDelete)
-            .padding(vertical = KontivaTheme.spaceSm),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(Modifier.size(30.dp).background(KontivaTheme.accent.copy(alpha = 0.12f), CircleShape), contentAlignment = Alignment.Center) {
-            Icon(icon, contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(17.dp))
+    var menu by remember { mutableStateOf(false) }
+    Box {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .pressScale()
+                .combinedClickable(onClick = onClick, onLongClick = { menu = true })
+                .padding(vertical = KontivaTheme.spaceSm),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(Modifier.size(30.dp).background(KontivaTheme.accent.copy(alpha = 0.12f), CircleShape), contentAlignment = Alignment.Center) {
+                Icon(icon, contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(17.dp))
+            }
+            Spacer(Modifier.size(KontivaTheme.spaceSm))
+            Column(Modifier.weight(1f)) {
+                Text(name, fontSize = 15.sp, color = colors.textPrimary)
+                if (subtitle != null) Text(subtitle, fontSize = 12.sp, color = colors.textTertiary)
+            }
+            Text(amount, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = colors.textPrimary)
         }
-        Spacer(Modifier.size(KontivaTheme.spaceSm))
-        Column(Modifier.weight(1f)) {
-            Text(name, fontSize = 15.sp, color = colors.textPrimary)
-            if (subtitle != null) Text(subtitle, fontSize = 12.sp, color = colors.textTertiary)
-        }
-        Text(amount, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = colors.textPrimary)
+        RowActionsMenu(menu, { menu = false }, onClick, onDelete)
     }
 }
 

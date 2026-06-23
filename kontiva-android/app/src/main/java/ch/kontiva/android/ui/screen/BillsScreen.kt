@@ -179,11 +179,13 @@ private fun LazyListScope.billSection(title: String, items: List<OneOffBill>, vm
 private fun BillRow(bill: OneOffBill, onEdit: () -> Unit, onToggle: () -> Unit, onDelete: () -> Unit) {
     val colors = KontivaTheme.colors
     val isPaid = bill.status == BillStatus.PAID
+    var menu by remember { mutableStateOf(false) }
+    Box {
     Row(
         Modifier
             .fillMaxWidth()
             .pressScale()
-            .combinedClickable(onClick = onEdit, onLongClick = onDelete)
+            .combinedClickable(onClick = onEdit, onLongClick = { menu = true })
             .padding(vertical = KontivaTheme.spaceSm),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -208,6 +210,8 @@ private fun BillRow(bill: OneOffBill, onEdit: () -> Unit, onToggle: () -> Unit, 
             color = if (isPaid) colors.textTertiary else colors.textPrimary,
             textDecoration = if (isPaid) TextDecoration.LineThrough else null,
         )
+    }
+        RowActionsMenu(menu, { menu = false }, onEdit, onDelete)
     }
 }
 

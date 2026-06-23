@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -115,7 +116,7 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                         Column(Modifier.padding(KontivaTheme.spaceMd)) {
                             Text(loc(L10nKey.schuldenOverdueBills), fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colors.textSecondary)
                             overdueBills.forEach { b ->
-                                DebtRow(b.provider, "", b.amount.formattedCHF(), onClick = {}, onDelete = {})
+                                DebtRow(b.provider, "", b.amount.formattedCHF(), onClick = {}, onDelete = {}, actionable = false)
                             }
                             Text(loc(L10nKey.schuldenManagedInBills), fontSize = 12.sp, color = colors.textTertiary, modifier = Modifier.padding(top = KontivaTheme.spaceXs))
                         }
@@ -177,17 +178,21 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun DebtRow(creditor: String, type: String, amount: String, onClick: () -> Unit, onDelete: () -> Unit) {
+private fun DebtRow(creditor: String, type: String, amount: String, onClick: () -> Unit, onDelete: () -> Unit, actionable: Boolean = true) {
     val colors = KontivaTheme.colors
-    Row(
-        Modifier.fillMaxWidth().pressScale().combinedClickable(onClick = onClick, onLongClick = onDelete).padding(vertical = KontivaTheme.spaceSm),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Column(Modifier.weight(1f)) {
-            Text(creditor, fontSize = 15.sp, color = colors.textPrimary)
-            if (type.isNotEmpty()) Text(type, fontSize = 12.sp, color = colors.textTertiary)
+    var menu by remember { mutableStateOf(false) }
+    Box {
+        Row(
+            Modifier.fillMaxWidth().pressScale().combinedClickable(onClick = onClick, onLongClick = { if (actionable) menu = true }).padding(vertical = KontivaTheme.spaceSm),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(Modifier.weight(1f)) {
+                Text(creditor, fontSize = 15.sp, color = colors.textPrimary)
+                if (type.isNotEmpty()) Text(type, fontSize = 12.sp, color = colors.textTertiary)
+            }
+            Text(amount, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = colors.textPrimary)
         }
-        Text(amount, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = colors.textPrimary)
+        if (actionable) RowActionsMenu(menu, { menu = false }, onClick, onDelete)
     }
 }
 

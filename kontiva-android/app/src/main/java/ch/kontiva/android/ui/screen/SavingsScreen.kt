@@ -145,7 +145,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
                 showSheet = false
             },
             initialName = g?.name ?: "",
-            initialCategory = g?.category ?: SavingsCategory.EMERGENCY,
+            initialCategory = g?.category,
             initialMonthly = g?.monthlyContribution?.formattedCHF(false) ?: "",
             initialStarting = g?.startingBalance?.takeIf { !it.isZero }?.formattedCHF(false) ?: "",
             initialTarget = g?.target?.takeIf { !it.isZero }?.formattedCHF(false) ?: "",
@@ -162,10 +162,12 @@ private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> 
     val accumulated = g.accumulated(month)
     val months = g.monthsContributed(month)
     val monthFmt = DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale)
+    var menu by remember { mutableStateOf(false) }
+    Box {
     Surface(
         shape = RoundedCornerShape(KontivaTheme.radiusCard),
         color = colors.cardSurface,
-        modifier = Modifier.fillMaxWidth().pressScale().combinedClickable(onClick = onClick, onLongClick = onDelete),
+        modifier = Modifier.fillMaxWidth().pressScale().combinedClickable(onClick = onClick, onLongClick = { menu = true }),
     ) {
         Column(Modifier.padding(KontivaTheme.spaceMd), verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd)) {
             // Header: icon, name + category, monthly contribution.
@@ -210,6 +212,8 @@ private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> 
             }
         }
     }
+        RowActionsMenu(menu, { menu = false }, onClick, onDelete)
+    }
 }
 
 @Composable
@@ -238,7 +242,7 @@ private fun SavingsSheet(
     onDismiss: () -> Unit,
     onSave: (String, SavingsCategory, Money?, Money, Money, java.time.LocalDate) -> Unit,
     initialName: String = "",
-    initialCategory: SavingsCategory = SavingsCategory.EMERGENCY,
+    initialCategory: SavingsCategory? = null,
     initialMonthly: String = "",
     initialStarting: String = "",
     initialTarget: String = "",
@@ -253,7 +257,7 @@ private fun SavingsSheet(
     var startingText by remember { mutableStateOf(initialStarting) }
     var targetText by remember { mutableStateOf(initialTarget) }
     var startDate by remember { mutableStateOf(initialStartDate) }
-    val canSave = name.isNotBlank()
+    val canSave = name.isNotBlank() && category != null
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -274,11 +278,20 @@ private fun SavingsSheet(
             Row(Modifier.fillMaxWidth().clickable { menuOpen = true }.padding(vertical = KontivaTheme.spaceSm), verticalAlignment = Alignment.CenterVertically) {
                 Text(loc(L10nKey.formCategory), color = colors.textSecondary)
                 Spacer(Modifier.weight(1f))
-                Text(loc(category.labelKey), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                val sel = category
+                Text(
+                    if (sel != null) loc(sel.labelKey) else "—",
+                    color = if (sel != null) KontivaTheme.accent else colors.textTertiary,
+                    fontWeight = FontWeight.Medium,
+                )
                 Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = colors.textTertiary)
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                     SavingsCategory.entries.forEach { c ->
-                        DropdownMenuItem(text = { Text(loc(c.labelKey)) }, onClick = { category = c; menuOpen = false })
+                        DropdownMenuItem(
+                            text = { Text(loc(c.labelKey)) },
+                            leadingIcon = { Icon(c.icon(), contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp)) },
+                            onClick = { category = c; menuOpen = false },
+                        )
                     }
                 }
             }
@@ -289,7 +302,7 @@ private fun SavingsSheet(
             Button(
                 onClick = {
                     if (canSave) onSave(
-                        name.trim(), category,
+                        name.trim(), category!!,
                         Money.parse(monthlyText), Money.parse(startingText) ?: Money.zero, Money.parse(targetText) ?: Money.zero, startDate,
                     )
                 },

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -42,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -52,6 +54,7 @@ import ch.kontiva.android.core.ThirteenthSalaryModel
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.theme.KontivaTheme
+import ch.kontiva.android.ui.theme.icon
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -69,16 +72,18 @@ fun <C> EntrySheet(
     initialName: String = "",
     initialAmount: String = "",
     initialCategory: C? = null,
+    categoryIcon: ((C) -> ImageVector)? = null,
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
     var name by remember { mutableStateOf(initialName) }
     var amountText by remember { mutableStateOf(initialAmount) }
-    var category by remember { mutableStateOf(initialCategory ?: categories?.firstOrNull()) }
+    // Start unselected for a new entry — the user chooses, nothing is preselected.
+    var category by remember { mutableStateOf(initialCategory) }
     var menuOpen by remember { mutableStateOf(false) }
 
     val amount = Money.parse(amountText)
-    val canSave = name.isNotBlank() && amount != null && !amount.isZero
+    val canSave = name.isNotBlank() && amount != null && !amount.isZero && (categories == null || category != null)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -108,7 +113,7 @@ fun <C> EntrySheet(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            if (categories != null && category != null) {
+            if (categories != null) {
                 Row(
                     Modifier
                         .fillMaxWidth()
@@ -118,12 +123,18 @@ fun <C> EntrySheet(
                 ) {
                     Text(loc(L10nKey.formCategory), color = colors.textSecondary)
                     Spacer(Modifier.weight(1f))
-                    Text(categoryLabel(category as C), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                    val sel = category
+                    Text(
+                        if (sel != null) categoryLabel(sel) else "—",
+                        color = if (sel != null) KontivaTheme.accent else colors.textTertiary,
+                        fontWeight = FontWeight.Medium,
+                    )
                     Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = colors.textTertiary)
                     DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                         categories.forEach { c ->
                             DropdownMenuItem(
                                 text = { Text(categoryLabel(c)) },
+                                leadingIcon = categoryIcon?.let { ic -> { Icon(ic(c), contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp)) } },
                                 onClick = { category = c; menuOpen = false },
                             )
                         }
@@ -237,7 +248,7 @@ fun FixedCostSheet(
     val colors = KontivaTheme.colors
     var name by remember { mutableStateOf(initialName) }
     var amountText by remember { mutableStateOf(initialAmount) }
-    var category by remember { mutableStateOf(initialCategory ?: categories.first()) }
+    var category by remember { mutableStateOf<FixedExpenseCategory?>(initialCategory) }
     var menuOpen by remember { mutableStateOf(false) }
     var limited by remember { mutableStateOf(initialLimited) }
     var startMonth by remember { mutableStateOf(initialStartMonth ?: LocalDate.now().withDayOfMonth(1)) }
@@ -245,7 +256,7 @@ fun FixedCostSheet(
     var showDate by remember { mutableStateOf(false) }
 
     val amount = Money.parse(amountText)
-    val canSave = name.isNotBlank() && amount != null && !amount.isZero && (!limited || installments >= 1)
+    val canSave = name.isNotBlank() && amount != null && !amount.isZero && category != null && (!limited || installments >= 1)
     val monthFmt = DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale)
 
     ModalBottomSheet(
@@ -274,11 +285,20 @@ fun FixedCostSheet(
             ) {
                 Text(loc(L10nKey.formCategory), color = colors.textSecondary)
                 Spacer(Modifier.weight(1f))
-                Text(loc(category.labelKey), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                val sel = category
+                Text(
+                    if (sel != null) loc(sel.labelKey) else "—",
+                    color = if (sel != null) KontivaTheme.accent else colors.textTertiary,
+                    fontWeight = FontWeight.Medium,
+                )
                 Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = colors.textTertiary)
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                     categories.forEach { c ->
-                        DropdownMenuItem(text = { Text(loc(c.labelKey)) }, onClick = { category = c; menuOpen = false })
+                        DropdownMenuItem(
+                            text = { Text(loc(c.labelKey)) },
+                            leadingIcon = { Icon(c.icon(), contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp)) },
+                            onClick = { category = c; menuOpen = false },
+                        )
                     }
                 }
             }
@@ -315,7 +335,7 @@ fun FixedCostSheet(
             Button(
                 onClick = {
                     if (canSave) onSave(
-                        name.trim(), amount!!, category,
+                        name.trim(), amount!!, category!!,
                         if (limited) startMonth.withDayOfMonth(1) else null,
                         if (limited) installments else null,
                     )

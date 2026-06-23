@@ -8,6 +8,8 @@ import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import ch.kontiva.android.core.l10n.LocalLocalizer
@@ -42,8 +44,13 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun KontivaRoot(vm: KontivaViewModel) {
     KontivaTheme(appearance = vm.settings.appearance, accent = vm.settings.accent) {
-        // The active language drives the Localizer; the picker (and unlock) update it.
-        CompositionLocalProvider(LocalLocalizer provides Localizer(vm.settings.language)) {
+        // The active language drives the Localizer and the layout direction (RTL for
+        // Arabic / Urdu / Pashto), so the whole UI mirrors like iOS.
+        val localizer = Localizer(vm.settings.language)
+        CompositionLocalProvider(
+            LocalLocalizer provides localizer,
+            LocalLayoutDirection provides if (localizer.language.isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr,
+        ) {
             Surface(color = KontivaTheme.colors.pageBackground) {
                 when (vm.phase) {
                     AppPhase.ONBOARDING -> OnboardingFlow(vm)

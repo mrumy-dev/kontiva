@@ -67,6 +67,10 @@ struct IncomeFormSheet: View {
     @State private var thirteenthOn: Bool
     @State private var thirteenth: String
     @State private var thModel: ThirteenthSalaryModel
+    @State private var bonuses: [Bonus]
+    @State private var bLabel = ""
+    @State private var bAmount = ""
+    @State private var bMonth = 12
 
     init(existing: Income?) {
         self.existing = existing
@@ -74,12 +78,30 @@ struct IncomeFormSheet: View {
         _amount = State(initialValue: moneyEditString(existing?.monthlyNet))
         _thirteenthOn = State(initialValue: existing?.thirteenthAmount != nil)
         _thirteenth = State(initialValue: moneyEditString(existing?.thirteenthAmount))
-        _thModel = State(initialValue: existing?.thirteenthModel ?? .separate)
+        _thModel = State(initialValue: existing?.thirteenthModel ?? .december)
+        _bonuses = State(initialValue: existing?.bonuses ?? [])
     }
 
     private var parsedNet: Money? { Money.parse(amount) }
     private var canSave: Bool {
         !label.isEmpty && parsedNet != nil && (!thirteenthOn || Money.parse(thirteenth) != nil)
+    }
+    private var canAddBonus: Bool { !bLabel.isEmpty && Money.parse(bAmount) != nil }
+
+    private func monthName(_ m: Int, short: Bool = false) -> String {
+        let f = DateFormatter(); f.locale = loc.language.locale; f.calendar = .swiss
+        let syms = short ? f.shortStandaloneMonthSymbols : f.standaloneMonthSymbols
+        guard let syms, m >= 1, m <= syms.count else { return "\(m)" }
+        return syms[m - 1]
+    }
+    private func thirteenthLabel(_ m: ThirteenthSalaryModel) -> String {
+        switch m {
+        case .separate:        return loc(.thirteenthModelSeparate)
+        case .averagedMonthly: return loc(.thirteenthModelAveraged)
+        case .december:        return monthName(12)
+        case .november:        return monthName(11)
+        case .splitNovDec:     return "11/12 \(monthName(11, short: true)) · 1/12 \(monthName(12, short: true))"
+        }
     }
 
     var body: some View {
@@ -94,10 +116,33 @@ struct IncomeFormSheet: View {
                 if thirteenthOn {
                     MoneyRowField(label: loc(.formAmount), text: $thirteenth)
                     Picker(loc(.formThirteenthModel), selection: $thModel) {
-                        Text(loc(.thirteenthModelSeparate)).tag(ThirteenthSalaryModel.separate)
-                        Text(loc(.thirteenthModelAveraged)).tag(ThirteenthSalaryModel.averagedMonthly)
+                        ForEach(ThirteenthSalaryModel.allCases, id: \.self) { m in
+                            Text(thirteenthLabel(m)).tag(m)
+                        }
                     }
                 }
+            }
+            Section(loc(.incomeBonuses)) {
+                ForEach(bonuses) { b in
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(b.label)
+                        Text("\(b.amount.formattedCHF()) · \(monthName(b.month))")
+                            .font(.caption).foregroundStyle(KontivaTheme.textTertiary)
+                    }
+                }
+                .onDelete { bonuses.remove(atOffsets: $0) }
+                TextField(loc(.formName), text: $bLabel)
+                MoneyRowField(label: loc(.formAmount), text: $bAmount)
+                Picker(loc(.formMonth), selection: $bMonth) {
+                    ForEach(1...12, id: \.self) { Text(monthName($0)).tag($0) }
+                }
+                Button(loc(.commonAdd)) {
+                    if let amt = Money.parse(bAmount), !bLabel.isEmpty {
+                        bonuses.append(Bonus(label: bLabel, amount: amt, month: bMonth))
+                        bLabel = ""; bAmount = ""
+                    }
+                }
+                .disabled(!canAddBonus)
             }
         }
     }
@@ -106,7 +151,7 @@ struct IncomeFormSheet: View {
         guard let net = parsedNet else { return }
         let income = Income(id: existing?.id ?? UUID(), label: label, monthlyNet: net,
                             thirteenthAmount: thirteenthOn ? Money.parse(thirteenth) : nil,
-                            thirteenthModel: thModel)
+                            thirteenthModel: thModel, bonuses: bonuses)
         Task { await model.upsertIncome(income); dismiss() }
     }
 }

@@ -14,8 +14,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -185,7 +188,12 @@ private fun SavingsSheet(onDismiss: () -> Unit, onSave: (String, SavingsCategory
 
     ModalBottomSheet(onDismissRequest = onDismiss, containerColor = colors.cardSurface) {
         Column(
-            Modifier.padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding(),
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = KontivaTheme.spaceLg)
+                .padding(bottom = KontivaTheme.spaceLg)
+                .navigationBarsPadding()
+                .imePadding(),
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
         ) {
             Text(loc(L10nKey.navSparen), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)

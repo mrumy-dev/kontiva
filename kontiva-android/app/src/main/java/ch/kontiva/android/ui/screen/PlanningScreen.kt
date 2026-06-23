@@ -45,6 +45,7 @@ import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.core.l10n.Localizer
 import ch.kontiva.android.ui.KontivaViewModel
+import ch.kontiva.android.ui.pressScale
 import ch.kontiva.android.ui.theme.KontivaTheme
 import ch.kontiva.android.ui.theme.icon
 
@@ -261,6 +262,7 @@ private fun EntryRow(icon: ImageVector, name: String, subtitle: String?, amount:
     Row(
         Modifier
             .fillMaxWidth()
+            .pressScale()
             .combinedClickable(onClick = onClick, onLongClick = onDelete)
             .padding(vertical = KontivaTheme.spaceSm),
         verticalAlignment = Alignment.CenterVertically,

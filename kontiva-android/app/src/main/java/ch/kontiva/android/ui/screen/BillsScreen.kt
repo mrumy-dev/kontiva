@@ -69,6 +69,7 @@ import ch.kontiva.android.core.total
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.KontivaViewModel
+import ch.kontiva.android.ui.pressScale
 import ch.kontiva.android.ui.theme.KontivaTheme
 import java.time.Instant
 import java.time.LocalDate
@@ -187,6 +188,7 @@ private fun BillRow(bill: OneOffBill, onEdit: () -> Unit, onToggle: () -> Unit, 
     Row(
         Modifier
             .fillMaxWidth()
+            .pressScale()
             .combinedClickable(onClick = onEdit, onLongClick = onDelete)
             .padding(vertical = KontivaTheme.spaceSm),
         verticalAlignment = Alignment.CenterVertically,

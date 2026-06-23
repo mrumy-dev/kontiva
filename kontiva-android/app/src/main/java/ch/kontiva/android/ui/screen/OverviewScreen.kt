@@ -29,6 +29,7 @@ import ch.kontiva.android.core.MonthlyAvailability
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.KontivaViewModel
+import ch.kontiva.android.ui.appearStagger
 import ch.kontiva.android.ui.theme.KontivaTheme
 
 @Composable
@@ -65,8 +66,8 @@ fun OverviewScreen(vm: KontivaViewModel) {
             return@LazyColumn
         }
 
-        item { AvailableCard(a) }
-        item { BreakdownCard(a) }
+        item { Box(Modifier.fillMaxWidth().appearStagger(0)) { AvailableCard(a) } }
+        item { Box(Modifier.fillMaxWidth().appearStagger(1)) { BreakdownCard(a) } }
     }
 }
 

@@ -1,5 +1,13 @@
 package ch.kontiva.android.ui.screen
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,7 +54,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
+import ch.kontiva.android.ui.KontivaMotion
 import ch.kontiva.android.ui.KontivaViewModel
+import ch.kontiva.android.ui.pressScale
 import ch.kontiva.android.ui.theme.KontivaTheme
 
 private data class Tab(val labelKey: L10nKey, val icon: ImageVector)
@@ -95,12 +105,23 @@ fun MainScaffold(vm: KontivaViewModel) {
                 .statusBarsPadding()
                 .fillMaxSize(),
         ) {
-            when (tab) {
-                0 -> OverviewScreen(vm)
-                1 -> PlanningScreen(vm)
-                2 -> BillsScreen(vm)
-                3 -> SavingsScreen(vm)
-                else -> MoreTab(vm)
+            AnimatedContent(
+                targetState = tab,
+                transitionSpec = {
+                    (fadeIn(tween(KontivaMotion.TAB_MS)) + scaleIn(initialScale = 0.97f, animationSpec = tween(KontivaMotion.TAB_MS)))
+                        .togetherWith(fadeOut(tween(KontivaMotion.TAB_MS / 2)))
+                },
+                label = "tab",
+            ) { t ->
+                Box(Modifier.fillMaxSize()) {
+                    when (t) {
+                        0 -> OverviewScreen(vm)
+                        1 -> PlanningScreen(vm)
+                        2 -> BillsScreen(vm)
+                        3 -> SavingsScreen(vm)
+                        else -> MoreTab(vm)
+                    }
+                }
             }
         }
     }
@@ -125,12 +146,29 @@ private enum class MoreDest { MENU, SETTINGS, DEBTS, INSIGHTS, REPORT }
 @Composable
 private fun MoreTab(vm: KontivaViewModel) {
     var dest by remember { mutableStateOf(MoreDest.MENU) }
-    when (dest) {
-        MoreDest.MENU -> MoreMenu(vm, onOpen = { dest = it })
-        MoreDest.SETTINGS -> SettingsScreen(vm, onBack = { dest = MoreDest.MENU })
-        MoreDest.DEBTS -> DebtsScreen(vm, onBack = { dest = MoreDest.MENU })
-        MoreDest.INSIGHTS -> InsightsScreen(vm, onBack = { dest = MoreDest.MENU })
-        MoreDest.REPORT -> ReportProblemScreen(vm, onBack = { dest = MoreDest.MENU })
+    AnimatedContent(
+        targetState = dest,
+        transitionSpec = {
+            val d = KontivaMotion.NAV_MS
+            if (targetState == MoreDest.MENU) {
+                // pop: the menu eases back in from the left, the detail slides off right
+                (slideInHorizontally(tween(d)) { -it / 4 } + fadeIn(tween(d)))
+                    .togetherWith(slideOutHorizontally(tween(d)) { it } + fadeOut(tween(d)))
+            } else {
+                // push: the detail slides in from the right, the menu parallaxes left
+                (slideInHorizontally(tween(d)) { it } + fadeIn(tween(d)))
+                    .togetherWith(slideOutHorizontally(tween(d)) { -it / 4 } + fadeOut(tween(d)))
+            }
+        },
+        label = "moreNav",
+    ) { d ->
+        when (d) {
+            MoreDest.MENU -> MoreMenu(vm, onOpen = { dest = it })
+            MoreDest.SETTINGS -> SettingsScreen(vm, onBack = { dest = MoreDest.MENU })
+            MoreDest.DEBTS -> DebtsScreen(vm, onBack = { dest = MoreDest.MENU })
+            MoreDest.INSIGHTS -> InsightsScreen(vm, onBack = { dest = MoreDest.MENU })
+            MoreDest.REPORT -> ReportProblemScreen(vm, onBack = { dest = MoreDest.MENU })
+        }
     }
 }
 
@@ -166,7 +204,7 @@ private fun MoreMenu(vm: KontivaViewModel, onOpen: (MoreDest) -> Unit) {
 @Composable
 private fun MenuRow(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
     val colors = KontivaTheme.colors
-    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(KontivaTheme.spaceMd), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().pressScale().clickable(onClick = onClick).padding(KontivaTheme.spaceMd), verticalAlignment = Alignment.CenterVertically) {
         Icon(icon, contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(22.dp))
         Spacer(Modifier.size(KontivaTheme.spaceSm))
         Text(label, fontSize = 16.sp, color = colors.textPrimary)

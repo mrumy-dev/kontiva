@@ -58,6 +58,7 @@ import ch.kontiva.android.core.total
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.KontivaViewModel
+import ch.kontiva.android.ui.pressScale
 import ch.kontiva.android.ui.theme.KontivaTheme
 
 @Composable
@@ -179,7 +180,7 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
 private fun DebtRow(creditor: String, type: String, amount: String, onClick: () -> Unit, onDelete: () -> Unit) {
     val colors = KontivaTheme.colors
     Row(
-        Modifier.fillMaxWidth().combinedClickable(onClick = onClick, onLongClick = onDelete).padding(vertical = KontivaTheme.spaceSm),
+        Modifier.fillMaxWidth().pressScale().combinedClickable(onClick = onClick, onLongClick = onDelete).padding(vertical = KontivaTheme.spaceSm),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {

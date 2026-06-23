@@ -66,6 +66,7 @@ import ch.kontiva.android.core.total
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.KontivaViewModel
+import ch.kontiva.android.ui.pressScale
 import ch.kontiva.android.ui.theme.KontivaTheme
 import ch.kontiva.android.ui.theme.icon
 
@@ -168,7 +169,7 @@ private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> 
     Surface(
         shape = RoundedCornerShape(KontivaTheme.radiusCard),
         color = colors.cardSurface,
-        modifier = Modifier.fillMaxWidth().combinedClickable(onClick = onClick, onLongClick = onDelete),
+        modifier = Modifier.fillMaxWidth().pressScale().combinedClickable(onClick = onClick, onLongClick = onDelete),
     ) {
         Column(Modifier.padding(KontivaTheme.spaceMd), verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd)) {
             // Header: icon, name + category, monthly contribution.

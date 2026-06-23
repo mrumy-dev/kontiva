@@ -54,6 +54,7 @@ fun OnboardingFlow(vm: KontivaViewModel) {
     val loc = LocalLocalizer.current
     var step by remember { mutableStateOf(OnbStep.Welcome) }
     var name by remember { mutableStateOf("") }
+    var avatar by remember { mutableStateOf<String?>(null) }
     var firstCode by remember { mutableStateOf<String?>(null) }
     var resetSignal by remember { mutableIntStateOf(0) }
     var errorSignal by remember { mutableIntStateOf(0) }
@@ -71,9 +72,11 @@ fun OnboardingFlow(vm: KontivaViewModel) {
         OnbStep.Profile -> ProfileStep(
             name = name,
             onName = { name = it },
+            avatar = avatar,
+            onAvatar = { avatar = it },
             onBack = { step = OnbStep.Language },
             onContinue = { step = OnbStep.Code },
-            onSkip = { name = ""; step = OnbStep.Code },
+            onSkip = { name = ""; avatar = null; step = OnbStep.Code },
         )
 
         OnbStep.Code -> PinEntry(
@@ -88,7 +91,7 @@ fun OnboardingFlow(vm: KontivaViewModel) {
                         firstCode = code
                         resetSignal++ // clear for the confirm entry
                     }
-                    code == firstCode -> vm.completeSetup(code, name, avatar = null)
+                    code == firstCode -> vm.completeSetup(code, name, avatar = avatar)
                     else -> {
                         firstCode = null
                         errorSignal++ // shake + clear, back to "set"
@@ -135,25 +138,29 @@ private fun LanguageStep(
 private fun ProfileStep(
     name: String,
     onName: (String) -> Unit,
+    avatar: String?,
+    onAvatar: (String?) -> Unit,
     onBack: () -> Unit,
     onContinue: () -> Unit,
     onSkip: () -> Unit,
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
+    var showPicker by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().padding(KontivaTheme.spaceLg)) {
         StepHeader(loc(L10nKey.onboardingProfileTitle), onBack)
         Text(loc(L10nKey.onboardingProfileBody), color = colors.textSecondary, fontSize = 15.sp)
         Spacer(Modifier.height(KontivaTheme.spaceXl))
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            Box(
-                Modifier.size(84.dp).clip(CircleShape).background(colors.cardSurface),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(Icons.Rounded.Group, contentDescription = null, tint = colors.textTertiary, modifier = Modifier.size(40.dp))
+        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(Modifier.clip(CircleShape).clickable { showPicker = true }) {
+                ProfileAvatar(avatar, 84.dp)
+            }
+            Spacer(Modifier.height(KontivaTheme.spaceXs))
+            TextButton(onClick = { showPicker = true }) {
+                Text(loc(L10nKey.profileChoosePicture), color = KontivaTheme.accent, fontSize = 13.sp)
             }
         }
-        Spacer(Modifier.height(KontivaTheme.spaceLg))
+        Spacer(Modifier.height(KontivaTheme.spaceMd))
         OutlinedTextField(
             value = name,
             onValueChange = onName,
@@ -167,6 +174,9 @@ private fun ProfileStep(
         TextButton(onClick = onSkip, modifier = Modifier.fillMaxWidth()) {
             Text(loc(L10nKey.onboardingSkip), color = colors.textSecondary)
         }
+    }
+    if (showPicker) {
+        AvatarPickerSheet(selected = avatar, onSelect = { onAvatar(it); showPicker = false }, onDismiss = { showPicker = false })
     }
 }
 

@@ -94,6 +94,8 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     }
     var name by remember(vm.household) { mutableStateOf(vm.household?.name ?: "") }
     var canton by remember(vm.household) { mutableStateOf(vm.household?.canton) }
+    var avatar by remember(vm.household) { mutableStateOf(vm.household?.avatarName) }
+    var showAvatarPicker by remember { mutableStateOf(false) }
     var cantonMenu by remember { mutableStateOf(false) }
     var autoLockMenu by remember { mutableStateOf(false) }
 
@@ -117,6 +119,14 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
         // Profil
         item {
             SettingsCard(loc(L10nKey.settingsProfile)) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Box(Modifier.clip(CircleShape).clickable { showAvatarPicker = true }) { ProfileAvatar(avatar, 72.dp) }
+                        TextButton(onClick = { showAvatarPicker = true }) {
+                            Text(loc(L10nKey.profileChoosePicture), color = KontivaTheme.accent, fontSize = 13.sp)
+                        }
+                    }
+                }
                 OutlinedTextField(name, { name = it }, label = { Text(loc(L10nKey.profileName)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
                 Row(Modifier.fillMaxWidth().clickable { cantonMenu = true }.padding(vertical = KontivaTheme.spaceSm), verticalAlignment = Alignment.CenterVertically) {
                     Text(loc(L10nKey.settingsCanton), color = colors.textSecondary)
@@ -129,7 +139,7 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                         }
                     }
                 }
-                TextButton(onClick = { vm.updateProfile(name, canton) }) { Text(loc(L10nKey.commonSave), color = KontivaTheme.accent) }
+                TextButton(onClick = { vm.updateProfile(name, canton, avatar) }) { Text(loc(L10nKey.commonSave), color = KontivaTheme.accent) }
             }
         }
 
@@ -206,6 +216,14 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     }
 
     if (showChangePass) ChangePassphraseSheet(onDismiss = { showChangePass = false }, onSubmit = { old, new, done -> vm.changePassphrase(old, new) { ok -> if (ok) showChangePass = false; done(ok) } })
+
+    if (showAvatarPicker) {
+        AvatarPickerSheet(
+            selected = avatar,
+            onSelect = { avatar = it; showAvatarPicker = false; vm.updateProfile(name, canton, it) },
+            onDismiss = { showAvatarPicker = false },
+        )
+    }
 
     if (showBackupPass) BackupPassphraseSheet(
         title = loc(L10nKey.settingsBackup),

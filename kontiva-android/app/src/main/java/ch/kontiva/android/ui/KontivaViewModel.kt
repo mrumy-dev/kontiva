@@ -109,11 +109,11 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         if (store.isUnlocked) runCatching { store.mutate { it.copy(appSettings = updated) }; dataset = store.snapshot() }
     }
 
-    fun updateProfile(name: String, canton: Canton?) {
+    fun updateProfile(name: String, canton: Canton?, avatar: String? = null) {
         edit {
             it.copy(
                 household = if (name.isBlank()) null
-                else (it.household?.copy(name = name, canton = canton) ?: Household(name = name, canton = canton)),
+                else (it.household?.copy(name = name, canton = canton, avatarName = avatar) ?: Household(name = name, canton = canton, avatarName = avatar)),
             )
         }
         household = dataset.household

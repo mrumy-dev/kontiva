@@ -3,6 +3,7 @@ package ch.kontiva.android.ui.theme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBalance
 import androidx.compose.material.icons.rounded.Autorenew
+import androidx.compose.material.icons.rounded.BeachAccess
 import androidx.compose.material.icons.rounded.Bolt
 import androidx.compose.material.icons.rounded.CardGiftcard
 import androidx.compose.material.icons.rounded.Checkroom
@@ -29,8 +30,13 @@ import androidx.compose.material.icons.rounded.Tram
 import androidx.compose.material.icons.rounded.Tv
 import androidx.compose.material.icons.rounded.VolunteerActivism
 import androidx.compose.material.icons.rounded.Wifi
+import androidx.compose.material.icons.rounded.Devices
+import androidx.compose.material.icons.rounded.Handyman
+import androidx.compose.material.icons.rounded.Savings
+import androidx.compose.material.icons.rounded.TrendingUp
 import androidx.compose.ui.graphics.vector.ImageVector
 import ch.kontiva.android.core.FixedExpenseCategory
+import ch.kontiva.android.core.SavingsCategory
 import ch.kontiva.android.core.VariableBudgetCategory
 
 /** Material-icon equivalents of the iOS SF Symbols per category. */
@@ -71,4 +77,22 @@ fun VariableBudgetCategory.icon(): ImageVector = when (this) {
     VariableBudgetCategory.EDUCATION -> Icons.Rounded.School
     VariableBudgetCategory.CHARITY -> Icons.Rounded.VolunteerActivism
     VariableBudgetCategory.OTHER -> Icons.Rounded.MoreHoriz
+}
+
+fun SavingsCategory.icon(): ImageVector = when (this) {
+    SavingsCategory.EMERGENCY -> Icons.Rounded.Shield
+    SavingsCategory.RETIREMENT -> Icons.Rounded.Savings
+    SavingsCategory.HOME -> Icons.Rounded.Home
+    SavingsCategory.CAR -> Icons.Rounded.DirectionsCar
+    SavingsCategory.VACATION -> Icons.Rounded.BeachAccess
+    SavingsCategory.WEDDING -> Icons.Rounded.Favorite
+    SavingsCategory.FAMILY -> Icons.Rounded.Group
+    SavingsCategory.EDUCATION -> Icons.Rounded.School
+    SavingsCategory.RENOVATION -> Icons.Rounded.Handyman
+    SavingsCategory.ELECTRONICS -> Icons.Rounded.Devices
+    SavingsCategory.TAXES -> Icons.Rounded.AccountBalance
+    SavingsCategory.INVESTMENT -> Icons.Rounded.TrendingUp
+    SavingsCategory.HEALTH -> Icons.Rounded.LocalHospital
+    SavingsCategory.GIFT -> Icons.Rounded.CardGiftcard
+    SavingsCategory.OTHER -> Icons.Rounded.Savings
 }

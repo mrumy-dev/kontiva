@@ -87,8 +87,8 @@ fun MainScaffold(vm: KontivaViewModel) {
             when (tab) {
                 0 -> OverviewScreen(vm)
                 1 -> PlanningScreen(vm)
-                2 -> ComingSoon(loc(L10nKey.navBills))
-                3 -> ComingSoon(loc(L10nKey.navSparen))
+                2 -> BillsScreen(vm)
+                3 -> SavingsScreen(vm)
                 else -> MoreTab(vm)
             }
         }

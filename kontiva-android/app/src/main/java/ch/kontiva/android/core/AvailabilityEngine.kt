@@ -63,4 +63,21 @@ object AvailabilityEngine {
             available = available,
         )
     }
+
+    /** Full computation including bills (due + overdue) and savings contributions. */
+    fun compute(
+        incomes: List<Income>,
+        fixedCosts: List<RecurringFixedExpense>,
+        variableBudgets: List<VariableMonthlyBudget>,
+        bills: List<OneOffBill>,
+        savingsGoals: List<SavingsGoal>,
+        today: java.time.LocalDate = java.time.LocalDate.now(),
+    ): MonthlyAvailability = compute(
+        incomes = incomes,
+        fixedCosts = fixedCosts,
+        variableBudgets = variableBudgets,
+        plannedSavings = savingsGoals.mapNotNull { it.monthlyContribution }.total(),
+        openBillsDueThisMonth = BillClassifier.amount(BillState.DUE_THIS_MONTH, bills, today),
+        overdueOpenBills = BillClassifier.amount(BillState.OVERDUE, bills, today),
+    )
 }

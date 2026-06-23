@@ -9,14 +9,19 @@ import androidx.lifecycle.viewModelScope
 import ch.kontiva.android.core.AppLanguage
 import ch.kontiva.android.core.AppSettings
 import ch.kontiva.android.core.AvailabilityEngine
+import ch.kontiva.android.core.BillStatus
 import ch.kontiva.android.core.FixedExpenseCategory
 import ch.kontiva.android.core.Income
 import ch.kontiva.android.core.Money
 import ch.kontiva.android.core.MonthlyAvailability
+import ch.kontiva.android.core.OneOffBill
 import ch.kontiva.android.core.RecurringFixedExpense
+import ch.kontiva.android.core.SavingsCategory
+import ch.kontiva.android.core.SavingsGoal
 import ch.kontiva.android.core.SettingsStore
 import ch.kontiva.android.core.VariableBudgetCategory
 import ch.kontiva.android.core.VariableMonthlyBudget
+import java.time.LocalDate
 import ch.kontiva.android.persistence.AppDataset
 import ch.kontiva.android.persistence.EncryptedStore
 import ch.kontiva.android.persistence.Household
@@ -122,7 +127,9 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     /** The live monthly breakdown (income − fixed − variable − bills − savings). */
     val availability: MonthlyAvailability
-        get() = AvailabilityEngine.compute(dataset.incomes, dataset.fixedCosts, dataset.variableBudgets)
+        get() = AvailabilityEngine.compute(
+            dataset.incomes, dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals,
+        )
 
     private fun edit(block: (AppDataset) -> AppDataset) {
         runCatching {
@@ -143,6 +150,22 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteIncome(id: String) = edit { it.copy(incomes = it.incomes.filterNot { e -> e.id == id }) }
     fun deleteFixedCost(id: String) = edit { it.copy(fixedCosts = it.fixedCosts.filterNot { e -> e.id == id }) }
     fun deleteVariableBudget(id: String) = edit { it.copy(variableBudgets = it.variableBudgets.filterNot { e -> e.id == id }) }
+
+    fun addBill(provider: String, amount: Money, dueDate: LocalDate, paid: Boolean) = edit {
+        it.copy(bills = it.bills + OneOffBill(provider = provider, amount = amount, dueDate = dueDate, status = if (paid) BillStatus.PAID else BillStatus.OPEN))
+    }
+
+    fun toggleBillPaid(id: String) = edit { ds ->
+        ds.copy(bills = ds.bills.map { if (it.id == id) it.copy(status = if (it.status == BillStatus.PAID) BillStatus.OPEN else BillStatus.PAID) else it })
+    }
+
+    fun deleteBill(id: String) = edit { it.copy(bills = it.bills.filterNot { e -> e.id == id }) }
+
+    fun addSavingsGoal(name: String, category: SavingsCategory, monthly: Money?, startingBalance: Money, target: Money) = edit {
+        it.copy(savingsGoals = it.savingsGoals + SavingsGoal(name = name, category = category, monthlyContribution = monthly, startingBalance = startingBalance, target = target))
+    }
+
+    fun deleteSavingsGoal(id: String) = edit { it.copy(savingsGoals = it.savingsGoals.filterNot { e -> e.id == id }) }
 
     fun lock() {
         store.lock()

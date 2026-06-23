@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.Money
@@ -115,7 +116,7 @@ private fun BreakdownCard(a: MonthlyAvailability) {
     Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(KontivaTheme.spaceMd), horizontalAlignment = Alignment.CenterHorizontally) {
             Box(Modifier.fillMaxWidth()) {
-                Text(loc(L10nKey.overviewAllocationOf).uppercase(), fontSize = 11.sp, color = colors.textTertiary)
+                Text("$pct% ${loc(L10nKey.overviewAllocationOf)}", fontSize = 12.sp, color = colors.textTertiary)
             }
             Spacer(Modifier.size(KontivaTheme.spaceMd))
             Donut(
@@ -141,8 +142,11 @@ private fun LegendRow(color: Color, label: String, amount: String, percent: Int)
     ) {
         Box(Modifier.size(10.dp).background(color, CircleShape))
         Spacer(Modifier.size(KontivaTheme.spaceSm))
-        Text(label, fontSize = 14.sp, color = colors.textPrimary)
-        Spacer(Modifier.weight(1f))
+        Text(
+            label, fontSize = 14.sp, color = colors.textPrimary,
+            maxLines = 1, overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f).padding(end = KontivaTheme.spaceXs),
+        )
         Text(amount, fontSize = 14.sp, color = colors.textPrimary)
         Spacer(Modifier.size(KontivaTheme.spaceXs))
         Box(Modifier.background(colors.softBorder.copy(alpha = 0.5f), RoundedCornerShape(6.dp)).padding(horizontal = 5.dp, vertical = 1.dp)) {

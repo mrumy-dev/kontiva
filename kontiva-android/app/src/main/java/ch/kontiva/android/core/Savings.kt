@@ -43,6 +43,11 @@ data class SavingsGoal(
 ) {
     val hasTarget: Boolean get() = target.isPositive
 
+    /** Whether a contribution is actually made in [month] — true only from the
+     *  start month onward (a plan starting next year doesn't cost anything now). */
+    fun contributesIn(month: LocalDate): Boolean =
+        !month.withDayOfMonth(1).isBefore(startDate.withDayOfMonth(1))
+
     /** Contributions made from startDate's month up to & including [today]'s month. */
     fun monthsContributed(today: LocalDate = LocalDate.now()): Int {
         val start = startDate.withDayOfMonth(1)

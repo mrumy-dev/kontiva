@@ -271,6 +271,12 @@ public struct SavingsGoal: Equatable, Codable, Sendable, Identifiable {
 
     public var hasTarget: Bool { target.isPositive }
 
+    /// Whether a contribution is actually made in `month` — true only from the start
+    /// month onward (a plan starting next year doesn't cost anything now).
+    public func contributesIn(_ month: Date, calendar: Calendar = .swiss) -> Bool {
+        calendar.startOfMonth(for: month) >= calendar.startOfMonth(for: startDate)
+    }
+
     /// Number of monthly contributions made from `startDate`'s month up to and
     /// including `reference`'s month. Zero if `reference` is before the start month.
     public func monthsContributed(asOf reference: Date = Date(), calendar: Calendar = .swiss) -> Int {

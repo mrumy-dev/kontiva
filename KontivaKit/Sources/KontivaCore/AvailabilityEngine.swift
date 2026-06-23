@@ -85,7 +85,10 @@ public enum AvailabilityEngine {
                                                  asOf: reference, calendar: calendar)
         let overdue = BillClassifier.amount(in: .overdue, bills: bills,
                                             asOf: reference, calendar: calendar)
-        let savings = savingsGoals.compactMap(\.monthlyContribution).total()
+        // Savings only cost from their start month onward (a future plan is .zero now).
+        let savings = savingsGoals
+            .filter { $0.contributesIn(reference, calendar: calendar) }
+            .compactMap(\.monthlyContribution).total()
 
         let available = netIncome - fixed - variable - dueThisMonth - overdue - savings
 

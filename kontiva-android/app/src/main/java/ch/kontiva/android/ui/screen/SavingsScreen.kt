@@ -93,7 +93,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
         }
         item {
             val accumulated = goals.map { it.accumulated(vm.selectedMonth) }.total()
-            val monthly = goals.mapNotNull { it.monthlyContribution }.total()
+            val monthly = goals.filter { it.contributesIn(vm.selectedMonth) }.mapNotNull { it.monthlyContribution }.total()
             Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(KontivaTheme.spaceMd)) {
                     Text(loc(L10nKey.sparenAccumulatedTotal).uppercase(), fontSize = 11.sp, color = colors.textTertiary)

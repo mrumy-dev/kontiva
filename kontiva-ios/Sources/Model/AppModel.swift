@@ -269,7 +269,7 @@ final class AppModel: ObservableObject {
         }
     }
 
-    var totalMonthlySavings: Money { savingsGoals.compactMap(\.monthlyContribution).total() }
+    var totalMonthlySavings: Money { savingsGoals.filter { $0.contributesIn(selectedMonth) }.compactMap(\.monthlyContribution).total() }
     var totalAccumulatedSavings: Money { savingsGoals.map { $0.accumulated(asOf: selectedMonth) }.total() }
 
     var insights: [Insight] {

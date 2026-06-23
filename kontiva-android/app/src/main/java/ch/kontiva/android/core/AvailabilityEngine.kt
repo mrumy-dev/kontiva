@@ -77,7 +77,8 @@ object AvailabilityEngine {
         // Limited standing orders only count inside their instalment window.
         fixedCosts = fixedCosts.filter { it.isActive(today) },
         variableBudgets = variableBudgets,
-        plannedSavings = savingsGoals.mapNotNull { it.monthlyContribution }.total(),
+        // Savings only cost from their start month onward (a future plan is CHF 0 now).
+        plannedSavings = savingsGoals.filter { it.contributesIn(today) }.mapNotNull { it.monthlyContribution }.total(),
         openBillsDueThisMonth = BillClassifier.amount(BillState.DUE_THIS_MONTH, bills, today),
         overdueOpenBills = BillClassifier.amount(BillState.OVERDUE, bills, today),
     )

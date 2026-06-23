@@ -8,7 +8,10 @@ import java.util.UUID
 
 /** How a 13th salary is treated (1:1 with iOS). */
 @Serializable
-enum class ThirteenthSalaryModel { SEPARATE, AVERAGED_MONTHLY }
+enum class ThirteenthSalaryModel(val labelKey: L10nKey) {
+    SEPARATE(L10nKey.thirteenthModelSeparate),
+    AVERAGED_MONTHLY(L10nKey.thirteenthModelAveraged),
+}
 
 @Serializable
 data class Income(

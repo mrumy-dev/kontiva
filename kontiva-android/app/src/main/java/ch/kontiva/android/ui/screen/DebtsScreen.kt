@@ -30,6 +30,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -123,8 +127,12 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                         Column(Modifier.padding(KontivaTheme.spaceMd)) {
                             Text(loc(L10nKey.schuldenRecorded), fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colors.textSecondary)
                             debts.sortedBy { it.type.severityRank }.forEach { d ->
+                                val sub = buildString {
+                                    append(loc(d.type.labelKey))
+                                    d.reference?.takeIf { it.isNotBlank() }?.let { append(" · "); append(it) }
+                                }
                                 DebtRow(
-                                    d.creditor, loc(d.type.labelKey), d.amount.formattedCHF(),
+                                    d.creditor, sub, d.amount.formattedCHF(),
                                     onClick = { editDebt = d; showSheet = true },
                                     onDelete = { vm.deleteDebt(d.id) },
                                 )
@@ -152,13 +160,16 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
         val d = editDebt
         DebtSheet(
             onDismiss = { showSheet = false },
-            onSave = { c, a, t ->
-                if (d != null) vm.updateDebt(d.id, c, a, t) else vm.addDebt(c, a, t)
+            onSave = { c, a, t, date, ref, notes ->
+                if (d != null) vm.updateDebt(d.id, c, a, t, date, ref, notes) else vm.addDebt(c, a, t, date, ref, notes)
                 showSheet = false
             },
             initialCreditor = d?.creditor ?: "",
             initialAmount = d?.amount?.formattedCHF(false) ?: "",
             initialType = d?.type ?: DebtType.OPEN_CLAIM,
+            initialDate = d?.date,
+            initialReference = d?.reference ?: "",
+            initialNotes = d?.notes ?: "",
         )
     }
 }
@@ -192,10 +203,13 @@ private fun Tip(title: String, body: String) {
 @Composable
 private fun DebtSheet(
     onDismiss: () -> Unit,
-    onSave: (String, Money, DebtType) -> Unit,
+    onSave: (String, Money, DebtType, java.time.LocalDate?, String?, String?) -> Unit,
     initialCreditor: String = "",
     initialAmount: String = "",
     initialType: DebtType = DebtType.OPEN_CLAIM,
+    initialDate: java.time.LocalDate? = null,
+    initialReference: String = "",
+    initialNotes: String = "",
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
@@ -203,12 +217,16 @@ private fun DebtSheet(
     var amountText by remember { mutableStateOf(initialAmount) }
     var type by remember { mutableStateOf(initialType) }
     var menu by remember { mutableStateOf(false) }
+    var hasDate by remember { mutableStateOf(initialDate != null) }
+    var date by remember { mutableStateOf(initialDate ?: java.time.LocalDate.now()) }
+    var reference by remember { mutableStateOf(initialReference) }
+    var notes by remember { mutableStateOf(initialNotes) }
     val amount = Money.parse(amountText)
     val canSave = creditor.isNotBlank() && amount != null && !amount.isZero
 
     ModalBottomSheet(onDismissRequest = onDismiss, containerColor = colors.cardSurface, sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)) {
         Column(
-            Modifier.padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding(),
+            Modifier.verticalScroll(rememberScrollState()).padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding().imePadding(),
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
         ) {
             Text(loc(L10nKey.schuldenAddCta), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
@@ -223,8 +241,23 @@ private fun DebtSheet(
                     DebtType.entries.forEach { t -> DropdownMenuItem(text = { Text(loc(t.labelKey)) }, onClick = { type = t; menu = false }) }
                 }
             }
+            Row(Modifier.fillMaxWidth().padding(vertical = KontivaTheme.spaceXs), verticalAlignment = Alignment.CenterVertically) {
+                Text(loc(L10nKey.debtDate), color = colors.textPrimary)
+                Spacer(Modifier.weight(1f))
+                Switch(checked = hasDate, onCheckedChange = { hasDate = it })
+            }
+            if (hasDate) DatePickerRow(loc(L10nKey.debtDate), date) { date = it }
+            OutlinedTextField(reference, { reference = it }, label = { Text(loc(L10nKey.debtReference)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(notes, { notes = it }, label = { Text(loc(L10nKey.formNotes)) }, minLines = 2, maxLines = 4, modifier = Modifier.fillMaxWidth())
             Button(
-                onClick = { if (canSave) onSave(creditor.trim(), amount!!, type) },
+                onClick = {
+                    if (canSave) onSave(
+                        creditor.trim(), amount!!, type,
+                        if (hasDate) date else null,
+                        reference.trim().ifBlank { null },
+                        notes.trim().ifBlank { null },
+                    )
+                },
                 enabled = canSave, modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(KontivaTheme.radiusControl),
                 colors = ButtonDefaults.buttonColors(containerColor = KontivaTheme.accent, contentColor = Color.White),

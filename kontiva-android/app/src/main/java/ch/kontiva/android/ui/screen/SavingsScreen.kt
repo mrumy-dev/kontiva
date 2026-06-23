@@ -121,9 +121,9 @@ fun SavingsScreen(vm: KontivaViewModel) {
         val g = editGoal
         SavingsSheet(
             onDismiss = { showSheet = false },
-            onSave = { name, cat, monthly, starting, target ->
-                if (g != null) vm.updateSavingsGoal(g.id, name, cat, monthly, starting, target)
-                else vm.addSavingsGoal(name, cat, monthly, starting, target)
+            onSave = { name, cat, monthly, starting, target, startDate ->
+                if (g != null) vm.updateSavingsGoal(g.id, name, cat, monthly, starting, target, startDate)
+                else vm.addSavingsGoal(name, cat, monthly, starting, target, startDate)
                 showSheet = false
             },
             initialName = g?.name ?: "",
@@ -131,6 +131,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
             initialMonthly = g?.monthlyContribution?.formattedCHF(false) ?: "",
             initialStarting = g?.startingBalance?.takeIf { !it.isZero }?.formattedCHF(false) ?: "",
             initialTarget = g?.target?.takeIf { !it.isZero }?.formattedCHF(false) ?: "",
+            initialStartDate = g?.startDate ?: java.time.LocalDate.now(),
         )
     }
 }
@@ -193,12 +194,13 @@ private fun ProgressRing(percent: Int, size: Dp = 48.dp) {
 @Composable
 private fun SavingsSheet(
     onDismiss: () -> Unit,
-    onSave: (String, SavingsCategory, Money?, Money, Money) -> Unit,
+    onSave: (String, SavingsCategory, Money?, Money, Money, java.time.LocalDate) -> Unit,
     initialName: String = "",
     initialCategory: SavingsCategory = SavingsCategory.EMERGENCY,
     initialMonthly: String = "",
     initialStarting: String = "",
     initialTarget: String = "",
+    initialStartDate: java.time.LocalDate = java.time.LocalDate.now(),
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
@@ -208,6 +210,7 @@ private fun SavingsSheet(
     var monthlyText by remember { mutableStateOf(initialMonthly) }
     var startingText by remember { mutableStateOf(initialStarting) }
     var targetText by remember { mutableStateOf(initialTarget) }
+    var startDate by remember { mutableStateOf(initialStartDate) }
     val canSave = name.isNotBlank()
 
     ModalBottomSheet(
@@ -238,13 +241,14 @@ private fun SavingsSheet(
                 }
             }
             MoneyField(loc(L10nKey.formMonthlyContribution), monthlyText) { monthlyText = it }
+            DatePickerRow(loc(L10nKey.formStartDate), startDate) { startDate = it }
             MoneyField(loc(L10nKey.formStartingBalance), startingText) { startingText = it }
             MoneyField(loc(L10nKey.formTarget), targetText) { targetText = it }
             Button(
                 onClick = {
                     if (canSave) onSave(
                         name.trim(), category,
-                        Money.parse(monthlyText), Money.parse(startingText) ?: Money.zero, Money.parse(targetText) ?: Money.zero,
+                        Money.parse(monthlyText), Money.parse(startingText) ?: Money.zero, Money.parse(targetText) ?: Money.zero, startDate,
                     )
                 },
                 enabled = canSave, modifier = Modifier.fillMaxWidth().height(52.dp),

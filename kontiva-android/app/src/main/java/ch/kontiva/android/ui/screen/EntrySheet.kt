@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.FixedExpenseCategory
 import ch.kontiva.android.core.Money
+import ch.kontiva.android.core.ThirteenthSalaryModel
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.theme.KontivaTheme
@@ -151,8 +152,9 @@ fun IncomeSheet(
     initialName: String = "",
     initialAmount: String = "",
     initialThirteenth: String = "",
+    initialModel: ThirteenthSalaryModel = ThirteenthSalaryModel.SEPARATE,
     onDismiss: () -> Unit,
-    onSave: (name: String, amount: Money, thirteenth: Money?) -> Unit,
+    onSave: (name: String, amount: Money, thirteenth: Money?, model: ThirteenthSalaryModel) -> Unit,
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
@@ -160,6 +162,8 @@ fun IncomeSheet(
     var amountText by remember { mutableStateOf(initialAmount) }
     var hasThirteenth by remember { mutableStateOf(initialThirteenth.isNotBlank()) }
     var thirteenthText by remember { mutableStateOf(initialThirteenth) }
+    var model by remember { mutableStateOf(initialModel) }
+    var modelMenu by remember { mutableStateOf(false) }
 
     val amount = Money.parse(amountText)
     val canSave = name.isNotBlank() && amount != null && !amount.isZero
@@ -189,9 +193,23 @@ fun IncomeSheet(
                     thirteenthText, { thirteenthText = it }, label = { Text(loc(L10nKey.formThirteenthAmount)) }, prefix = { Text("CHF ") },
                     singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth(),
                 )
+                Row(
+                    Modifier.fillMaxWidth().clickable { modelMenu = true }.padding(vertical = KontivaTheme.spaceSm),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(loc(L10nKey.formThirteenthModel), color = colors.textSecondary)
+                    Spacer(Modifier.weight(1f))
+                    Text(loc(model.labelKey), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                    Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = colors.textTertiary)
+                    DropdownMenu(expanded = modelMenu, onDismissRequest = { modelMenu = false }) {
+                        ThirteenthSalaryModel.entries.forEach { m ->
+                            DropdownMenuItem(text = { Text(loc(m.labelKey)) }, onClick = { model = m; modelMenu = false })
+                        }
+                    }
+                }
             }
             Button(
-                onClick = { if (canSave) onSave(name.trim(), amount!!, if (hasThirteenth) Money.parse(thirteenthText) else null) },
+                onClick = { if (canSave) onSave(name.trim(), amount!!, if (hasThirteenth) Money.parse(thirteenthText) else null, model) },
                 enabled = canSave, modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(KontivaTheme.radiusControl),
                 colors = ButtonDefaults.buttonColors(containerColor = KontivaTheme.accent, contentColor = Color.White),
@@ -320,6 +338,38 @@ fun FixedCostSheet(
                 }) { Text(loc(L10nKey.commonSave)) }
             },
             dismissButton = { TextButton(onClick = { showDate = false }) { Text(loc(L10nKey.commonCancel)) } },
+        ) { DatePicker(state = state) }
+    }
+}
+
+/** Reusable tappable date row that opens a Material date picker (for savings start,
+ *  debt date, bill due date). */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickerRow(label: String, date: LocalDate, onPick: (LocalDate) -> Unit) {
+    val loc = LocalLocalizer.current
+    val colors = KontivaTheme.colors
+    var show by remember { mutableStateOf(false) }
+    val fmt = DateTimeFormatter.ofPattern("d. MMMM yyyy", loc.language.locale)
+    Row(
+        Modifier.fillMaxWidth().clickable { show = true }.padding(vertical = KontivaTheme.spaceSm),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(label, color = colors.textSecondary)
+        Spacer(Modifier.weight(1f))
+        Text(date.format(fmt), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+    }
+    if (show) {
+        val state = rememberDatePickerState(initialSelectedDateMillis = date.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli())
+        DatePickerDialog(
+            onDismissRequest = { show = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    state.selectedDateMillis?.let { onPick(Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate()) }
+                    show = false
+                }) { Text(loc(L10nKey.commonSave)) }
+            },
+            dismissButton = { TextButton(onClick = { show = false }) { Text(loc(L10nKey.commonCancel)) } },
         ) { DatePicker(state = state) }
     }
 }

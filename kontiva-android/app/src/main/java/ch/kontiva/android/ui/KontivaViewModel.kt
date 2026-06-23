@@ -26,6 +26,7 @@ import ch.kontiva.android.core.RecurringFixedExpense
 import ch.kontiva.android.core.SavingsCategory
 import ch.kontiva.android.core.SavingsGoal
 import ch.kontiva.android.core.SettingsStore
+import ch.kontiva.android.core.ThirteenthSalaryModel
 import ch.kontiva.android.core.VariableBudgetCategory
 import ch.kontiva.android.core.VariableMonthlyBudget
 import java.time.LocalDate
@@ -236,8 +237,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun addIncome(label: String, amount: Money, thirteenth: Money? = null) =
-        edit { it.copy(incomes = it.incomes + Income(label = label, monthlyNet = amount, thirteenthAmount = thirteenth)) }
+    fun addIncome(label: String, amount: Money, thirteenth: Money? = null, thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.SEPARATE) =
+        edit { it.copy(incomes = it.incomes + Income(label = label, monthlyNet = amount, thirteenthAmount = thirteenth, thirteenthModel = thirteenthModel)) }
 
     fun addFixedCost(name: String, amount: Money, category: FixedExpenseCategory, startMonth: LocalDate? = null, installments: Int? = null) =
         edit { it.copy(fixedCosts = it.fixedCosts + RecurringFixedExpense(name = name, monthlyAmount = amount, category = category, startMonth = startMonth, installments = installments)) }
@@ -249,8 +250,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteFixedCost(id: String) = edit { it.copy(fixedCosts = it.fixedCosts.filterNot { e -> e.id == id }) }
     fun deleteVariableBudget(id: String) = edit { it.copy(variableBudgets = it.variableBudgets.filterNot { e -> e.id == id }) }
 
-    fun addBill(provider: String, amount: Money, dueDate: LocalDate, paid: Boolean) = edit {
-        it.copy(bills = it.bills + OneOffBill(provider = provider, amount = amount, dueDate = dueDate, status = if (paid) BillStatus.PAID else BillStatus.OPEN))
+    fun addBill(provider: String, amount: Money, dueDate: LocalDate, paid: Boolean, notes: String? = null) = edit {
+        it.copy(bills = it.bills + OneOffBill(provider = provider, amount = amount, dueDate = dueDate, status = if (paid) BillStatus.PAID else BillStatus.OPEN, notes = notes))
     }
 
     fun toggleBillPaid(id: String) = edit { ds ->
@@ -259,21 +260,21 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     fun deleteBill(id: String) = edit { it.copy(bills = it.bills.filterNot { e -> e.id == id }) }
 
-    fun addSavingsGoal(name: String, category: SavingsCategory, monthly: Money?, startingBalance: Money, target: Money) = edit {
-        it.copy(savingsGoals = it.savingsGoals + SavingsGoal(name = name, category = category, monthlyContribution = monthly, startingBalance = startingBalance, target = target))
+    fun addSavingsGoal(name: String, category: SavingsCategory, monthly: Money?, startingBalance: Money, target: Money, startDate: LocalDate = LocalDate.now()) = edit {
+        it.copy(savingsGoals = it.savingsGoals + SavingsGoal(name = name, category = category, monthlyContribution = monthly, startingBalance = startingBalance, target = target, startDate = startDate))
     }
 
     fun deleteSavingsGoal(id: String) = edit { it.copy(savingsGoals = it.savingsGoals.filterNot { e -> e.id == id }) }
 
-    fun addDebt(creditor: String, amount: Money, type: DebtType) = edit {
-        it.copy(debts = it.debts + DebtItem(creditor = creditor, amount = amount, type = type))
+    fun addDebt(creditor: String, amount: Money, type: DebtType, date: LocalDate? = null, reference: String? = null, notes: String? = null) = edit {
+        it.copy(debts = it.debts + DebtItem(creditor = creditor, amount = amount, type = type, date = date, reference = reference, notes = notes))
     }
 
     fun deleteDebt(id: String) = edit { it.copy(debts = it.debts.filterNot { e -> e.id == id }) }
 
     // Edits ----------------------------------------------------------------
-    fun updateIncome(id: String, label: String, amount: Money, thirteenth: Money?) =
-        edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount, thirteenthAmount = thirteenth) else it }) }
+    fun updateIncome(id: String, label: String, amount: Money, thirteenth: Money?, thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.SEPARATE) =
+        edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount, thirteenthAmount = thirteenth, thirteenthModel = thirteenthModel) else it }) }
 
     fun updateFixedCost(id: String, name: String, amount: Money, category: FixedExpenseCategory, startMonth: LocalDate? = null, installments: Int? = null) =
         edit { ds -> ds.copy(fixedCosts = ds.fixedCosts.map { if (it.id == id) it.copy(name = name, monthlyAmount = amount, category = category, startMonth = startMonth, installments = installments) else it }) }
@@ -281,14 +282,14 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun updateVariableBudget(id: String, name: String, amount: Money, category: VariableBudgetCategory) =
         edit { ds -> ds.copy(variableBudgets = ds.variableBudgets.map { if (it.id == id) it.copy(name = name, plannedAmount = amount, category = category) else it }) }
 
-    fun updateBill(id: String, provider: String, amount: Money, dueDate: LocalDate, paid: Boolean) =
-        edit { ds -> ds.copy(bills = ds.bills.map { if (it.id == id) it.copy(provider = provider, amount = amount, dueDate = dueDate, status = if (paid) BillStatus.PAID else BillStatus.OPEN) else it }) }
+    fun updateBill(id: String, provider: String, amount: Money, dueDate: LocalDate, paid: Boolean, notes: String? = null) =
+        edit { ds -> ds.copy(bills = ds.bills.map { if (it.id == id) it.copy(provider = provider, amount = amount, dueDate = dueDate, status = if (paid) BillStatus.PAID else BillStatus.OPEN, notes = notes) else it }) }
 
-    fun updateSavingsGoal(id: String, name: String, category: SavingsCategory, monthly: Money?, starting: Money, target: Money) =
-        edit { ds -> ds.copy(savingsGoals = ds.savingsGoals.map { if (it.id == id) it.copy(name = name, category = category, monthlyContribution = monthly, startingBalance = starting, target = target) else it }) }
+    fun updateSavingsGoal(id: String, name: String, category: SavingsCategory, monthly: Money?, starting: Money, target: Money, startDate: LocalDate = LocalDate.now()) =
+        edit { ds -> ds.copy(savingsGoals = ds.savingsGoals.map { if (it.id == id) it.copy(name = name, category = category, monthlyContribution = monthly, startingBalance = starting, target = target, startDate = startDate) else it }) }
 
-    fun updateDebt(id: String, creditor: String, amount: Money, type: DebtType) =
-        edit { ds -> ds.copy(debts = ds.debts.map { if (it.id == id) it.copy(creditor = creditor, amount = amount, type = type) else it }) }
+    fun updateDebt(id: String, creditor: String, amount: Money, type: DebtType, date: LocalDate? = null, reference: String? = null, notes: String? = null) =
+        edit { ds -> ds.copy(debts = ds.debts.map { if (it.id == id) it.copy(creditor = creditor, amount = amount, type = type, date = date, reference = reference, notes = notes) else it }) }
 
     /** Rule-based insights about this month's plan. */
     val insights: List<Insight>

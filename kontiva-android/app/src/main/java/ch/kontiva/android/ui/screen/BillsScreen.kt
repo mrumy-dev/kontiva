@@ -34,6 +34,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -128,14 +131,15 @@ fun BillsScreen(vm: KontivaViewModel) {
         val b = editBill
         BillSheet(
             onDismiss = { showSheet = false },
-            onSave = { p, a, d, paidFlag ->
-                if (b != null) vm.updateBill(b.id, p, a, d, paidFlag) else vm.addBill(p, a, d, paidFlag)
+            onSave = { p, a, d, paidFlag, notes ->
+                if (b != null) vm.updateBill(b.id, p, a, d, paidFlag, notes) else vm.addBill(p, a, d, paidFlag, notes)
                 showSheet = false
             },
             initialProvider = b?.provider ?: "",
             initialAmount = b?.amount?.formattedCHF(false) ?: "",
             initialDate = b?.dueDate ?: LocalDate.now(),
             initialPaid = b?.status == BillStatus.PAID,
+            initialNotes = b?.notes ?: "",
         )
     }
 }
@@ -207,11 +211,12 @@ internal fun EmptyCard(text: String) {
 @Composable
 private fun BillSheet(
     onDismiss: () -> Unit,
-    onSave: (String, Money, LocalDate, Boolean) -> Unit,
+    onSave: (String, Money, LocalDate, Boolean, String?) -> Unit,
     initialProvider: String = "",
     initialAmount: String = "",
     initialDate: LocalDate = LocalDate.now(),
     initialPaid: Boolean = false,
+    initialNotes: String = "",
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
@@ -219,6 +224,7 @@ private fun BillSheet(
     var amountText by remember { mutableStateOf(initialAmount) }
     var dueDate by remember { mutableStateOf(initialDate) }
     var paid by remember { mutableStateOf(initialPaid) }
+    var notes by remember { mutableStateOf(initialNotes) }
     var showPicker by remember { mutableStateOf(false) }
     val amount = Money.parse(amountText)
     val canSave = provider.isNotBlank() && amount != null && !amount.isZero
@@ -229,7 +235,7 @@ private fun BillSheet(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     ) {
         Column(
-            Modifier.padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding(),
+            Modifier.verticalScroll(rememberScrollState()).padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding().imePadding(),
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
         ) {
             Text(loc(L10nKey.billsTitle), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
@@ -247,8 +253,9 @@ private fun BillSheet(
                 StatusChip(loc(L10nKey.billsStatusOpen), !paid) { paid = false }
                 StatusChip(loc(L10nKey.billsStatusPaid), paid) { paid = true }
             }
+            OutlinedTextField(notes, { notes = it }, label = { Text(loc(L10nKey.formNotes)) }, minLines = 2, maxLines = 4, modifier = Modifier.fillMaxWidth())
             Button(
-                onClick = { if (canSave) onSave(provider.trim(), amount!!, dueDate, paid) },
+                onClick = { if (canSave) onSave(provider.trim(), amount!!, dueDate, paid, notes.trim().ifBlank { null }) },
                 enabled = canSave, modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(KontivaTheme.radiusControl),
                 colors = ButtonDefaults.buttonColors(containerColor = KontivaTheme.accent, contentColor = Color.White),

@@ -62,12 +62,14 @@ fun PlanningScreen(vm: KontivaViewModel) {
     var initFixedCat by remember { mutableStateOf<FixedExpenseCategory?>(null) }
     var initVarCat by remember { mutableStateOf<VariableBudgetCategory?>(null) }
     var init13th by remember { mutableStateOf("") }
+    var init13thModel by remember { mutableStateOf(ch.kontiva.android.core.ThirteenthSalaryModel.SEPARATE) }
     var initLimited by remember { mutableStateOf(false) }
     var initStartMonth by remember { mutableStateOf<java.time.LocalDate?>(null) }
     var initInstallments by remember { mutableStateOf<Int?>(null) }
 
     fun startAdd(k: Sheet) {
         editId = null; initName = ""; initAmt = ""; initFixedCat = null; initVarCat = null; init13th = ""
+        init13thModel = ch.kontiva.android.core.ThirteenthSalaryModel.SEPARATE
         initLimited = false; initStartMonth = null; initInstallments = null; sheet = k
     }
 
@@ -103,7 +105,10 @@ fun PlanningScreen(vm: KontivaViewModel) {
                 d.incomes.forEach { e ->
                     EntryRow(
                         Icons.Rounded.AttachMoney, e.label, e.thirteenthAmount?.let { "+13. ${it.formattedCHF()}" }, e.monthlyNet.formattedCHF(),
-                        onClick = { editId = e.id; initName = e.label; initAmt = e.monthlyNet.formattedCHF(false); init13th = e.thirteenthAmount?.formattedCHF(false) ?: ""; sheet = Sheet.INCOME },
+                        onClick = {
+                            editId = e.id; initName = e.label; initAmt = e.monthlyNet.formattedCHF(false)
+                            init13th = e.thirteenthAmount?.formattedCHF(false) ?: ""; init13thModel = e.thirteenthModel; sheet = Sheet.INCOME
+                        },
                         onDelete = { vm.deleteIncome(e.id) },
                     )
                 }
@@ -152,10 +157,10 @@ fun PlanningScreen(vm: KontivaViewModel) {
 
     when (sheet) {
         Sheet.INCOME -> IncomeSheet(
-            initialName = initName, initialAmount = initAmt, initialThirteenth = init13th,
+            initialName = initName, initialAmount = initAmt, initialThirteenth = init13th, initialModel = init13thModel,
             onDismiss = { sheet = null },
-            onSave = { name, amount, thirteenth ->
-                editId?.let { vm.updateIncome(it, name, amount, thirteenth) } ?: vm.addIncome(name, amount, thirteenth); sheet = null
+            onSave = { name, amount, thirteenth, model ->
+                editId?.let { vm.updateIncome(it, name, amount, thirteenth, model) } ?: vm.addIncome(name, amount, thirteenth, model); sheet = null
             },
         )
         Sheet.FIXED -> FixedCostSheet(

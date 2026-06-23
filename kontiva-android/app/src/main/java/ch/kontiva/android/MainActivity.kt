@@ -12,8 +12,8 @@ import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.core.l10n.Localizer
 import ch.kontiva.android.ui.AppPhase
 import ch.kontiva.android.ui.KontivaViewModel
-import ch.kontiva.android.ui.screen.HomePlaceholder
 import ch.kontiva.android.ui.screen.LockScreen
+import ch.kontiva.android.ui.screen.MainScaffold
 import ch.kontiva.android.ui.screen.OnboardingFlow
 import ch.kontiva.android.ui.theme.KontivaTheme
 
@@ -36,7 +36,7 @@ private fun KontivaRoot(vm: KontivaViewModel) {
                 when (vm.phase) {
                     AppPhase.ONBOARDING -> OnboardingFlow(vm)
                     AppPhase.LOCKED -> LockScreen(vm)
-                    AppPhase.UNLOCKED -> HomePlaceholder(vm)
+                    AppPhase.UNLOCKED -> MainScaffold(vm)
                 }
             }
         }

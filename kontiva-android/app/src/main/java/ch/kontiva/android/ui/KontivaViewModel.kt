@@ -8,7 +8,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import ch.kontiva.android.core.AppLanguage
 import ch.kontiva.android.core.AppSettings
+import ch.kontiva.android.core.AvailabilityEngine
+import ch.kontiva.android.core.FixedExpenseCategory
+import ch.kontiva.android.core.Income
+import ch.kontiva.android.core.Money
+import ch.kontiva.android.core.MonthlyAvailability
+import ch.kontiva.android.core.RecurringFixedExpense
 import ch.kontiva.android.core.SettingsStore
+import ch.kontiva.android.core.VariableBudgetCategory
+import ch.kontiva.android.core.VariableMonthlyBudget
 import ch.kontiva.android.persistence.AppDataset
 import ch.kontiva.android.persistence.EncryptedStore
 import ch.kontiva.android.persistence.Household
@@ -42,6 +50,11 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     var household by mutableStateOf<Household?>(null)
         private set
+
+    /** The decrypted dataset while unlocked; drives the planning + overview screens. */
+    var dataset by mutableStateOf(AppDataset.empty)
+        private set
+
     var busy by mutableStateOf(false)
         private set
     var unlockFailed by mutableStateOf(false)
@@ -68,6 +81,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
                 store.createVault(passphrase, AppDataset(household = hh, appSettings = settings))
             }
             household = hh
+            dataset = store.snapshot()
             busy = false
             phase = AppPhase.UNLOCKED
         }
@@ -89,6 +103,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
             if (ok) {
                 val snap = store.snapshot()
                 household = snap.household
+                dataset = snap
                 settings = snap.appSettings
                 settingsStore.save(settings)
                 phase = AppPhase.UNLOCKED
@@ -102,6 +117,32 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun clearUnlockError() {
         unlockFailed = false
     }
+
+    // Planning ----------------------------------------------------------------
+
+    /** The live monthly breakdown (income − fixed − variable − bills − savings). */
+    val availability: MonthlyAvailability
+        get() = AvailabilityEngine.compute(dataset.incomes, dataset.fixedCosts, dataset.variableBudgets)
+
+    private fun edit(block: (AppDataset) -> AppDataset) {
+        runCatching {
+            store.mutate(block)
+            dataset = store.snapshot()
+        }
+    }
+
+    fun addIncome(label: String, amount: Money, thirteenth: Money? = null) =
+        edit { it.copy(incomes = it.incomes + Income(label = label, monthlyNet = amount, thirteenthAmount = thirteenth)) }
+
+    fun addFixedCost(name: String, amount: Money, category: FixedExpenseCategory) =
+        edit { it.copy(fixedCosts = it.fixedCosts + RecurringFixedExpense(name = name, monthlyAmount = amount, category = category)) }
+
+    fun addVariableBudget(name: String, amount: Money, category: VariableBudgetCategory) =
+        edit { it.copy(variableBudgets = it.variableBudgets + VariableMonthlyBudget(name = name, plannedAmount = amount, category = category)) }
+
+    fun deleteIncome(id: String) = edit { it.copy(incomes = it.incomes.filterNot { e -> e.id == id }) }
+    fun deleteFixedCost(id: String) = edit { it.copy(fixedCosts = it.fixedCosts.filterNot { e -> e.id == id }) }
+    fun deleteVariableBudget(id: String) = edit { it.copy(variableBudgets = it.variableBudgets.filterNot { e -> e.id == id }) }
 
     fun lock() {
         store.lock()

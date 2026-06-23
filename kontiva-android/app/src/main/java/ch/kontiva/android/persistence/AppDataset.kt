@@ -1,7 +1,10 @@
 package ch.kontiva.android.persistence
 
 import ch.kontiva.android.core.AppSettings
+import ch.kontiva.android.core.Income
+import ch.kontiva.android.core.RecurringFixedExpense
 import ch.kontiva.android.core.SecuritySettings
+import ch.kontiva.android.core.VariableMonthlyBudget
 import kotlinx.serialization.Serializable
 import java.util.UUID
 
@@ -28,6 +31,9 @@ data class Household(
 data class AppDataset(
     val schemaVersion: Int = CURRENT_SCHEMA_VERSION,
     val household: Household? = null,
+    val incomes: List<Income> = emptyList(),
+    val fixedCosts: List<RecurringFixedExpense> = emptyList(),
+    val variableBudgets: List<VariableMonthlyBudget> = emptyList(),
     val appSettings: AppSettings = AppSettings(),
     val securitySettings: SecuritySettings = SecuritySettings(),
 ) {

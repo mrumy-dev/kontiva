@@ -221,6 +221,7 @@ internal val LOC_ptBR: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Salvo apenas localmente neste dispositivo.",
     L10nKey.settingsSecurity to "Segurança",
     L10nKey.settingsAutoLock to "Bloqueio automático",
+    L10nKey.settingsBiometric to "Desbloqueio biométrico",
     L10nKey.settingsChangePassphrase to "Alterar senha/PIN",
     L10nKey.settingsBackup to "Backup criptografado",
     L10nKey.settingsRestore to "Restaurar",

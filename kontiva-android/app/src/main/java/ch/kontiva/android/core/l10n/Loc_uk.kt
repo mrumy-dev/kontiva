@@ -221,6 +221,7 @@ internal val LOC_uk: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Зберігається лише локально на цьому пристрої.",
     L10nKey.settingsSecurity to "Безпека",
     L10nKey.settingsAutoLock to "Автоблокування",
+    L10nKey.settingsBiometric to "Біометричне розблокування",
     L10nKey.settingsChangePassphrase to "Змінити пароль/PIN",
     L10nKey.settingsBackup to "Зашифрована резервна копія",
     L10nKey.settingsRestore to "Відновити",

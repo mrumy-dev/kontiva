@@ -221,6 +221,7 @@ internal val LOC_hi: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "केवल इस डिवाइस पर स्थानीय रूप से सहेजा गया।",
     L10nKey.settingsSecurity to "सुरक्षा",
     L10nKey.settingsAutoLock to "स्वतः लॉक",
+    L10nKey.settingsBiometric to "बायोमेट्रिक अनलॉक",
     L10nKey.settingsChangePassphrase to "पासवर्ड/PIN बदलें",
     L10nKey.settingsBackup to "एन्क्रिप्टेड बैकअप",
     L10nKey.settingsRestore to "पुनर्स्थापित करें",

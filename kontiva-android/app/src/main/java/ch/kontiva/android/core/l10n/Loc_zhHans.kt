@@ -221,6 +221,7 @@ internal val LOC_zhHans: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "仅本地保存在此设备上。",
     L10nKey.settingsSecurity to "安全",
     L10nKey.settingsAutoLock to "自动锁定",
+    L10nKey.settingsBiometric to "生物识别解锁",
     L10nKey.settingsChangePassphrase to "更改密码/PIN",
     L10nKey.settingsBackup to "加密备份",
     L10nKey.settingsRestore to "恢复",

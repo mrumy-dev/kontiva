@@ -221,6 +221,7 @@ internal val LOC_da: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Gemmes kun lokalt på denne enhed.",
     L10nKey.settingsSecurity to "Sikkerhed",
     L10nKey.settingsAutoLock to "Automatisk lås",
+    L10nKey.settingsBiometric to "Biometrisk oplåsning",
     L10nKey.settingsChangePassphrase to "Skift adgangskode/PIN",
     L10nKey.settingsBackup to "Krypteret sikkerhedskopi",
     L10nKey.settingsRestore to "Gendan",

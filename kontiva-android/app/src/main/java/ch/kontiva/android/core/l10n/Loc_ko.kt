@@ -221,6 +221,7 @@ internal val LOC_ko: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "이 기기에만 로컬로 저장됩니다.",
     L10nKey.settingsSecurity to "보안",
     L10nKey.settingsAutoLock to "자동 잠금",
+    L10nKey.settingsBiometric to "생체 인증 잠금 해제",
     L10nKey.settingsChangePassphrase to "비밀번호/PIN 변경",
     L10nKey.settingsBackup to "암호화 백업",
     L10nKey.settingsRestore to "복원",

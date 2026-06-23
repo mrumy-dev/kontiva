@@ -221,6 +221,7 @@ internal val LOC_ps: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "یوازې پدې وسیله کې محلي ډول خوندي کیږي.",
     L10nKey.settingsSecurity to "خوندیتوب",
     L10nKey.settingsAutoLock to "اتومات کلپ",
+    L10nKey.settingsBiometric to "بايومتريک خلاصول",
     L10nKey.settingsChangePassphrase to "پټنوم/PIN بدل کړئ",
     L10nKey.settingsBackup to "کوډ شوی بیک اپ",
     L10nKey.settingsRestore to "بیا راوستل",

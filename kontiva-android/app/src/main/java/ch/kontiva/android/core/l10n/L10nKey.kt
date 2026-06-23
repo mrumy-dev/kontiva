@@ -222,6 +222,7 @@ enum class L10nKey {
     profileLocalNote,
     settingsSecurity,
     settingsAutoLock,
+    settingsBiometric,
     settingsChangePassphrase,
     settingsBackup,
     settingsRestore,

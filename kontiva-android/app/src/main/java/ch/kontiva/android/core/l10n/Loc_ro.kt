@@ -221,6 +221,7 @@ internal val LOC_ro: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Stocat doar local pe acest dispozitiv.",
     L10nKey.settingsSecurity to "Securitate",
     L10nKey.settingsAutoLock to "Blocare automată",
+    L10nKey.settingsBiometric to "Deblocare biometrică",
     L10nKey.settingsChangePassphrase to "Schimbă parola/PIN-ul",
     L10nKey.settingsBackup to "Copie de rezervă criptată",
     L10nKey.settingsRestore to "Restaurează",

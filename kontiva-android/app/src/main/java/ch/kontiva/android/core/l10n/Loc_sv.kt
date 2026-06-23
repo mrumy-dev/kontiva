@@ -221,6 +221,7 @@ internal val LOC_sv: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Lagras endast lokalt på den här enheten.",
     L10nKey.settingsSecurity to "Säkerhet",
     L10nKey.settingsAutoLock to "Automatiskt lås",
+    L10nKey.settingsBiometric to "Biometrisk upplåsning",
     L10nKey.settingsChangePassphrase to "Ändra lösenord/PIN",
     L10nKey.settingsBackup to "Krypterad säkerhetskopia",
     L10nKey.settingsRestore to "Återställ",

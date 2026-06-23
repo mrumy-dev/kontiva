@@ -221,6 +221,7 @@ internal val LOC_bs: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Sačuvano samo lokalno na ovom uređaju.",
     L10nKey.settingsSecurity to "Sigurnost",
     L10nKey.settingsAutoLock to "Automatsko zaključavanje",
+    L10nKey.settingsBiometric to "Biometrijsko otključavanje",
     L10nKey.settingsChangePassphrase to "Promijeni lozinku/PIN",
     L10nKey.settingsBackup to "Šifrirana rezervna kopija",
     L10nKey.settingsRestore to "Vrati",

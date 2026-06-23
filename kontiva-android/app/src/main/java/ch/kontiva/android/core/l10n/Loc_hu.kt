@@ -221,6 +221,7 @@ internal val LOC_hu: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Csak helyben, ezen az eszközön tárolva.",
     L10nKey.settingsSecurity to "Biztonság",
     L10nKey.settingsAutoLock to "Automatikus zárolás",
+    L10nKey.settingsBiometric to "Biometrikus feloldás",
     L10nKey.settingsChangePassphrase to "Jelszó/PIN módosítása",
     L10nKey.settingsBackup to "Titkosított biztonsági mentés",
     L10nKey.settingsRestore to "Visszaállítás",

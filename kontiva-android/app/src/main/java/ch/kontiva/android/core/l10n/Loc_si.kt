@@ -221,6 +221,7 @@ internal val LOC_si: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "මෙම උපාංගයේ පමණක් දේශීයව සුරැකේ.",
     L10nKey.settingsSecurity to "ආරක්ෂාව",
     L10nKey.settingsAutoLock to "ස්වයංක්‍රීය අගුල",
+    L10nKey.settingsBiometric to "ජෛවමිතික අගුළු ඇරීම",
     L10nKey.settingsChangePassphrase to "මුරපදය/PIN වෙනස් කරන්න",
     L10nKey.settingsBackup to "සංකේතාත්මක උපස්ථය",
     L10nKey.settingsRestore to "ප්‍රතිස්ථාපනය",

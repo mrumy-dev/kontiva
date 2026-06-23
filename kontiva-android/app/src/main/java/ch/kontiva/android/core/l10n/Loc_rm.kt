@@ -221,6 +221,7 @@ internal val LOC_rm: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Memorisà mo localmain sin quest apparat.",
     L10nKey.settingsSecurity to "Segirezza",
     L10nKey.settingsAutoLock to "Serra automatica",
+    L10nKey.settingsBiometric to "Sbloccar biometric",
     L10nKey.settingsChangePassphrase to "Midar pled-clav/PIN",
     L10nKey.settingsBackup to "Copia da segirezza criptada",
     L10nKey.settingsRestore to "Restaurar",

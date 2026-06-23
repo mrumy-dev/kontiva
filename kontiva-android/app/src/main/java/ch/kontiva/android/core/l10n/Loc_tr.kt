@@ -221,6 +221,7 @@ internal val LOC_tr: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Yalnızca bu cihazda yerel olarak saklanır.",
     L10nKey.settingsSecurity to "Güvenlik",
     L10nKey.settingsAutoLock to "Otomatik kilit",
+    L10nKey.settingsBiometric to "Biyometrik kilit açma",
     L10nKey.settingsChangePassphrase to "Parolayı/PIN'i değiştir",
     L10nKey.settingsBackup to "Şifreli yedek",
     L10nKey.settingsRestore to "Geri yükle",

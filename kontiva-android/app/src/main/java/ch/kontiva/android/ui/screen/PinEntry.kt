@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Backspace
+import androidx.compose.material.icons.rounded.Fingerprint
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -64,6 +65,7 @@ fun PinEntry(
     resetSignal: Int,
     errorSignal: Int,
     onComplete: (String) -> Unit,
+    onBiometric: (() -> Unit)? = null,
 ) {
     val colors = KontivaTheme.colors
     val haptics = LocalHapticFeedback.current
@@ -120,7 +122,7 @@ fun PinEntry(
         }
 
         Spacer(Modifier.weight(1f))
-        Keypad(onDigit = ::press, onBackspace = ::backspace, textColor = colors.textPrimary)
+        Keypad(onDigit = ::press, onBackspace = ::backspace, onBiometric = onBiometric, textColor = colors.textPrimary)
         Spacer(Modifier.height(KontivaTheme.spaceLg))
     }
 }
@@ -139,7 +141,7 @@ private fun PinDot(filled: Boolean, accent: Color) {
 }
 
 @Composable
-private fun Keypad(onDigit: (Int) -> Unit, onBackspace: () -> Unit, textColor: Color) {
+private fun Keypad(onDigit: (Int) -> Unit, onBackspace: () -> Unit, onBiometric: (() -> Unit)?, textColor: Color) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
@@ -150,10 +152,25 @@ private fun Keypad(onDigit: (Int) -> Unit, onBackspace: () -> Unit, textColor: C
             }
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            Spacer(Modifier.size(72.dp))
+            if (onBiometric != null) BiometricKey(onBiometric) else Spacer(Modifier.size(72.dp))
             KeyButton(label = "0", textColor = textColor) { onDigit(0) }
             KeyButton(label = null, textColor = textColor, onClick = onBackspace)
         }
+    }
+}
+
+@Composable
+private fun BiometricKey(onClick: () -> Unit) {
+    val colors = KontivaTheme.colors
+    Box(
+        modifier = Modifier
+            .size(72.dp)
+            .clip(CircleShape)
+            .background(colors.cardSurface)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(Icons.Rounded.Fingerprint, contentDescription = "biometric", tint = KontivaTheme.accent, modifier = Modifier.size(30.dp))
     }
 }
 

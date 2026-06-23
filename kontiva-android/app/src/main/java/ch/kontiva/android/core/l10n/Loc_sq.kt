@@ -221,6 +221,7 @@ internal val LOC_sq: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Ruhet vetëm lokalisht në këtë pajisje.",
     L10nKey.settingsSecurity to "Siguria",
     L10nKey.settingsAutoLock to "Kyçje automatike",
+    L10nKey.settingsBiometric to "Shkyçje biometrike",
     L10nKey.settingsChangePassphrase to "Ndrysho fjalëkalimin/PIN-in",
     L10nKey.settingsBackup to "Kopje rezervë e enkriptuar",
     L10nKey.settingsRestore to "Rikthe",

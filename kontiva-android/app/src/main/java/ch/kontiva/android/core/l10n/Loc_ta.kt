@@ -221,6 +221,7 @@ internal val LOC_ta: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "இந்த சாதனத்தில் மட்டுமே உள்ளூரில் சேமிக்கப்படுகிறது.",
     L10nKey.settingsSecurity to "பாதுகாப்பு",
     L10nKey.settingsAutoLock to "தானியங்கு பூட்டு",
+    L10nKey.settingsBiometric to "பயோமெட்ரிக் திறப்பு",
     L10nKey.settingsChangePassphrase to "கடவுச்சொல்/PIN மாற்று",
     L10nKey.settingsBackup to "மறையாக்கப்பட்ட காப்புப்பிரதி",
     L10nKey.settingsRestore to "மீட்டமை",

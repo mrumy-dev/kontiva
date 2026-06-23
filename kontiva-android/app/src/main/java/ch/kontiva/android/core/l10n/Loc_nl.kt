@@ -221,6 +221,7 @@ internal val LOC_nl: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Alleen lokaal op dit apparaat opgeslagen.",
     L10nKey.settingsSecurity to "Beveiliging",
     L10nKey.settingsAutoLock to "Automatisch vergrendelen",
+    L10nKey.settingsBiometric to "Biometrisch ontgrendelen",
     L10nKey.settingsChangePassphrase to "Wachtwoord/pincode wijzigen",
     L10nKey.settingsBackup to "Versleutelde back-up",
     L10nKey.settingsRestore to "Herstellen",

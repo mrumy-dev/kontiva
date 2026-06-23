@@ -38,6 +38,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -177,6 +178,13 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                     }
                 }
                 NavRow(loc(L10nKey.settingsChangePassphrase)) { showChangePass = true }
+                if (vm.biometricAvailable) {
+                    Row(Modifier.fillMaxWidth().padding(vertical = KontivaTheme.spaceSm), verticalAlignment = Alignment.CenterVertically) {
+                        Text(loc(L10nKey.settingsBiometric), color = colors.textPrimary)
+                        Spacer(Modifier.weight(1f))
+                        Switch(checked = vm.biometricEnabled, onCheckedChange = { on -> if (on) vm.enableBiometric() else vm.disableBiometric() })
+                    }
+                }
             }
         }
 

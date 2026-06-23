@@ -221,6 +221,7 @@ internal val LOC_itCH: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Salvato solo localmente su questo dispositivo.",
     L10nKey.settingsSecurity to "Sicurezza",
     L10nKey.settingsAutoLock to "Blocco automatico",
+    L10nKey.settingsBiometric to "Sblocco biometrico",
     L10nKey.settingsChangePassphrase to "Cambia passphrase/PIN",
     L10nKey.settingsBackup to "Backup cifrato",
     L10nKey.settingsRestore to "Ripristina",

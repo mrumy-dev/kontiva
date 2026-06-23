@@ -33,6 +33,8 @@ import ch.kontiva.android.persistence.AppDataset
 import ch.kontiva.android.persistence.EncryptedStore
 import ch.kontiva.android.persistence.Household
 import ch.kontiva.android.persistence.StoreLocation
+import ch.kontiva.android.security.BiometricAuth
+import ch.kontiva.android.security.BiometricVault
 import ch.kontiva.android.security.WrongPassphraseException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,6 +73,16 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         private set
     var unlockFailed by mutableStateOf(false)
         private set
+
+    /** Held only while unlocked, to enrol biometrics without re-prompting; cleared on lock. */
+    private var sessionPassphrase: String? = null
+
+    /** Whether a passphrase is stored behind biometrics (mirrors iOS biometricEnabled). */
+    var biometricEnabled by mutableStateOf(BiometricVault.hasStored(app))
+        private set
+
+    /** Whether the device offers a usable biometric (fingerprint/face). */
+    val biometricAvailable: Boolean get() = BiometricAuth.isAvailable(getApplication())
 
     /** The month the whole app is viewing (first of month). Drives availability,
      *  bill classification, savings accumulation, and insights. */
@@ -129,6 +141,10 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
             val ok = withContext(Dispatchers.Default) {
                 try { store.changePassphrase(old, new); true } catch (_: Exception) { false }
             }
+            if (ok) {
+                sessionPassphrase = new
+                if (biometricEnabled) BiometricVault.store(getApplication(), new) // keep biometrics in sync
+            }
             onResult(ok)
         }
     }
@@ -136,6 +152,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     /** Danger zone: wipe the vault and return to onboarding. */
     fun deleteAllData() {
         store.deleteAllData()
+        disableBiometric()
+        sessionPassphrase = null
         household = null
         dataset = AppDataset.empty
         phase = AppPhase.ONBOARDING
@@ -163,6 +181,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
             withContext(Dispatchers.Default) {
                 store.createVault(passphrase, AppDataset(household = hh, appSettings = settings))
             }
+            sessionPassphrase = passphrase
             household = hh
             dataset = store.snapshot()
             busy = false
@@ -184,6 +203,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             if (ok) {
+                sessionPassphrase = passphrase
                 val snap = store.snapshot()
                 household = snap.household
                 dataset = snap
@@ -276,9 +296,29 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     fun lock() {
         store.lock()
+        sessionPassphrase = null
         household = null
         phase = AppPhase.LOCKED
     }
+
+    // Biometric unlock (fingerprint/face) — 1:1 with the iOS BiometricVault flow.
+
+    /** Store the current passphrase behind biometrics. Requires being unlocked. */
+    fun enableBiometric(): Boolean {
+        val pass = sessionPassphrase ?: return false
+        val ok = BiometricVault.store(getApplication(), pass)
+        biometricEnabled = BiometricVault.hasStored(getApplication())
+        return ok
+    }
+
+    /** Forget the biometric-stored passphrase. */
+    fun disableBiometric() {
+        BiometricVault.clear(getApplication())
+        biometricEnabled = false
+    }
+
+    /** The passphrase stored behind biometrics — call only after a successful prompt. */
+    fun biometricPassphrase(): String? = BiometricVault.retrieve(getApplication())
 
     private fun deviceLocales(): List<Locale> {
         val list = getApplication<Application>().resources.configuration.locales

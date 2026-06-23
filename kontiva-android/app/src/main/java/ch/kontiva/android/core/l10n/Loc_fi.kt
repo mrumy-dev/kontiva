@@ -221,6 +221,7 @@ internal val LOC_fi: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Tallennetaan vain paikallisesti tähän laitteeseen.",
     L10nKey.settingsSecurity to "Suojaus",
     L10nKey.settingsAutoLock to "Automaattinen lukitus",
+    L10nKey.settingsBiometric to "Biometrinen avaus",
     L10nKey.settingsChangePassphrase to "Vaihda salasana/PIN",
     L10nKey.settingsBackup to "Salattu varmuuskopio",
     L10nKey.settingsRestore to "Palauta",

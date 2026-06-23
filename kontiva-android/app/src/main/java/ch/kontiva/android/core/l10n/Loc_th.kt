@@ -221,6 +221,7 @@ internal val LOC_th: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "จัดเก็บไว้ในเครื่องนี้เท่านั้น",
     L10nKey.settingsSecurity to "ความปลอดภัย",
     L10nKey.settingsAutoLock to "ล็อกอัตโนมัติ",
+    L10nKey.settingsBiometric to "ปลดล็อกด้วยไบโอเมตริก",
     L10nKey.settingsChangePassphrase to "เปลี่ยนรหัสผ่าน/PIN",
     L10nKey.settingsBackup to "การสำรองข้อมูลที่เข้ารหัส",
     L10nKey.settingsRestore to "กู้คืน",

@@ -221,6 +221,7 @@ internal val LOC_deCH: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Nur lokal auf diesem Gerät gespeichert.",
     L10nKey.settingsSecurity to "Sicherheit",
     L10nKey.settingsAutoLock to "Automatische Sperre",
+    L10nKey.settingsBiometric to "Biometrisches Entsperren",
     L10nKey.settingsChangePassphrase to "Passphrase/PIN ändern",
     L10nKey.settingsBackup to "Verschlüsseltes Backup",
     L10nKey.settingsRestore to "Wiederherstellen",

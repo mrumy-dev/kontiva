@@ -221,6 +221,7 @@ internal val LOC_vi: Map<L10nKey, String> = mapOf(
     L10nKey.profileLocalNote to "Chỉ lưu cục bộ trên thiết bị này.",
     L10nKey.settingsSecurity to "Bảo mật",
     L10nKey.settingsAutoLock to "Tự động khóa",
+    L10nKey.settingsBiometric to "Mở khóa sinh trắc học",
     L10nKey.settingsChangePassphrase to "Đổi mật khẩu/PIN",
     L10nKey.settingsBackup to "Sao lưu được mã hóa",
     L10nKey.settingsRestore to "Khôi phục",

@@ -81,6 +81,7 @@ dependencies {
 
     // Convenience biometric unlock (mirrors the iOS Face ID unlock).
     implementation("androidx.biometric:biometric:1.1.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.5") // FragmentActivity for BiometricPrompt
 
     debugImplementation("androidx.compose.ui:ui-tooling")
 }

@@ -100,6 +100,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     fun previousMonth() { selectedMonth = selectedMonth.minusMonths(1) }
     fun nextMonth() { selectedMonth = selectedMonth.plusMonths(1) }
+    fun goToToday() { selectedMonth = LocalDate.now().withDayOfMonth(1) }
+    val isCurrentMonth: Boolean get() = selectedMonth == LocalDate.now().withDayOfMonth(1)
 
     // Auto-lock: lock the vault when the app has been backgrounded longer than the
     // chosen interval (NEVER disables it). Driven by the Activity lifecycle.

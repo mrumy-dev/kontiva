@@ -20,7 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.AttachMoney
+import androidx.compose.material.icons.rounded.Payments
 import androidx.compose.material.icons.rounded.SwapHoriz
 import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
@@ -93,7 +93,7 @@ fun PlanningScreen(vm: KontivaViewModel) {
         }
         item {
             SectionCard(
-                icon = Icons.Rounded.AttachMoney,
+                icon = Icons.Rounded.Payments,
                 title = loc(L10nKey.planningIncome),
                 count = d.incomes.size,
                 total = avail.netIncomeThisMonth.formattedCHF(),
@@ -101,7 +101,7 @@ fun PlanningScreen(vm: KontivaViewModel) {
             ) {
                 d.incomes.forEach { e ->
                     EntryRow(
-                        Icons.Rounded.AttachMoney, e.label, e.thirteenthAmount?.let { "+13. ${it.formattedCHF()}" }, e.monthlyNet.formattedCHF(),
+                        Icons.Rounded.Payments, e.label, e.thirteenthAmount?.let { "+13. ${it.formattedCHF()}" }, e.monthlyNet.formattedCHF(),
                         onClick = {
                             editId = e.id; initName = e.label; initAmt = e.monthlyNet.formattedCHF(false)
                             init13th = e.thirteenthAmount?.formattedCHF(false) ?: ""; init13thModel = e.thirteenthModel
@@ -191,23 +191,28 @@ fun PlanningScreen(vm: KontivaViewModel) {
 @Composable
 private fun SummaryCard(label: String, value: String, income: String, fixed: String, variable: String) {
     val colors = KontivaTheme.colors
+    val loc = LocalLocalizer.current
     Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(KontivaTheme.spaceMd)) {
             Text(label.uppercase(), fontSize = 11.sp, color = colors.textTertiary)
             AnimatedAmount(value, fontSize = 26.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-            Spacer(Modifier.size(KontivaTheme.spaceSm))
+            Spacer(Modifier.size(KontivaTheme.spaceMd))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                MiniStat(KontivaTheme.colors.positive, income)
-                MiniStat(colors.textSecondary, fixed)
-                MiniStat(colors.textSecondary, variable)
+                MiniStat(loc(L10nKey.planningIncome), income, colors.positive)
+                MiniStat(loc(L10nKey.planningFixed), fixed, colors.textSecondary)
+                MiniStat(loc(L10nKey.planningVariable), variable, colors.textSecondary)
             }
         }
     }
 }
 
 @Composable
-private fun MiniStat(color: Color, value: String) {
-    Text(value, fontSize = 13.sp, color = color, fontWeight = FontWeight.Medium)
+private fun MiniStat(label: String, value: String, color: Color) {
+    val colors = KontivaTheme.colors
+    Column {
+        Text(label, fontSize = 10.sp, color = colors.textTertiary, maxLines = 1)
+        Text(value, fontSize = 14.sp, color = color, fontWeight = FontWeight.SemiBold)
+    }
 }
 
 @Composable

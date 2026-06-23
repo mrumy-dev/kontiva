@@ -1,6 +1,7 @@
 package ch.kontiva.android.ui.screen
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.KontivaViewModel
 import ch.kontiva.android.ui.theme.KontivaTheme
@@ -38,11 +40,29 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun MonthHeader(title: String, vm: KontivaViewModel) {
     val colors = KontivaTheme.colors
+    val loc = LocalLocalizer.current
     Column(Modifier.fillMaxWidth()) {
         Text(title, fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
         Spacer(Modifier.height(KontivaTheme.spaceMd))
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(KontivaTheme.spaceSm, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             MonthSelector(vm)
+            // Jump back to the current month — only shown when you've navigated away.
+            if (!vm.isCurrentMonth) {
+                Surface(
+                    shape = RoundedCornerShape(20.dp),
+                    color = KontivaTheme.accent.copy(alpha = 0.12f),
+                    modifier = Modifier.clickable { vm.goToToday() },
+                ) {
+                    Text(
+                        loc(L10nKey.monthToday), color = KontivaTheme.accent, fontWeight = FontWeight.SemiBold, fontSize = 13.sp,
+                        modifier = Modifier.padding(horizontal = KontivaTheme.spaceMd, vertical = KontivaTheme.spaceXs),
+                    )
+                }
+            }
         }
     }
 }

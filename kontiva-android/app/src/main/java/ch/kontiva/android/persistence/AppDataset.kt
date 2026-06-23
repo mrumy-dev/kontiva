@@ -1,6 +1,7 @@
 package ch.kontiva.android.persistence
 
 import ch.kontiva.android.core.AppSettings
+import ch.kontiva.android.core.Canton
 import ch.kontiva.android.core.DebtItem
 import ch.kontiva.android.core.Income
 import ch.kontiva.android.core.OneOffBill
@@ -22,6 +23,7 @@ data class Household(
     val avatarName: String? = null,
     val adults: Int = 1,
     val children: Int = 0,
+    val canton: Canton? = null,
 )
 
 /**

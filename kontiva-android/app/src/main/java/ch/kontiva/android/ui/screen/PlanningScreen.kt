@@ -59,8 +59,9 @@ fun PlanningScreen(vm: KontivaViewModel) {
     var initAmt by remember { mutableStateOf("") }
     var initFixedCat by remember { mutableStateOf<FixedExpenseCategory?>(null) }
     var initVarCat by remember { mutableStateOf<VariableBudgetCategory?>(null) }
+    var init13th by remember { mutableStateOf("") }
 
-    fun startAdd(k: Sheet) { editId = null; initName = ""; initAmt = ""; initFixedCat = null; initVarCat = null; sheet = k }
+    fun startAdd(k: Sheet) { editId = null; initName = ""; initAmt = ""; initFixedCat = null; initVarCat = null; init13th = ""; sheet = k }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -93,8 +94,8 @@ fun PlanningScreen(vm: KontivaViewModel) {
             ) {
                 d.incomes.forEach { e ->
                     EntryRow(
-                        Icons.Rounded.AttachMoney, e.label, null, e.monthlyNet.formattedCHF(),
-                        onClick = { editId = e.id; initName = e.label; initAmt = e.monthlyNet.formattedCHF(false); sheet = Sheet.INCOME },
+                        Icons.Rounded.AttachMoney, e.label, e.thirteenthAmount?.let { "+13. ${it.formattedCHF()}" }, e.monthlyNet.formattedCHF(),
+                        onClick = { editId = e.id; initName = e.label; initAmt = e.monthlyNet.formattedCHF(false); init13th = e.thirteenthAmount?.formattedCHF(false) ?: ""; sheet = Sheet.INCOME },
                         onDelete = { vm.deleteIncome(e.id) },
                     )
                 }
@@ -139,14 +140,11 @@ fun PlanningScreen(vm: KontivaViewModel) {
     }
 
     when (sheet) {
-        Sheet.INCOME -> EntrySheet<Unit>(
-            title = loc(L10nKey.planningIncome),
-            categories = null,
-            categoryLabel = { "" },
-            initialName = initName, initialAmount = initAmt,
+        Sheet.INCOME -> IncomeSheet(
+            initialName = initName, initialAmount = initAmt, initialThirteenth = init13th,
             onDismiss = { sheet = null },
-            onSave = { name, amount, _ ->
-                editId?.let { vm.updateIncome(it, name, amount) } ?: vm.addIncome(name, amount); sheet = null
+            onSave = { name, amount, thirteenth ->
+                editId?.let { vm.updateIncome(it, name, amount, thirteenth) } ?: vm.addIncome(name, amount, thirteenth); sheet = null
             },
         )
         Sheet.FIXED -> EntrySheet(

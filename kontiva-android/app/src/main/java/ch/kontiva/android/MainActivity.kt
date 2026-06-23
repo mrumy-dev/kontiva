@@ -8,6 +8,8 @@ import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.core.l10n.Localizer
 import ch.kontiva.android.ui.AppPhase
@@ -23,6 +25,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // Auto-lock: lock the vault after the chosen idle interval in the background.
+        lifecycle.addObserver(
+            LifecycleEventObserver { _, event ->
+                when (event) {
+                    Lifecycle.Event.ON_STOP -> vm.onAppBackgrounded()
+                    Lifecycle.Event.ON_START -> vm.onAppForegrounded()
+                    else -> {}
+                }
+            },
+        )
         setContent { KontivaRoot(vm) }
     }
 }

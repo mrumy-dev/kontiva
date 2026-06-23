@@ -12,6 +12,7 @@ import ch.kontiva.android.core.AppSettings
 import ch.kontiva.android.core.AutoLockInterval
 import ch.kontiva.android.core.AvailabilityEngine
 import ch.kontiva.android.core.BillStatus
+import ch.kontiva.android.core.Canton
 import ch.kontiva.android.core.DebtItem
 import ch.kontiva.android.core.DebtType
 import ch.kontiva.android.core.Insight
@@ -79,6 +80,21 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun previousMonth() { selectedMonth = selectedMonth.minusMonths(1) }
     fun nextMonth() { selectedMonth = selectedMonth.plusMonths(1) }
 
+    // Auto-lock: lock the vault when the app has been backgrounded longer than the
+    // chosen interval (NEVER disables it). Driven by the Activity lifecycle.
+    private var backgroundedAt: Long? = null
+
+    fun onAppBackgrounded() {
+        if (phase == AppPhase.UNLOCKED) backgroundedAt = System.currentTimeMillis()
+    }
+
+    fun onAppForegrounded() {
+        val since = backgroundedAt ?: return
+        backgroundedAt = null
+        val interval = dataset.securitySettings.autoLock.seconds ?: return
+        if ((System.currentTimeMillis() - since) / 1000 >= interval) lock()
+    }
+
     init {
         // Persist the resolved default so the lock screen reads the same language.
         settingsStore.save(settings)
@@ -93,8 +109,13 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         if (store.isUnlocked) runCatching { store.mutate { it.copy(appSettings = updated) }; dataset = store.snapshot() }
     }
 
-    fun updateProfile(name: String) {
-        edit { it.copy(household = if (name.isBlank()) null else (it.household?.copy(name = name) ?: Household(name = name))) }
+    fun updateProfile(name: String, canton: Canton?) {
+        edit {
+            it.copy(
+                household = if (name.isBlank()) null
+                else (it.household?.copy(name = name, canton = canton) ?: Household(name = name, canton = canton)),
+            )
+        }
         household = dataset.household
     }
 
@@ -218,8 +239,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteDebt(id: String) = edit { it.copy(debts = it.debts.filterNot { e -> e.id == id }) }
 
     // Edits ----------------------------------------------------------------
-    fun updateIncome(id: String, label: String, amount: Money) =
-        edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount) else it }) }
+    fun updateIncome(id: String, label: String, amount: Money, thirteenth: Money?) =
+        edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount, thirteenthAmount = thirteenth) else it }) }
 
     fun updateFixedCost(id: String, name: String, amount: Money, category: FixedExpenseCategory) =
         edit { ds -> ds.copy(fixedCosts = ds.fixedCosts.map { if (it.id == id) it.copy(name = name, monthlyAmount = amount, category = category) else it }) }

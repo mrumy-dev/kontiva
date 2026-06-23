@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -124,6 +125,62 @@ fun <C> EntrySheet(
             ) {
                 Text(loc(L10nKey.commonSave), fontWeight = FontWeight.SemiBold)
             }
+        }
+    }
+}
+
+/** Income add/edit sheet: name + amount + optional 13th-salary instalment. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun IncomeSheet(
+    initialName: String = "",
+    initialAmount: String = "",
+    initialThirteenth: String = "",
+    onDismiss: () -> Unit,
+    onSave: (name: String, amount: Money, thirteenth: Money?) -> Unit,
+) {
+    val loc = LocalLocalizer.current
+    val colors = KontivaTheme.colors
+    var name by remember { mutableStateOf(initialName) }
+    var amountText by remember { mutableStateOf(initialAmount) }
+    var hasThirteenth by remember { mutableStateOf(initialThirteenth.isNotBlank()) }
+    var thirteenthText by remember { mutableStateOf(initialThirteenth) }
+
+    val amount = Money.parse(amountText)
+    val canSave = name.isNotBlank() && amount != null && !amount.isZero
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        containerColor = colors.cardSurface,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    ) {
+        Column(
+            Modifier.padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding(),
+            verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
+        ) {
+            Text(loc(L10nKey.planningIncome), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+            OutlinedTextField(name, { name = it }, label = { Text(loc(L10nKey.formName)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(
+                amountText, { amountText = it }, label = { Text(loc(L10nKey.formAmount)) }, prefix = { Text("CHF ") },
+                singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth(),
+            )
+            Row(Modifier.fillMaxWidth().padding(vertical = KontivaTheme.spaceXs), verticalAlignment = Alignment.CenterVertically) {
+                Text(loc(L10nKey.formThirteenthAmount), color = colors.textPrimary)
+                Spacer(Modifier.weight(1f))
+                Switch(checked = hasThirteenth, onCheckedChange = { hasThirteenth = it })
+            }
+            if (hasThirteenth) {
+                OutlinedTextField(
+                    thirteenthText, { thirteenthText = it }, label = { Text(loc(L10nKey.formThirteenthAmount)) }, prefix = { Text("CHF ") },
+                    singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth(),
+                )
+            }
+            Button(
+                onClick = { if (canSave) onSave(name.trim(), amount!!, if (hasThirteenth) Money.parse(thirteenthText) else null) },
+                enabled = canSave, modifier = Modifier.fillMaxWidth().height(52.dp),
+                shape = RoundedCornerShape(KontivaTheme.radiusControl),
+                colors = ButtonDefaults.buttonColors(containerColor = KontivaTheme.accent, contentColor = Color.White),
+            ) { Text(loc(L10nKey.commonSave), fontWeight = FontWeight.SemiBold) }
         }
     }
 }

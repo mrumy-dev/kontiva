@@ -56,6 +56,7 @@ import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.AccentTheme
 import ch.kontiva.android.core.AppLanguage
 import ch.kontiva.android.core.AutoLockInterval
+import ch.kontiva.android.core.Canton
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.KontivaViewModel
@@ -70,6 +71,8 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     var showChangePass by remember { mutableStateOf(false) }
     var showDeleteConfirm by remember { mutableStateOf(false) }
     var name by remember(vm.household) { mutableStateOf(vm.household?.name ?: "") }
+    var canton by remember(vm.household) { mutableStateOf(vm.household?.canton) }
+    var cantonMenu by remember { mutableStateOf(false) }
     var autoLockMenu by remember { mutableStateOf(false) }
 
     if (showLangPicker) {
@@ -93,8 +96,18 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
         item {
             SettingsCard(loc(L10nKey.settingsProfile)) {
                 OutlinedTextField(name, { name = it }, label = { Text(loc(L10nKey.profileName)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
-                Spacer(Modifier.height(KontivaTheme.spaceXs))
-                TextButton(onClick = { vm.updateProfile(name) }) { Text(loc(L10nKey.commonSave), color = KontivaTheme.accent) }
+                Row(Modifier.fillMaxWidth().clickable { cantonMenu = true }.padding(vertical = KontivaTheme.spaceSm), verticalAlignment = Alignment.CenterVertically) {
+                    Text(loc(L10nKey.settingsCanton), color = colors.textSecondary)
+                    Spacer(Modifier.weight(1f))
+                    Text(canton?.let { "${it.name} (${it.abbreviation})" } ?: "—", color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                    DropdownMenu(expanded = cantonMenu, onDismissRequest = { cantonMenu = false }) {
+                        DropdownMenuItem(text = { Text("—") }, onClick = { canton = null; cantonMenu = false })
+                        Canton.all.forEach { c ->
+                            DropdownMenuItem(text = { Text("${c.name} (${c.abbreviation})") }, onClick = { canton = c; cantonMenu = false })
+                        }
+                    }
+                }
+                TextButton(onClick = { vm.updateProfile(name, canton) }) { Text(loc(L10nKey.commonSave), color = KontivaTheme.accent) }
             }
         }
 

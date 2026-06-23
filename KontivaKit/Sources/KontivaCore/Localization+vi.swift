@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Chỉ lưu cục bộ trên thiết bị này.",
         .settingsSecurity: "Bảo mật",
         .settingsAutoLock: "Tự động khóa",
+        .settingsBiometric: "Mở khóa sinh trắc học",
         .settingsChangePassphrase: "Đổi mật khẩu/PIN",
         .settingsBackup: "Sao lưu được mã hóa",
         .settingsRestore: "Khôi phục",

@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Se guarda solo localmente en este dispositivo.",
         .settingsSecurity: "Seguridad",
         .settingsAutoLock: "Bloqueo automático",
+        .settingsBiometric: "Desbloqueo biométrico",
         .settingsChangePassphrase: "Cambiar contraseña/PIN",
         .settingsBackup: "Copia de seguridad cifrada",
         .settingsRestore: "Restaurar",

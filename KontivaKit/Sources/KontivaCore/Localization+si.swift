@@ -230,6 +230,7 @@ extension Localization {
         .profileLocalNote: "මෙම උපාංගයේ පමණක් දේශීයව සුරැකේ.",
         .settingsSecurity: "ආරක්ෂාව",
         .settingsAutoLock: "ස්වයංක්‍රීය අගුල",
+        .settingsBiometric: "ජෛවමිතික අගුළු ඇරීම",
         .settingsChangePassphrase: "මුරපදය/PIN වෙනස් කරන්න",
         .settingsBackup: "සංකේතාත්මක උපස්ථය",
         .settingsRestore: "ප්‍රතිස්ථාපනය",

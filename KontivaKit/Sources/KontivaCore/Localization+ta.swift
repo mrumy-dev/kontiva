@@ -230,6 +230,7 @@ extension Localization {
         .profileLocalNote: "இந்த சாதனத்தில் மட்டுமே உள்ளூரில் சேமிக்கப்படுகிறது.",
         .settingsSecurity: "பாதுகாப்பு",
         .settingsAutoLock: "தானியங்கு பூட்டு",
+        .settingsBiometric: "பயோமெட்ரிக் திறப்பு",
         .settingsChangePassphrase: "கடவுச்சொல்/PIN மாற்று",
         .settingsBackup: "மறையாக்கப்பட்ட காப்புப்பிரதி",
         .settingsRestore: "மீட்டமை",

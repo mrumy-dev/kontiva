@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Csak helyben, ezen az eszközön tárolva.",
         .settingsSecurity: "Biztonság",
         .settingsAutoLock: "Automatikus zárolás",
+        .settingsBiometric: "Biometrikus feloldás",
         .settingsChangePassphrase: "Jelszó/PIN módosítása",
         .settingsBackup: "Titkosított biztonsági mentés",
         .settingsRestore: "Visszaállítás",

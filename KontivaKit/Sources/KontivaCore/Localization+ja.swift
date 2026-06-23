@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "このデバイスにのみローカル保存されます。",
         .settingsSecurity: "セキュリティ",
         .settingsAutoLock: "自動ロック",
+        .settingsBiometric: "生体認証でロック解除",
         .settingsChangePassphrase: "パスワード/PIN を変更",
         .settingsBackup: "暗号化バックアップ",
         .settingsRestore: "復元",

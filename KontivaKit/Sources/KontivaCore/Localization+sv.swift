@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Lagras endast lokalt på den här enheten.",
         .settingsSecurity: "Säkerhet",
         .settingsAutoLock: "Automatiskt lås",
+        .settingsBiometric: "Biometrisk upplåsning",
         .settingsChangePassphrase: "Ändra lösenord/PIN",
         .settingsBackup: "Krypterad säkerhetskopia",
         .settingsRestore: "Återställ",

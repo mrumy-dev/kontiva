@@ -230,6 +230,7 @@ extension Localization {
         .profileLocalNote: "صرف اس آلے پر مقامی طور پر محفوظ۔",
         .settingsSecurity: "سیکیورٹی",
         .settingsAutoLock: "خودکار قفل",
+        .settingsBiometric: "بایومیٹرک ان لاک",
         .settingsChangePassphrase: "پاس ورڈ/PIN تبدیل کریں",
         .settingsBackup: "خفیہ کردہ بیک اپ",
         .settingsRestore: "بحال کریں",

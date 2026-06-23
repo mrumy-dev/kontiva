@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Stocat doar local pe acest dispozitiv.",
         .settingsSecurity: "Securitate",
         .settingsAutoLock: "Blocare automată",
+        .settingsBiometric: "Deblocare biometrică",
         .settingsChangePassphrase: "Schimbă parola/PIN-ul",
         .settingsBackup: "Copie de rezervă criptată",
         .settingsRestore: "Restaurează",

@@ -231,6 +231,7 @@ extension Localization {
         .profileLocalNote: "يُحفظ محليًا فقط على هذا الجهاز.",
         .settingsSecurity: "الأمان",
         .settingsAutoLock: "القفل التلقائي",
+        .settingsBiometric: "الفتح بالمقاييس الحيوية",
         .settingsChangePassphrase: "تغيير كلمة المرور/PIN",
         .settingsBackup: "نسخة احتياطية مشفّرة",
         .settingsRestore: "استعادة",

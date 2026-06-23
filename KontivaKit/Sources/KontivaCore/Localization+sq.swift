@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Ruhet vetëm lokalisht në këtë pajisje.",
         .settingsSecurity: "Siguria",
         .settingsAutoLock: "Kyçje automatike",
+        .settingsBiometric: "Shkyçje biometrike",
         .settingsChangePassphrase: "Ndrysho fjalëkalimin/PIN-in",
         .settingsBackup: "Kopje rezervë e enkriptuar",
         .settingsRestore: "Rikthe",

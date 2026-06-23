@@ -231,6 +231,7 @@ extension Localization {
         .profileLocalNote: "یوازې پدې وسیله کې محلي ډول خوندي کیږي.",
         .settingsSecurity: "خوندیتوب",
         .settingsAutoLock: "اتومات کلپ",
+        .settingsBiometric: "بايومتريک خلاصول",
         .settingsChangePassphrase: "پټنوم/PIN بدل کړئ",
         .settingsBackup: "کوډ شوی بیک اپ",
         .settingsRestore: "بیا راوستل",

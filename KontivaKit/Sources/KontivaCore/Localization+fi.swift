@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Tallennetaan vain paikallisesti tähän laitteeseen.",
         .settingsSecurity: "Suojaus",
         .settingsAutoLock: "Automaattinen lukitus",
+        .settingsBiometric: "Biometrinen avaus",
         .settingsChangePassphrase: "Vaihda salasana/PIN",
         .settingsBackup: "Salattu varmuuskopio",
         .settingsRestore: "Palauta",

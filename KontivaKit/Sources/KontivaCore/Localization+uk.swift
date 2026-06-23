@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Зберігається лише локально на цьому пристрої.",
         .settingsSecurity: "Безпека",
         .settingsAutoLock: "Автоблокування",
+        .settingsBiometric: "Біометричне розблокування",
         .settingsChangePassphrase: "Змінити пароль/PIN",
         .settingsBackup: "Зашифрована резервна копія",
         .settingsRestore: "Відновити",

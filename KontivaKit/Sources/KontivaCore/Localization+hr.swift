@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Pohranjeno samo lokalno na ovom uređaju.",
         .settingsSecurity: "Sigurnost",
         .settingsAutoLock: "Automatsko zaključavanje",
+        .settingsBiometric: "Biometrijsko otključavanje",
         .settingsChangePassphrase: "Promijeni lozinku/PIN",
         .settingsBackup: "Šifrirana sigurnosna kopija",
         .settingsRestore: "Vrati",

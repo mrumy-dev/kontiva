@@ -230,6 +230,7 @@ extension Localization {
         .profileLocalNote: "केवल इस डिवाइस पर स्थानीय रूप से सहेजा गया।",
         .settingsSecurity: "सुरक्षा",
         .settingsAutoLock: "स्वतः लॉक",
+        .settingsBiometric: "बायोमेट्रिक अनलॉक",
         .settingsChangePassphrase: "पासवर्ड/PIN बदलें",
         .settingsBackup: "एन्क्रिप्टेड बैकअप",
         .settingsRestore: "पुनर्स्थापित करें",

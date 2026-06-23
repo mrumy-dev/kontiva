@@ -229,6 +229,7 @@ extension Localization {
         .profileLocalNote: "Yalnızca bu cihazda yerel olarak saklanır.",
         .settingsSecurity: "Güvenlik",
         .settingsAutoLock: "Otomatik kilit",
+        .settingsBiometric: "Biyometrik kilit açma",
         .settingsChangePassphrase: "Parolayı/PIN'i değiştir",
         .settingsBackup: "Şifreli yedek",
         .settingsRestore: "Geri yükle",

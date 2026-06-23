@@ -232,6 +232,7 @@ extension Localization {
         .profileLocalNote: "Memorisà mo localmain sin quest apparat.",
         .settingsSecurity: "Segirezza",
         .settingsAutoLock: "Serra automatica",
+        .settingsBiometric: "Sbloccar biometric",
         .settingsChangePassphrase: "Midar pled-clav/PIN",
         .settingsBackup: "Copia da segirezza criptada",
         .settingsRestore: "Restaurar",

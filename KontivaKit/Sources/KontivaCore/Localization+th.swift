@@ -231,6 +231,7 @@ extension Localization {
         .profileLocalNote: "จัดเก็บไว้ในเครื่องนี้เท่านั้น",
         .settingsSecurity: "ความปลอดภัย",
         .settingsAutoLock: "ล็อกอัตโนมัติ",
+        .settingsBiometric: "ปลดล็อกด้วยไบโอเมตริก",
         .settingsChangePassphrase: "เปลี่ยนรหัสผ่าน/PIN",
         .settingsBackup: "การสำรองข้อมูลที่เข้ารหัส",
         .settingsRestore: "กู้คืน",

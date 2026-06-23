@@ -255,6 +255,7 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case profileLocalNote
     case settingsSecurity
     case settingsAutoLock
+    case settingsBiometric
     case settingsChangePassphrase
     case settingsBackup
     case settingsRestore

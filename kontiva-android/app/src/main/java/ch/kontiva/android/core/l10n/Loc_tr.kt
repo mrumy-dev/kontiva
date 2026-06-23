@@ -7,7 +7,7 @@ internal val LOC_tr: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "İsviçre bütçenize sakin, özel bir bakış.",
     L10nKey.notBetaNotice to "Erken geliştirme sürümü – beta değil, V1 değil.",
     L10nKey.navOverview to "Genel bakış",
-    L10nKey.navPlanning to "Aylık planlama",
+    L10nKey.navPlanning to "Plan",
     L10nKey.navSparen to "Tasarruf",
     L10nKey.navBills to "Faturalar",
     L10nKey.navSettings to "Ayarlar",

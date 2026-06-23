@@ -7,7 +7,7 @@ internal val LOC_mk: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Смирен, приватен преглед на вашиот швајцарски буџет.",
     L10nKey.notBetaNotice to "Рана развојна верзија – не е бета, не е V1.",
     L10nKey.navOverview to "Преглед",
-    L10nKey.navPlanning to "Месечно планирање",
+    L10nKey.navPlanning to "План",
     L10nKey.navSparen to "Штедење",
     L10nKey.navBills to "Сметки",
     L10nKey.navSettings to "Поставки",

@@ -8,7 +8,7 @@ extension Localization {
         .notBetaNotice: "ابتدائی ترقیاتی نسخہ – بیٹا نہیں، V1 نہیں۔",
 
         .navOverview: "جائزہ",
-        .navPlanning: "ماہانہ منصوبہ بندی",
+        .navPlanning: "منصوبہ",
         .navBills: "بل",
         .navSettings: "ترتیبات",
         .navReport: "مسئلہ رپورٹ کریں",

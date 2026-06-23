@@ -7,7 +7,7 @@ internal val LOC_ko: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "스위스 가계 예산을 차분하고 사적으로 한눈에.",
     L10nKey.notBetaNotice to "초기 개발 버전 — 베타도 V1도 아닙니다.",
     L10nKey.navOverview to "개요",
-    L10nKey.navPlanning to "월간 계획",
+    L10nKey.navPlanning to "계획",
     L10nKey.navSparen to "저축",
     L10nKey.navBills to "청구서",
     L10nKey.navSettings to "설정",

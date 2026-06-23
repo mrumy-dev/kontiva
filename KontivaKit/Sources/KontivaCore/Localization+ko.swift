@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "초기 개발 버전 — 베타도 V1도 아닙니다.",
 
         .navOverview: "개요",
-        .navPlanning: "월간 계획",
+        .navPlanning: "계획",
         .navBills: "청구서",
         .navSettings: "설정",
         .navReport: "문제 신고",

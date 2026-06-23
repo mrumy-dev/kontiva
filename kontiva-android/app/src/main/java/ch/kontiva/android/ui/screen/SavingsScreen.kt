@@ -79,19 +79,13 @@ fun SavingsScreen(vm: KontivaViewModel) {
     var editGoal by remember { mutableStateOf<SavingsGoal?>(null) }
     var sortMenu by remember { mutableStateOf(false) }
 
-    LazyColumn(
-        Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(KontivaTheme.spaceLg),
-        verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
-    ) {
-        item {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(loc(L10nKey.navSparen), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-                Spacer(Modifier.weight(1f))
-                MonthSelector(vm)
-                IconButton(onClick = { editGoal = null; showSheet = true }) { Icon(Icons.Rounded.Add, contentDescription = null, tint = KontivaTheme.accent) }
-            }
-        }
+    Box(Modifier.fillMaxSize()) {
+        LazyColumn(
+            Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(KontivaTheme.spaceLg),
+            verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
+        ) {
+        item { MonthHeader(loc(L10nKey.navSparen), vm) }
         if (goals.isEmpty()) {
             item { EmptyCard(loc(L10nKey.sparenEmpty)) }
             return@LazyColumn
@@ -137,6 +131,8 @@ fun SavingsScreen(vm: KontivaViewModel) {
         for (g in goals) {
             item { GoalCard(g, vm.selectedMonth, onClick = { editGoal = g; showSheet = true }, onDelete = { vm.deleteSavingsGoal(g.id) }) }
         }
+        }
+        AddFab { editGoal = null; showSheet = true }
     }
 
     if (showSheet) {

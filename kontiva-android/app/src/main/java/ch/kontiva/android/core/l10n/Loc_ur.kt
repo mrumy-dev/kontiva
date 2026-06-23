@@ -7,7 +7,7 @@ internal val LOC_ur: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "آپ کے سوئس بجٹ پر ایک پُرسکون، نجی نظر۔",
     L10nKey.notBetaNotice to "ابتدائی ترقیاتی نسخہ – بیٹا نہیں، V1 نہیں۔",
     L10nKey.navOverview to "جائزہ",
-    L10nKey.navPlanning to "ماہانہ منصوبہ بندی",
+    L10nKey.navPlanning to "منصوبہ",
     L10nKey.navSparen to "بچت",
     L10nKey.navBills to "بل",
     L10nKey.navSettings to "ترتیبات",

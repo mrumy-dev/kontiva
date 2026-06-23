@@ -7,7 +7,7 @@ internal val LOC_si: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "ඔබේ ස්විස් අයවැය පිළිබඳ සන්සුන්, පෞද්ගලික දැක්මක්.",
     L10nKey.notBetaNotice to "මුල් අදියර සංස්කරණයකි – බීටා නොවේ, V1 නොවේ.",
     L10nKey.navOverview to "දළ විශ්ලේෂණය",
-    L10nKey.navPlanning to "මාසික සැලසුම",
+    L10nKey.navPlanning to "සැලැස්ම",
     L10nKey.navSparen to "ඉතිරිකිරීම්",
     L10nKey.navBills to "බිල්පත්",
     L10nKey.navSettings to "සැකසීම්",

@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "Version i hershëm zhvillimi – jo beta, jo V1.",
 
         .navOverview: "Përmbledhje",
-        .navPlanning: "Planifikimi mujor",
+        .navPlanning: "Plani",
         .navBills: "Faturat",
         .navSettings: "Cilësimet",
         .navReport: "Raporto një problem",

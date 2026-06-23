@@ -7,7 +7,7 @@ internal val LOC_ro: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "O privire calmă și privată asupra bugetului tău elvețian.",
     L10nKey.notBetaNotice to "Versiune timpurie de dezvoltare – nu este beta, nu este V1.",
     L10nKey.navOverview to "Prezentare generală",
-    L10nKey.navPlanning to "Planificare lunară",
+    L10nKey.navPlanning to "Plan",
     L10nKey.navSparen to "Economii",
     L10nKey.navBills to "Facturi",
     L10nKey.navSettings to "Setări",

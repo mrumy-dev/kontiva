@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "Phiên bản phát triển sớm – không phải beta, không phải V1.",
 
         .navOverview: "Tổng quan",
-        .navPlanning: "Kế hoạch hàng tháng",
+        .navPlanning: "Kế hoạch",
         .navBills: "Hóa đơn",
         .navSettings: "Cài đặt",
         .navReport: "Báo cáo sự cố",

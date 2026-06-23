@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "Рання версія розробки – не бета, не V1.",
 
         .navOverview: "Огляд",
-        .navPlanning: "Планування на місяць",
+        .navPlanning: "План",
         .navBills: "Рахунки",
         .navSettings: "Налаштування",
         .navReport: "Повідомити про проблему",

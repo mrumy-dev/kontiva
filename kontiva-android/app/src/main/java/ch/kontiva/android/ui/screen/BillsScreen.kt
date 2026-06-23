@@ -94,21 +94,13 @@ fun BillsScreen(vm: KontivaViewModel) {
     val future = bills.filter { BillClassifier.state(it, month) == BillState.FUTURE }
     val paid = bills.filter { BillClassifier.state(it, month) == BillState.PAID }
 
-    LazyColumn(
-        Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(KontivaTheme.spaceLg),
-        verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
-    ) {
-        item {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(loc(L10nKey.billsTitle), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-                Spacer(Modifier.weight(1f))
-                MonthSelector(vm)
-                IconButton(onClick = { editBill = null; showSheet = true }) {
-                    Icon(Icons.Rounded.Add, contentDescription = null, tint = KontivaTheme.accent)
-                }
-            }
-        }
+    Box(Modifier.fillMaxSize()) {
+        LazyColumn(
+            Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(KontivaTheme.spaceLg),
+            verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
+        ) {
+        item { MonthHeader(loc(L10nKey.billsTitle), vm) }
         if (bills.isEmpty()) {
             item { EmptyCard(loc(L10nKey.billsEmpty)) }
             return@LazyColumn
@@ -149,6 +141,8 @@ fun BillsScreen(vm: KontivaViewModel) {
         billSection(loc(L10nKey.billsStateOverdue), sort.apply(overdue), vm, onEdit)
         billSection(loc(L10nKey.billsStateFuture), sort.apply(future), vm, onEdit)
         billSection(loc(L10nKey.billsStatusPaid), sort.apply(paid), vm, onEdit)
+        }
+        AddFab { editBill = null; showSheet = true }
     }
 
     if (showSheet) {

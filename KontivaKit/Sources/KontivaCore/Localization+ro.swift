@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "Versiune timpurie de dezvoltare – nu este beta, nu este V1.",
 
         .navOverview: "Prezentare generală",
-        .navPlanning: "Planificare lunară",
+        .navPlanning: "Plan",
         .navBills: "Facturi",
         .navSettings: "Setări",
         .navReport: "Raportează o problemă",

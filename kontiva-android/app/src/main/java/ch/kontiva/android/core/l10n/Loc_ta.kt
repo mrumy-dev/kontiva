@@ -7,7 +7,7 @@ internal val LOC_ta: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "உங்கள் சுவிஸ் பட்ஜெட்டின் அமைதியான, தனிப்பட்ட பார்வை.",
     L10nKey.notBetaNotice to "ஆரம்ப கட்ட பதிப்பு – பீட்டா அல்ல, V1 அல்ல.",
     L10nKey.navOverview to "கண்ணோட்டம்",
-    L10nKey.navPlanning to "மாதாந்திர திட்டமிடல்",
+    L10nKey.navPlanning to "திட்டம்",
     L10nKey.navSparen to "சேமிப்பு",
     L10nKey.navBills to "பில்கள்",
     L10nKey.navSettings to "அமைப்புகள்",

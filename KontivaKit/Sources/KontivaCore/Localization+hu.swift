@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "Korai fejlesztői verzió – nem béta, nem V1.",
 
         .navOverview: "Áttekintés",
-        .navPlanning: "Havi tervezés",
+        .navPlanning: "Terv",
         .navBills: "Számlák",
         .navSettings: "Beállítások",
         .navReport: "Probléma jelentése",

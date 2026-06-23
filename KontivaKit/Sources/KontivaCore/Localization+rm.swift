@@ -10,7 +10,7 @@ extension Localization {
         .notBetaNotice: "Versiun da svilup precoz – betg beta, betg V1.",
 
         .navOverview: "Survista",
-        .navPlanning: "Planisaziun mensila",
+        .navPlanning: "Plan",
         .navBills: "Quints",
         .navSettings: "Parameters",
         .navReport: "Rapportar in problem",

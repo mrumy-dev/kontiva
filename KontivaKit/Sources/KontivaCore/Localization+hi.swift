@@ -8,7 +8,7 @@ extension Localization {
         .notBetaNotice: "प्रारंभिक विकास संस्करण – बीटा नहीं, V1 नहीं।",
 
         .navOverview: "अवलोकन",
-        .navPlanning: "मासिक योजना",
+        .navPlanning: "योजना",
         .navBills: "बिल",
         .navSettings: "सेटिंग्स",
         .navReport: "समस्या की रिपोर्ट करें",

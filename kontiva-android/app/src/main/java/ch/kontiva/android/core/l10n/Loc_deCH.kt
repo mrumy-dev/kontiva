@@ -7,7 +7,7 @@ internal val LOC_deCH: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Ruhige, private Übersicht über Ihr Schweizer Budget.",
     L10nKey.notBetaNotice to "Frühe Entwicklungsversion – nicht beta-bereit, nicht V1.",
     L10nKey.navOverview to "Übersicht",
-    L10nKey.navPlanning to "Monatsplanung",
+    L10nKey.navPlanning to "Planung",
     L10nKey.navSparen to "Sparen",
     L10nKey.navBills to "Rechnungen",
     L10nKey.navSettings to "Einstellungen",

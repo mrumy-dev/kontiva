@@ -7,7 +7,7 @@ internal val LOC_vi: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Một cái nhìn yên tĩnh, riêng tư về ngân sách Thụy Sĩ của bạn.",
     L10nKey.notBetaNotice to "Phiên bản phát triển sớm – không phải beta, không phải V1.",
     L10nKey.navOverview to "Tổng quan",
-    L10nKey.navPlanning to "Kế hoạch hàng tháng",
+    L10nKey.navPlanning to "Kế hoạch",
     L10nKey.navSparen to "Tiết kiệm",
     L10nKey.navBills to "Hóa đơn",
     L10nKey.navSettings to "Cài đặt",

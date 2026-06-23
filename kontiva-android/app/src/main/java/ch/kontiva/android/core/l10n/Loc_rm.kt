@@ -7,7 +7,7 @@ internal val LOC_rm: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Ina survista quieta e privata da tes budget svizzer.",
     L10nKey.notBetaNotice to "Versiun da svilup precoz – betg beta, betg V1.",
     L10nKey.navOverview to "Survista",
-    L10nKey.navPlanning to "Planisaziun mensila",
+    L10nKey.navPlanning to "Plan",
     L10nKey.navSparen to "Spargn",
     L10nKey.navBills to "Quints",
     L10nKey.navSettings to "Parameters",

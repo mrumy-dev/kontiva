@@ -9,7 +9,7 @@ extension Localization {
         .notBetaNotice: "إصدار تطوير مبكر – ليس بيتا، وليس V1.",
 
         .navOverview: "نظرة عامة",
-        .navPlanning: "التخطيط الشهري",
+        .navPlanning: "التخطيط",
         .navBills: "الفواتير",
         .navSettings: "الإعدادات",
         .navReport: "الإبلاغ عن مشكلة",

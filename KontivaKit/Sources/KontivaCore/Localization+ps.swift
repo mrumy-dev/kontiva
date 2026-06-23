@@ -9,7 +9,7 @@ extension Localization {
         .notBetaNotice: "د پراختیا لومړنۍ نسخه – بیټا نه ده، V1 نه ده.",
 
         .navOverview: "لنډه کتنه",
-        .navPlanning: "میاشتنی پلان",
+        .navPlanning: "پلان",
         .navBills: "بلونه",
         .navSettings: "امستنې",
         .navReport: "ستونزه راپور کړئ",

@@ -7,7 +7,7 @@ internal val LOC_fi: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Rauhallinen, yksityinen näkymä sveitsiläiseen budjettiisi.",
     L10nKey.notBetaNotice to "Varhainen kehitysversio – ei beta, ei V1.",
     L10nKey.navOverview to "Yleiskatsaus",
-    L10nKey.navPlanning to "Kuukausisuunnittelu",
+    L10nKey.navPlanning to "Budjetti",
     L10nKey.navSparen to "Säästöt",
     L10nKey.navBills to "Laskut",
     L10nKey.navSettings to "Asetukset",

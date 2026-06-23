@@ -7,7 +7,7 @@ internal val LOC_zhHans: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "平静、私密地纵览你的瑞士预算。",
     L10nKey.notBetaNotice to "早期开发版本——非测试版，非 V1。",
     L10nKey.navOverview to "概览",
-    L10nKey.navPlanning to "月度规划",
+    L10nKey.navPlanning to "规划",
     L10nKey.navSparen to "储蓄",
     L10nKey.navBills to "账单",
     L10nKey.navSettings to "设置",

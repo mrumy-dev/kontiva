@@ -7,7 +7,7 @@ internal val LOC_th: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "มุมมองที่สงบและเป็นส่วนตัวต่องบประมาณสวิสของคุณ",
     L10nKey.notBetaNotice to "เวอร์ชันพัฒนาช่วงต้น – ไม่ใช่เบต้า ไม่ใช่ V1",
     L10nKey.navOverview to "ภาพรวม",
-    L10nKey.navPlanning to "การวางแผนรายเดือน",
+    L10nKey.navPlanning to "วางแผน",
     L10nKey.navSparen to "การออม",
     L10nKey.navBills to "ใบแจ้งหนี้",
     L10nKey.navSettings to "การตั้งค่า",

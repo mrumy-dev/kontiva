@@ -7,7 +7,7 @@ internal val LOC_hu: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Nyugodt, privát rálátás a svájci költségvetésedre.",
     L10nKey.notBetaNotice to "Korai fejlesztői verzió – nem béta, nem V1.",
     L10nKey.navOverview to "Áttekintés",
-    L10nKey.navPlanning to "Havi tervezés",
+    L10nKey.navPlanning to "Terv",
     L10nKey.navSparen to "Megtakarítás",
     L10nKey.navBills to "Számlák",
     L10nKey.navSettings to "Beállítások",

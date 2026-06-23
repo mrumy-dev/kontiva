@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "Erken geliştirme sürümü – beta değil, V1 değil.",
 
         .navOverview: "Genel bakış",
-        .navPlanning: "Aylık planlama",
+        .navPlanning: "Plan",
         .navBills: "Faturalar",
         .navSettings: "Ayarlar",
         .navReport: "Sorun bildir",

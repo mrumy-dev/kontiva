@@ -7,7 +7,7 @@ internal val LOC_hi: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "आपके स्विस बजट पर एक शांत, निजी नज़र।",
     L10nKey.notBetaNotice to "प्रारंभिक विकास संस्करण – बीटा नहीं, V1 नहीं।",
     L10nKey.navOverview to "अवलोकन",
-    L10nKey.navPlanning to "मासिक योजना",
+    L10nKey.navPlanning to "योजना",
     L10nKey.navSparen to "बचत",
     L10nKey.navBills to "बिल",
     L10nKey.navSettings to "सेटिंग्स",

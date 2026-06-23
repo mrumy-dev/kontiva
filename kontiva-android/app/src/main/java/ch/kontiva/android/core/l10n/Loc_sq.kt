@@ -7,7 +7,7 @@ internal val LOC_sq: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Një pamje e qetë dhe private e buxhetit tënd zviceran.",
     L10nKey.notBetaNotice to "Version i hershëm zhvillimi – jo beta, jo V1.",
     L10nKey.navOverview to "Përmbledhje",
-    L10nKey.navPlanning to "Planifikimi mujor",
+    L10nKey.navPlanning to "Plani",
     L10nKey.navSparen to "Kursime",
     L10nKey.navBills to "Faturat",
     L10nKey.navSettings to "Cilësimet",

@@ -9,7 +9,7 @@ extension Localization {
         .notBetaNotice: "เวอร์ชันพัฒนาช่วงต้น – ไม่ใช่เบต้า ไม่ใช่ V1",
 
         .navOverview: "ภาพรวม",
-        .navPlanning: "การวางแผนรายเดือน",
+        .navPlanning: "วางแผน",
         .navBills: "ใบแจ้งหนี้",
         .navSettings: "การตั้งค่า",
         .navReport: "รายงานปัญหา",

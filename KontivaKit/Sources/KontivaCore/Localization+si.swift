@@ -8,7 +8,7 @@ extension Localization {
         .notBetaNotice: "මුල් අදියර සංස්කරණයකි – බීටා නොවේ, V1 නොවේ.",
 
         .navOverview: "දළ විශ්ලේෂණය",
-        .navPlanning: "මාසික සැලසුම",
+        .navPlanning: "සැලැස්ම",
         .navBills: "බිල්පත්",
         .navSettings: "සැකසීම්",
         .navReport: "ගැටලුවක් වාර්තා කරන්න",

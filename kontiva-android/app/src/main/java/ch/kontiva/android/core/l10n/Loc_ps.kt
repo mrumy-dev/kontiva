@@ -7,7 +7,7 @@ internal val LOC_ps: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "ستاسو په سویس بودیجه یوه ارامه، شخصي کتنه.",
     L10nKey.notBetaNotice to "د پراختیا لومړنۍ نسخه – بیټا نه ده، V1 نه ده.",
     L10nKey.navOverview to "لنډه کتنه",
-    L10nKey.navPlanning to "میاشتنی پلان",
+    L10nKey.navPlanning to "پلان",
     L10nKey.navSparen to "سپما",
     L10nKey.navBills to "بلونه",
     L10nKey.navSettings to "امستنې",

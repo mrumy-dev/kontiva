@@ -7,7 +7,7 @@ internal val LOC_nb: Map<L10nKey, String> = mapOf(
     L10nKey.appTagline to "Et rolig, privat overblikk over det sveitsiske budsjettet ditt.",
     L10nKey.notBetaNotice to "Tidlig utviklingsversjon – ikke beta, ikke V1.",
     L10nKey.navOverview to "Oversikt",
-    L10nKey.navPlanning to "Månedsplan",
+    L10nKey.navPlanning to "Plan",
     L10nKey.navSparen to "Sparing",
     L10nKey.navBills to "Regninger",
     L10nKey.navSettings to "Innstillinger",

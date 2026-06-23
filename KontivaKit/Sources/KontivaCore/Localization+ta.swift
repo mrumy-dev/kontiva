@@ -8,7 +8,7 @@ extension Localization {
         .notBetaNotice: "ஆரம்ப கட்ட பதிப்பு – பீட்டா அல்ல, V1 அல்ல.",
 
         .navOverview: "கண்ணோட்டம்",
-        .navPlanning: "மாதாந்திர திட்டமிடல்",
+        .navPlanning: "திட்டம்",
         .navBills: "பில்கள்",
         .navSettings: "அமைப்புகள்",
         .navReport: "சிக்கலைப் புகாரளி",

@@ -7,7 +7,7 @@ extension Localization {
         .notBetaNotice: "早期开发版本——非测试版，非 V1。",
 
         .navOverview: "概览",
-        .navPlanning: "月度规划",
+        .navPlanning: "规划",
         .navBills: "账单",
         .navSettings: "设置",
         .navReport: "报告问题",

@@ -45,13 +45,7 @@ fun OverviewScreen(vm: KontivaViewModel) {
         contentPadding = PaddingValues(KontivaTheme.spaceLg),
         verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
     ) {
-        item {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(loc(L10nKey.navOverview), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-                Spacer(Modifier.weight(1f))
-                MonthSelector(vm)
-            }
-        }
+        item { MonthHeader(loc(L10nKey.navOverview), vm) }
 
         if (!hasData) {
             item {

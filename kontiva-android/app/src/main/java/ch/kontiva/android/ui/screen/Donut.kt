@@ -7,6 +7,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -45,7 +47,7 @@ fun Donut(
     }
     Box(modifier = modifier.size(diameter), contentAlignment = Alignment.Center) {
         Canvas(Modifier.size(diameter)) {
-            val strokeW = size.minDimension * 0.16f
+            val strokeW = size.minDimension * 0.135f
             val inset = strokeW / 2
             val arcSize = Size(size.width - strokeW, size.height - strokeW)
             val topLeft = Offset(inset, inset)
@@ -75,10 +77,17 @@ fun Donut(
                 start += sweep
             }
         }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            androidx.compose.material3.Text(centerTop, fontSize = 10.sp, color = colors.textTertiary)
-            AnimatedAmount(centerValue, fontSize = 19.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
-            androidx.compose.material3.Text(centerBottom, fontSize = 10.sp, color = colors.textTertiary)
+        // Keep the labels inside the ring's hole so nothing collides with the arc.
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.widthIn(max = diameter * 0.70f),
+        ) {
+            androidx.compose.material3.Text(
+                centerTop, fontSize = 9.sp, color = colors.textTertiary,
+                textAlign = TextAlign.Center, maxLines = 2, lineHeight = 11.sp,
+            )
+            AnimatedAmount(centerValue, fontSize = 17.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+            androidx.compose.material3.Text(centerBottom, fontSize = 9.sp, color = colors.textTertiary)
         }
     }
 }

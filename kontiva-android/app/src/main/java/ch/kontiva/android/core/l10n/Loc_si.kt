@@ -80,6 +80,8 @@ internal val LOC_si: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "වලංගු මුදලක් ඇතුළත් කරන්න.",
     L10nKey.formThirteenthAmount to "13වන මස වැටුප (මුදල)",
     L10nKey.formThirteenthModel to "13වන මස වැටුප් ආකෘතිය",
+    L10nKey.incomeBonuses to "අමතර ගෙවීම්",
+    L10nKey.formMonth to "මාසය",
     L10nKey.thirteenthModelSeparate to "වෙන වෙනම පෙන්වන්න",
     L10nKey.thirteenthModelAveraged to "මාස 12කට බෙදන්න",
     L10nKey.formTarget to "ඉතිරිකිරීමේ ඉලක්කය (මුදල)",

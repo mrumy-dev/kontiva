@@ -99,6 +99,8 @@ extension Localization {
         .formInvalidAmount: "Endatescha ina summa valaivla.",
         .formThirteenthAmount: "13avla pajaglia (summa)",
         .formThirteenthModel: "Model da la 13avla pajaglia",
+        .incomeBonuses: "Pajaments supplementars",
+        .formMonth: "Mais",
         .thirteenthModelSeparate: "Mussar separà",
         .thirteenthModelAveraged: "Repartir sin 12 mais",
         .formTarget: "Finamira da spargn (summa)",

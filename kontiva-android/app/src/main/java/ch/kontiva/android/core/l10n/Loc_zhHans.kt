@@ -80,6 +80,8 @@ internal val LOC_zhHans: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "请输入有效金额。",
     L10nKey.formThirteenthAmount to "第 13 个月工资（金额）",
     L10nKey.formThirteenthModel to "第 13 个月工资模式",
+    L10nKey.incomeBonuses to "额外付款",
+    L10nKey.formMonth to "月份",
     L10nKey.thirteenthModelSeparate to "单独显示",
     L10nKey.thirteenthModelAveraged to "分摊到 12 个月",
     L10nKey.formTarget to "储蓄目标（金额）",

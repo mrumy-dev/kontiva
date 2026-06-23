@@ -80,6 +80,8 @@ internal val LOC_ta: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "சரியான தொகையை உள்ளிடவும்.",
     L10nKey.formThirteenthAmount to "13வது மாத ஊதியம் (தொகை)",
     L10nKey.formThirteenthModel to "13வது ஊதிய மாதிரி",
+    L10nKey.incomeBonuses to "கூடுதல் கொடுப்பனவுகள்",
+    L10nKey.formMonth to "மாதம்",
     L10nKey.thirteenthModelSeparate to "தனியாகக் காட்டு",
     L10nKey.thirteenthModelAveraged to "12 மாதங்களில் பகிர்",
     L10nKey.formTarget to "சேமிப்பு இலக்கு (தொகை)",

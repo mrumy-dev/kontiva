@@ -80,6 +80,8 @@ internal val LOC_nl: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Voer een geldig bedrag in.",
     L10nKey.formThirteenthAmount to "13e maand (bedrag)",
     L10nKey.formThirteenthModel to "Model 13e maand",
+    L10nKey.incomeBonuses to "Extra betalingen",
+    L10nKey.formMonth to "Maand",
     L10nKey.thirteenthModelSeparate to "Apart tonen",
     L10nKey.thirteenthModelAveraged to "Verdelen over 12 maanden",
     L10nKey.formTarget to "Spaardoel (bedrag)",

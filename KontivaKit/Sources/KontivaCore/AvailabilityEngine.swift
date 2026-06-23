@@ -38,19 +38,31 @@ public enum AvailabilityEngine {
 
     /// Compute net income for the month from one income source, honouring the
     /// 13th-salary model. With `.separate` (default) the 13th is NOT added.
-    public static func netIncomeThisMonth(_ income: Income) -> Money {
-        switch income.thirteenthModel {
-        case .separate:
-            return income.monthlyNet
-        case .averagedMonthly:
-            guard let thirteenth = income.thirteenthAmount else { return income.monthlyNet }
-            return income.monthlyNet + thirteenth.divided(by: 12)
+    public static func netIncomeThisMonth(_ income: Income, asOf month: Date = Date(),
+                                          calendar: Calendar = .swiss) -> Money {
+        var total = income.monthlyNet
+        let m = calendar.component(.month, from: month) // 1…12
+        if let th = income.thirteenthAmount, !th.isZero {
+            switch income.thirteenthModel {
+            case .separate:        break                          // excluded from monthly
+            case .averagedMonthly: total = total + th.divided(by: 12)
+            case .december:        if m == 12 { total = total + th }
+            case .november:        if m == 11 { total = total + th }
+            case .splitNovDec:
+                let twelfth = th.divided(by: 12)
+                if m == 11 { total = total + (th - twelfth) }     // 11/12
+                else if m == 12 { total = total + twelfth }       // 1/12
+            }
         }
+        // Bonuses (Sonderzahlungen) that land in this month.
+        for b in income.bonuses where b.month == m { total = total + b.amount }
+        return total
     }
 
-    /// Net income across multiple income sources.
-    public static func netIncomeThisMonth(_ incomes: [Income]) -> Money {
-        incomes.map(netIncomeThisMonth).total()
+    /// Net income across multiple income sources, for the given month.
+    public static func netIncomeThisMonth(_ incomes: [Income], asOf month: Date = Date(),
+                                          calendar: Calendar = .swiss) -> Money {
+        incomes.map { netIncomeThisMonth($0, asOf: month, calendar: calendar) }.total()
     }
 
     /// The 13th instalment to display separately (only when its model is `.separate`).
@@ -74,7 +86,7 @@ public enum AvailabilityEngine {
         calendar: Calendar = .swiss
     ) -> MonthlyAvailability {
 
-        let netIncome = netIncomeThisMonth(incomes)
+        let netIncome = netIncomeThisMonth(incomes, asOf: reference, calendar: calendar)
         // Only fixed costs active in this month count — a limited standing order
         // (e.g. 6 tax instalments) drops out once its window ends.
         let fixed = fixedCosts

@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Introduce un importe válido.",
         .formThirteenthAmount: "Decimotercer salario (importe)",
         .formThirteenthModel: "Modelo de decimotercer salario",
+        .incomeBonuses: "Pagos extra",
+        .formMonth: "Mes",
         .thirteenthModelSeparate: "Mostrar por separado",
         .thirteenthModelAveraged: "Repartir en 12 meses",
         .formTarget: "Objetivo de ahorro (importe)",

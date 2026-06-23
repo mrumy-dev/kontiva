@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Unesite važeći iznos.",
         .formThirteenthAmount: "13. plata (iznos)",
         .formThirteenthModel: "Model 13. plate",
+        .incomeBonuses: "Dodatne isplate",
+        .formMonth: "Mjesec",
         .thirteenthModelSeparate: "Prikaži zasebno",
         .thirteenthModelAveraged: "Rasporedi na 12 mjeseci",
         .formTarget: "Cilj štednje (iznos)",

@@ -80,6 +80,8 @@ internal val LOC_mk: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Внесете важечки износ.",
     L10nKey.formThirteenthAmount to "13-та плата (износ)",
     L10nKey.formThirteenthModel to "Модел на 13-та плата",
+    L10nKey.incomeBonuses to "Дополнителни исплати",
+    L10nKey.formMonth to "Месец",
     L10nKey.thirteenthModelSeparate to "Прикажи одделно",
     L10nKey.thirteenthModelAveraged to "Распредели на 12 месеци",
     L10nKey.formTarget to "Цел за штедење (износ)",

@@ -97,6 +97,8 @@ extension Localization {
         .formInvalidAmount: "एक मान्य राशि दर्ज करें।",
         .formThirteenthAmount: "13वाँ वेतन (राशि)",
         .formThirteenthModel: "13वें वेतन का मॉडल",
+        .incomeBonuses: "अतिरिक्त भुगतान",
+        .formMonth: "महीना",
         .thirteenthModelSeparate: "अलग दिखाएँ",
         .thirteenthModelAveraged: "12 माह में बाँटें",
         .formTarget: "बचत लक्ष्य (राशि)",

@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Bitte einen gültigen Betrag eingeben.",
         .formThirteenthAmount: "13. Monatslohn (Betrag)",
         .formThirteenthModel: "Modell 13. Monatslohn",
+        .incomeBonuses: "Sonderzahlungen",
+        .formMonth: "Monat",
         .thirteenthModelSeparate: "Separat ausweisen",
         .thirteenthModelAveraged: "Auf 12 Monate verteilen",
         .formTarget: "Sparziel (Betrag)",

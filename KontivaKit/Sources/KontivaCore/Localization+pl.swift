@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Wprowadź prawidłową kwotę.",
         .formThirteenthAmount: "13. pensja (kwota)",
         .formThirteenthModel: "Model 13. pensji",
+        .incomeBonuses: "Dodatkowe wypłaty",
+        .formMonth: "Miesiąc",
         .thirteenthModelSeparate: "Pokaż osobno",
         .thirteenthModelAveraged: "Rozłóż na 12 miesięcy",
         .formTarget: "Cel oszczędnościowy (kwota)",

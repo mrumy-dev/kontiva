@@ -80,6 +80,8 @@ internal val LOC_sv: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Ange ett giltigt belopp.",
     L10nKey.formThirteenthAmount to "13:e månadslönen (belopp)",
     L10nKey.formThirteenthModel to "Modell för 13:e månadslönen",
+    L10nKey.incomeBonuses to "Extra utbetalningar",
+    L10nKey.formMonth to "Månad",
     L10nKey.thirteenthModelSeparate to "Visa separat",
     L10nKey.thirteenthModelAveraged to "Fördela över 12 månader",
     L10nKey.formTarget to "Sparmål (belopp)",

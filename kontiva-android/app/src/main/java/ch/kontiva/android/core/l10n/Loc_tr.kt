@@ -80,6 +80,8 @@ internal val LOC_tr: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Geçerli bir tutar girin.",
     L10nKey.formThirteenthAmount to "13. maaş (tutar)",
     L10nKey.formThirteenthModel to "13. maaş modeli",
+    L10nKey.incomeBonuses to "Ek ödemeler",
+    L10nKey.formMonth to "Ay",
     L10nKey.thirteenthModelSeparate to "Ayrı göster",
     L10nKey.thirteenthModelAveraged to "12 aya dağıt",
     L10nKey.formTarget to "Tasarruf hedefi (tutar)",

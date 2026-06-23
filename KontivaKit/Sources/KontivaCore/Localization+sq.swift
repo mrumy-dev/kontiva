@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Fut një shumë të vlefshme.",
         .formThirteenthAmount: "Paga e 13-të (shuma)",
         .formThirteenthModel: "Modeli i pagës së 13-të",
+        .incomeBonuses: "Pagesa shtesë",
+        .formMonth: "Muaji",
         .thirteenthModelSeparate: "Shfaq veçmas",
         .thirteenthModelAveraged: "Shpërndaj në 12 muaj",
         .formTarget: "Qëllimi i kursimit (shuma)",

@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Введіть коректну суму.",
         .formThirteenthAmount: "13-та зарплата (сума)",
         .formThirteenthModel: "Модель 13-ї зарплати",
+        .incomeBonuses: "Додаткові виплати",
+        .formMonth: "Місяць",
         .thirteenthModelSeparate: "Показувати окремо",
         .thirteenthModelAveraged: "Розподілити на 12 місяців",
         .formTarget: "Ціль заощадження (сума)",

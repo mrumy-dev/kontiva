@@ -97,6 +97,8 @@ extension Localization {
         .formInvalidAmount: "ایک درست رقم درج کریں۔",
         .formThirteenthAmount: "13واں ماہانہ تنخواہ (رقم)",
         .formThirteenthModel: "13ویں تنخواہ کا ماڈل",
+        .incomeBonuses: "اضافی ادائیگیاں",
+        .formMonth: "مہینہ",
         .thirteenthModelSeparate: "علیحدہ دکھائیں",
         .thirteenthModelAveraged: "12 ماہ پر تقسیم کریں",
         .formTarget: "بچت کا ہدف (رقم)",

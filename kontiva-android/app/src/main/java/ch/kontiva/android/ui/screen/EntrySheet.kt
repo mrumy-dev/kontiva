@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -27,6 +28,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
@@ -49,6 +51,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.FixedExpenseCategory
+import ch.kontiva.android.core.Bonus
 import ch.kontiva.android.core.Money
 import ch.kontiva.android.core.ThirteenthSalaryModel
 import ch.kontiva.android.core.l10n.L10nKey
@@ -56,8 +59,10 @@ import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.theme.KontivaTheme
 import ch.kontiva.android.ui.theme.icon
 import java.time.Instant
+import java.time.Month
 import java.time.LocalDate
 import java.time.ZoneOffset
+import java.time.format.TextStyle
 import java.time.format.DateTimeFormatter
 
 /** Add-entry sheet: name + amount (+ optional category). Reused for income/fixed/variable. */
@@ -163,9 +168,10 @@ fun IncomeSheet(
     initialName: String = "",
     initialAmount: String = "",
     initialThirteenth: String = "",
-    initialModel: ThirteenthSalaryModel = ThirteenthSalaryModel.SEPARATE,
+    initialModel: ThirteenthSalaryModel = ThirteenthSalaryModel.DECEMBER,
+    initialBonuses: List<Bonus> = emptyList(),
     onDismiss: () -> Unit,
-    onSave: (name: String, amount: Money, thirteenth: Money?, model: ThirteenthSalaryModel) -> Unit,
+    onSave: (name: String, amount: Money, thirteenth: Money?, model: ThirteenthSalaryModel, bonuses: List<Bonus>) -> Unit,
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
@@ -175,9 +181,16 @@ fun IncomeSheet(
     var thirteenthText by remember { mutableStateOf(initialThirteenth) }
     var model by remember { mutableStateOf(initialModel) }
     var modelMenu by remember { mutableStateOf(false) }
+    var bonuses by remember { mutableStateOf(initialBonuses) }
+    var bLabel by remember { mutableStateOf("") }
+    var bAmount by remember { mutableStateOf("") }
+    var bMonth by remember { mutableStateOf(12) }
+    var bMonthMenu by remember { mutableStateOf(false) }
 
     val amount = Money.parse(amountText)
     val canSave = name.isNotBlank() && amount != null && !amount.isZero
+    fun monthName(mo: Int) = Month.of(mo).getDisplayName(TextStyle.FULL, loc.language.locale)
+    val bAmt = Money.parse(bAmount)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -185,7 +198,7 @@ fun IncomeSheet(
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
     ) {
         Column(
-            Modifier.padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding(),
+            Modifier.verticalScroll(rememberScrollState()).padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding().imePadding(),
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
         ) {
             Text(loc(L10nKey.planningIncome), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
@@ -210,22 +223,74 @@ fun IncomeSheet(
                 ) {
                     Text(loc(L10nKey.formThirteenthModel), color = colors.textSecondary)
                     Spacer(Modifier.weight(1f))
-                    Text(loc(model.labelKey), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                    Text(thirteenthLabel(model, loc), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
                     Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = colors.textTertiary)
                     DropdownMenu(expanded = modelMenu, onDismissRequest = { modelMenu = false }) {
                         ThirteenthSalaryModel.entries.forEach { m ->
-                            DropdownMenuItem(text = { Text(loc(m.labelKey)) }, onClick = { model = m; modelMenu = false })
+                            DropdownMenuItem(text = { Text(thirteenthLabel(m, loc)) }, onClick = { model = m; modelMenu = false })
                         }
                     }
                 }
             }
+
+            HorizontalDivider(color = colors.softBorder.copy(alpha = 0.4f))
+            Text(loc(L10nKey.incomeBonuses), fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = colors.textSecondary)
+            bonuses.forEach { b ->
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(b.label, fontSize = 14.sp, color = colors.textPrimary)
+                        Text("${b.amount.formattedCHF()} · ${monthName(b.month)}", fontSize = 12.sp, color = colors.textTertiary)
+                    }
+                    Icon(
+                        Icons.Rounded.Close, contentDescription = "remove", tint = colors.textTertiary,
+                        modifier = Modifier.clickable { bonuses = bonuses.filterNot { it.id == b.id } }.size(20.dp),
+                    )
+                }
+            }
+            OutlinedTextField(bLabel, { bLabel = it }, label = { Text(loc(L10nKey.formName)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+            OutlinedTextField(
+                bAmount, { bAmount = it }, label = { Text(loc(L10nKey.formAmount)) }, prefix = { Text("CHF ") },
+                singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth(),
+            )
+            Row(Modifier.fillMaxWidth().clickable { bMonthMenu = true }.padding(vertical = KontivaTheme.spaceSm), verticalAlignment = Alignment.CenterVertically) {
+                Text(loc(L10nKey.formMonth), color = colors.textSecondary)
+                Spacer(Modifier.weight(1f))
+                Text(monthName(bMonth), color = KontivaTheme.accent, fontWeight = FontWeight.Medium)
+                Icon(Icons.Rounded.ArrowDropDown, contentDescription = null, tint = colors.textTertiary)
+                DropdownMenu(expanded = bMonthMenu, onDismissRequest = { bMonthMenu = false }) {
+                    (1..12).forEach { mo -> DropdownMenuItem(text = { Text(monthName(mo)) }, onClick = { bMonth = mo; bMonthMenu = false }) }
+                }
+            }
+            TextButton(
+                onClick = {
+                    if (bLabel.isNotBlank() && bAmt != null && !bAmt.isZero) {
+                        bonuses = bonuses + Bonus(label = bLabel.trim(), amount = bAmt, month = bMonth)
+                        bLabel = ""; bAmount = ""
+                    }
+                },
+                enabled = bLabel.isNotBlank() && bAmt != null && !bAmt.isZero,
+            ) { Text("+ ${loc(L10nKey.commonAdd)}", color = KontivaTheme.accent) }
+
             Button(
-                onClick = { if (canSave) onSave(name.trim(), amount!!, if (hasThirteenth) Money.parse(thirteenthText) else null, model) },
+                onClick = { if (canSave) onSave(name.trim(), amount!!, if (hasThirteenth) Money.parse(thirteenthText) else null, model, bonuses) },
                 enabled = canSave, modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(KontivaTheme.radiusControl),
                 colors = ButtonDefaults.buttonColors(containerColor = KontivaTheme.accent, contentColor = Color.White),
             ) { Text(loc(L10nKey.commonSave), fontWeight = FontWeight.SemiBold) }
         }
+    }
+}
+
+/** Label for a 13th-salary payout option — month names come from the locale. */
+private fun thirteenthLabel(m: ThirteenthSalaryModel, loc: ch.kontiva.android.core.l10n.Localizer): String = when (m) {
+    ThirteenthSalaryModel.AVERAGED_MONTHLY -> loc(L10nKey.thirteenthModelAveraged)
+    ThirteenthSalaryModel.SEPARATE -> loc(L10nKey.thirteenthModelSeparate)
+    ThirteenthSalaryModel.DECEMBER -> Month.DECEMBER.getDisplayName(TextStyle.FULL, loc.language.locale)
+    ThirteenthSalaryModel.NOVEMBER -> Month.NOVEMBER.getDisplayName(TextStyle.FULL, loc.language.locale)
+    ThirteenthSalaryModel.SPLIT_NOV_DEC -> {
+        val nov = Month.NOVEMBER.getDisplayName(TextStyle.SHORT, loc.language.locale)
+        val dez = Month.DECEMBER.getDisplayName(TextStyle.SHORT, loc.language.locale)
+        "11/12 $nov · 1/12 $dez"
     }
 }
 

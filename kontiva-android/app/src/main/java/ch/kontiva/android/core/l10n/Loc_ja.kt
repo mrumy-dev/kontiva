@@ -80,6 +80,8 @@ internal val LOC_ja: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "有効な金額を入力してください。",
     L10nKey.formThirteenthAmount to "13か月目の給与（金額）",
     L10nKey.formThirteenthModel to "13か月目の給与の方式",
+    L10nKey.incomeBonuses to "特別支払い",
+    L10nKey.formMonth to "月",
     L10nKey.thirteenthModelSeparate to "個別に表示",
     L10nKey.thirteenthModelAveraged to "12か月に分散",
     L10nKey.formTarget to "貯蓄目標（金額）",

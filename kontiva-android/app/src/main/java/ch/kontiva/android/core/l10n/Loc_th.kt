@@ -80,6 +80,8 @@ internal val LOC_th: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "กรุณาป้อนจำนวนเงินที่ถูกต้อง",
     L10nKey.formThirteenthAmount to "เงินเดือนที่ 13 (จำนวน)",
     L10nKey.formThirteenthModel to "รูปแบบเงินเดือนที่ 13",
+    L10nKey.incomeBonuses to "การจ่ายเงินพิเศษ",
+    L10nKey.formMonth to "เดือน",
     L10nKey.thirteenthModelSeparate to "แสดงแยก",
     L10nKey.thirteenthModelAveraged to "เฉลี่ยใน 12 เดือน",
     L10nKey.formTarget to "เป้าหมายการออม (จำนวน)",

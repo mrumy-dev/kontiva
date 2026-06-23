@@ -72,11 +72,36 @@ public struct Household: Equatable, Codable, Sendable, Identifiable {
 
 /// How a 13th-month salary is treated. Default is `.separate` — it is **never**
 /// silently averaged into monthly income.
+/// When the 13th salary actually lands — the Swiss patterns. The available-this-month
+/// figure adds the right slice in the right month.
 public enum ThirteenthSalaryModel: String, Codable, Sendable, CaseIterable {
-    /// Shown on its own; excluded from monthly net income.
+    /// Shown on its own; excluded from monthly available income.
     case separate
-    /// Explicitly spread as `amount / 12` across each month.
+    /// Spread as `amount / 12` across every month.
     case averagedMonthly
+    /// Paid in full in December.
+    case december
+    /// Paid in full in November.
+    case november
+    /// 11/12 in November, 1/12 in December.
+    case splitNovDec
+}
+
+/// An irregular extra payment (Sonderzahlung) — a bonus, gratuity, etc. — that lands
+/// in one specific month each year.
+public struct Bonus: Equatable, Codable, Sendable, Identifiable {
+    public let id: UUID
+    public var label: String
+    public var amount: Money
+    /// Calendar month it is paid (1 = January … 12 = December).
+    public var month: Int
+
+    public init(id: UUID = UUID(), label: String, amount: Money, month: Int) {
+        self.id = id
+        self.label = label
+        self.amount = amount
+        self.month = month
+    }
 }
 
 public struct Income: Equatable, Codable, Sendable, Identifiable {
@@ -87,20 +112,35 @@ public struct Income: Equatable, Codable, Sendable, Identifiable {
     /// Amount of one 13th-salary instalment (typically one extra month), or nil.
     public var thirteenthAmount: Money?
     public var thirteenthModel: ThirteenthSalaryModel
+    /// Irregular extra payments (bonuses) that land in specific months.
+    public var bonuses: [Bonus]
 
     public init(id: UUID = UUID(), label: String, monthlyNet: Money,
                 thirteenthAmount: Money? = nil,
-                thirteenthModel: ThirteenthSalaryModel = .separate) {
+                thirteenthModel: ThirteenthSalaryModel = .december,
+                bonuses: [Bonus] = []) {
         self.id = id
         self.label = label
         self.monthlyNet = monthlyNet
         self.thirteenthAmount = thirteenthAmount
         self.thirteenthModel = thirteenthModel
+        self.bonuses = bonuses
     }
 
     public var hasThirteenth: Bool {
         if let amount = thirteenthAmount { return !amount.isZero }
         return false
+    }
+
+    // Resilient decode: vaults written before `bonuses` existed still open.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(UUID.self, forKey: .id)
+        label = try c.decode(String.self, forKey: .label)
+        monthlyNet = try c.decode(Money.self, forKey: .monthlyNet)
+        thirteenthAmount = try c.decodeIfPresent(Money.self, forKey: .thirteenthAmount)
+        thirteenthModel = try c.decodeIfPresent(ThirteenthSalaryModel.self, forKey: .thirteenthModel) ?? .december
+        bonuses = try c.decodeIfPresent([Bonus].self, forKey: .bonuses) ?? []
     }
 }
 

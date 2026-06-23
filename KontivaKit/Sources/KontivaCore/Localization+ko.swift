@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "유효한 금액을 입력하세요.",
         .formThirteenthAmount: "13개월째 급여 (금액)",
         .formThirteenthModel: "13개월째 급여 방식",
+        .incomeBonuses: "추가 지급",
+        .formMonth: "월",
         .thirteenthModelSeparate: "별도로 표시",
         .thirteenthModelAveraged: "12개월에 분산",
         .formTarget: "저축 목표 (금액)",

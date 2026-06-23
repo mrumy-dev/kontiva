@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Voer een geldig bedrag in.",
         .formThirteenthAmount: "13e maand (bedrag)",
         .formThirteenthModel: "Model 13e maand",
+        .incomeBonuses: "Extra betalingen",
+        .formMonth: "Maand",
         .thirteenthModelSeparate: "Apart tonen",
         .thirteenthModelAveraged: "Verdelen over 12 maanden",
         .formTarget: "Spaardoel (bedrag)",

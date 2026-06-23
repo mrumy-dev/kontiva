@@ -81,6 +81,8 @@ enum class L10nKey {
     formInvalidAmount,
     formThirteenthAmount,
     formThirteenthModel,
+    incomeBonuses,
+    formMonth,
     thirteenthModelSeparate,
     thirteenthModelAveraged,
     formTarget,

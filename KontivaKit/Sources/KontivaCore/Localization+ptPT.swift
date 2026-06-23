@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Introduza um valor válido.",
         .formThirteenthAmount: "13.º salário (valor)",
         .formThirteenthModel: "Modelo do 13.º salário",
+        .incomeBonuses: "Pagamentos extra",
+        .formMonth: "Mês",
         .thirteenthModelSeparate: "Mostrar em separado",
         .thirteenthModelAveraged: "Distribuir por 12 meses",
         .formTarget: "Objetivo de poupança (valor)",

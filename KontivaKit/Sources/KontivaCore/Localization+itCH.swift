@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Inserire un importo valido.",
         .formThirteenthAmount: "13a mensilità (importo)",
         .formThirteenthModel: "Modello 13a mensilità",
+        .incomeBonuses: "Pagamenti straordinari",
+        .formMonth: "Mese",
         .thirteenthModelSeparate: "Indicare separatamente",
         .thirteenthModelAveraged: "Distribuire su 12 mesi",
         .formTarget: "Obiettivo di risparmio (importo)",

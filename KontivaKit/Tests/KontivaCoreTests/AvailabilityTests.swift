@@ -112,6 +112,31 @@ final class AvailabilityTests: XCTestCase {
         XCTAssertNil(AvailabilityEngine.thirteenthShownSeparately([income]))
     }
 
+    // MARK: - 13th payout schedule + bonuses (month-aware)
+
+    func testThirteenthPaidInDecemberOnlyCountsInDecember() {
+        let income = Income(label: "Lohn", monthlyNet: Money.parse("6'000.00")!,
+                            thirteenthAmount: Money.parse("6'000.00")!, thirteenthModel: .december)
+        XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income, asOf: date(2026, 6, 15)), Money.parse("6'000.00"))
+        XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income, asOf: date(2026, 12, 15)), Money.parse("12'000.00"))
+    }
+
+    func testThirteenthSplitNovDec() {
+        let income = Income(label: "Lohn", monthlyNet: Money.parse("6'000.00")!,
+                            thirteenthAmount: Money.parse("6'000.00")!, thirteenthModel: .splitNovDec)
+        // 11/12 (= 5500) in November, 1/12 (= 500) in December.
+        XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income, asOf: date(2026, 11, 15)), Money.parse("11'500.00"))
+        XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income, asOf: date(2026, 12, 15)), Money.parse("6'500.00"))
+        XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income, asOf: date(2026, 7, 15)), Money.parse("6'000.00"))
+    }
+
+    func testBonusLandsOnlyInItsMonth() {
+        let income = Income(label: "Lohn", monthlyNet: Money.parse("6'000.00")!,
+                            bonuses: [Bonus(label: "Jahresbonus", amount: Money.parse("3'000.00")!, month: 3)])
+        XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income, asOf: date(2026, 3, 15)), Money.parse("9'000.00"))
+        XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income, asOf: date(2026, 4, 15)), Money.parse("6'000.00"))
+    }
+
     func testNoThirteenthMeansNothingExtra() {
         let income = Income(label: "Lohn", monthlyNet: Money.parse("6'000.00")!)
         XCTAssertEqual(AvailabilityEngine.netIncomeThisMonth(income), Money.parse("6'000.00"))

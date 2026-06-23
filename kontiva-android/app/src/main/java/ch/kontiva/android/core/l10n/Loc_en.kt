@@ -80,6 +80,8 @@ internal val LOC_en: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Please enter a valid amount.",
     L10nKey.formThirteenthAmount to "13th salary (amount)",
     L10nKey.formThirteenthModel to "13th salary model",
+    L10nKey.incomeBonuses to "Extra payments",
+    L10nKey.formMonth to "Month",
     L10nKey.thirteenthModelSeparate to "Show separately",
     L10nKey.thirteenthModelAveraged to "Spread over 12 months",
     L10nKey.formTarget to "Savings target (amount)",

@@ -97,6 +97,8 @@ extension Localization {
         .formInvalidAmount: "වලංගු මුදලක් ඇතුළත් කරන්න.",
         .formThirteenthAmount: "13වන මස වැටුප (මුදල)",
         .formThirteenthModel: "13වන මස වැටුප් ආකෘතිය",
+        .incomeBonuses: "අමතර ගෙවීම්",
+        .formMonth: "මාසය",
         .thirteenthModelSeparate: "වෙන වෙනම පෙන්වන්න",
         .thirteenthModelAveraged: "මාස 12කට බෙදන්න",
         .formTarget: "ඉතිරිකිරීමේ ඉලක්කය (මුදල)",

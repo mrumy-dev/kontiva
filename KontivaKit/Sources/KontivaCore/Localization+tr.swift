@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Geçerli bir tutar girin.",
         .formThirteenthAmount: "13. maaş (tutar)",
         .formThirteenthModel: "13. maaş modeli",
+        .incomeBonuses: "Ek ödemeler",
+        .formMonth: "Ay",
         .thirteenthModelSeparate: "Ayrı göster",
         .thirteenthModelAveraged: "12 aya dağıt",
         .formTarget: "Tasarruf hedefi (tutar)",

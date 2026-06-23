@@ -80,6 +80,8 @@ internal val LOC_ps: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "یو سم مبلغ ولیکئ.",
     L10nKey.formThirteenthAmount to "۱۳مه میاشتنۍ معاش (مبلغ)",
     L10nKey.formThirteenthModel to "د ۱۳مې معاش ماډل",
+    L10nKey.incomeBonuses to "اضافي تادیات",
+    L10nKey.formMonth to "میاشت",
     L10nKey.thirteenthModelSeparate to "جلا وښایاست",
     L10nKey.thirteenthModelAveraged to "په ۱۲ میاشتو ووېشئ",
     L10nKey.formTarget to "د سپما موخه (مبلغ)",

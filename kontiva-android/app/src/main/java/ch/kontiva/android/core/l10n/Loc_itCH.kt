@@ -80,6 +80,8 @@ internal val LOC_itCH: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Inserire un importo valido.",
     L10nKey.formThirteenthAmount to "13a mensilità (importo)",
     L10nKey.formThirteenthModel to "Modello 13a mensilità",
+    L10nKey.incomeBonuses to "Pagamenti straordinari",
+    L10nKey.formMonth to "Mese",
     L10nKey.thirteenthModelSeparate to "Indicare separatamente",
     L10nKey.thirteenthModelAveraged to "Distribuire su 12 mesi",
     L10nKey.formTarget to "Obiettivo di risparmio (importo)",

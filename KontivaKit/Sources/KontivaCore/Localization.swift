@@ -93,6 +93,8 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case formInvalidAmount
     case formThirteenthAmount
     case formThirteenthModel
+    case incomeBonuses
+    case formMonth
     case thirteenthModelSeparate
     case thirteenthModelAveraged
     case formTarget

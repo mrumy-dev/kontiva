@@ -80,6 +80,8 @@ internal val LOC_hu: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Adj meg érvényes összeget.",
     L10nKey.formThirteenthAmount to "13. havi fizetés (összeg)",
     L10nKey.formThirteenthModel to "13. havi fizetés modellje",
+    L10nKey.incomeBonuses to "Külön kifizetések",
+    L10nKey.formMonth to "Hónap",
     L10nKey.thirteenthModelSeparate to "Külön megjelenítés",
     L10nKey.thirteenthModelAveraged to "Elosztás 12 hónapra",
     L10nKey.formTarget to "Megtakarítási cél (összeg)",

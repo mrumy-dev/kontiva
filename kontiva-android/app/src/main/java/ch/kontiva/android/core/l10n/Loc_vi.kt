@@ -80,6 +80,8 @@ internal val LOC_vi: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Hãy nhập số tiền hợp lệ.",
     L10nKey.formThirteenthAmount to "Lương tháng 13 (số tiền)",
     L10nKey.formThirteenthModel to "Mô hình lương tháng 13",
+    L10nKey.incomeBonuses to "Khoản thanh toán thêm",
+    L10nKey.formMonth to "Tháng",
     L10nKey.thirteenthModelSeparate to "Hiện riêng",
     L10nKey.thirteenthModelAveraged to "Chia đều cho 12 tháng",
     L10nKey.formTarget to "Mục tiêu tiết kiệm (số tiền)",

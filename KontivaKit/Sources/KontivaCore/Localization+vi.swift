@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Hãy nhập số tiền hợp lệ.",
         .formThirteenthAmount: "Lương tháng 13 (số tiền)",
         .formThirteenthModel: "Mô hình lương tháng 13",
+        .incomeBonuses: "Khoản thanh toán thêm",
+        .formMonth: "Tháng",
         .thirteenthModelSeparate: "Hiện riêng",
         .thirteenthModelAveraged: "Chia đều cho 12 tháng",
         .formTarget: "Mục tiêu tiết kiệm (số tiền)",

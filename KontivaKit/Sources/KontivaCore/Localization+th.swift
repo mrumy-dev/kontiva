@@ -98,6 +98,8 @@ extension Localization {
         .formInvalidAmount: "กรุณาป้อนจำนวนเงินที่ถูกต้อง",
         .formThirteenthAmount: "เงินเดือนที่ 13 (จำนวน)",
         .formThirteenthModel: "รูปแบบเงินเดือนที่ 13",
+        .incomeBonuses: "การจ่ายเงินพิเศษ",
+        .formMonth: "เดือน",
         .thirteenthModelSeparate: "แสดงแยก",
         .thirteenthModelAveraged: "เฉลี่ยใน 12 เดือน",
         .formTarget: "เป้าหมายการออม (จำนวน)",

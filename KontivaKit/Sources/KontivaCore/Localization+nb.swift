@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Skriv inn et gyldig beløp.",
         .formThirteenthAmount: "13. månedslønn (beløp)",
         .formThirteenthModel: "Modell for 13. månedslønn",
+        .incomeBonuses: "Ekstra utbetalinger",
+        .formMonth: "Måned",
         .thirteenthModelSeparate: "Vis separat",
         .thirteenthModelAveraged: "Fordel over 12 måneder",
         .formTarget: "Sparemål (beløp)",

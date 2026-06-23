@@ -97,6 +97,8 @@ extension Localization {
         .formInvalidAmount: "சரியான தொகையை உள்ளிடவும்.",
         .formThirteenthAmount: "13வது மாத ஊதியம் (தொகை)",
         .formThirteenthModel: "13வது ஊதிய மாதிரி",
+        .incomeBonuses: "கூடுதல் கொடுப்பனவுகள்",
+        .formMonth: "மாதம்",
         .thirteenthModelSeparate: "தனியாகக் காட்டு",
         .thirteenthModelAveraged: "12 மாதங்களில் பகிர்",
         .formTarget: "சேமிப்பு இலக்கு (தொகை)",

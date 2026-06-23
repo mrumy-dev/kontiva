@@ -23,13 +23,30 @@ data class MonthlyAvailability(
  */
 object AvailabilityEngine {
 
-    fun netIncomeThisMonth(income: Income): Money = when (income.thirteenthModel) {
-        ThirteenthSalaryModel.SEPARATE -> income.monthlyNet
-        ThirteenthSalaryModel.AVERAGED_MONTHLY ->
-            income.monthlyNet + (income.thirteenthAmount?.divided(12) ?: Money.zero)
+    /** Net income landing in [month]: base + the 13th-salary slice for this month +
+     *  any bonuses (Sonderzahlungen) paid this month. */
+    fun netIncomeThisMonth(income: Income, month: java.time.LocalDate): Money {
+        var total = income.monthlyNet
+        val m = month.monthValue // 1…12
+        val th = income.thirteenthAmount
+        if (th != null && !th.isZero) {
+            total += when (income.thirteenthModel) {
+                ThirteenthSalaryModel.SEPARATE -> Money.zero
+                ThirteenthSalaryModel.AVERAGED_MONTHLY -> th.divided(12)
+                ThirteenthSalaryModel.DECEMBER -> if (m == 12) th else Money.zero
+                ThirteenthSalaryModel.NOVEMBER -> if (m == 11) th else Money.zero
+                ThirteenthSalaryModel.SPLIT_NOV_DEC -> {
+                    val twelfth = th.divided(12)
+                    when (m) { 11 -> th - twelfth; 12 -> twelfth; else -> Money.zero }
+                }
+            }
+        }
+        total += income.bonuses.filter { it.month == m }.map { it.amount }.total()
+        return total
     }
 
-    fun netIncomeThisMonth(incomes: List<Income>): Money = incomes.map(::netIncomeThisMonth).total()
+    fun netIncomeThisMonth(incomes: List<Income>, month: java.time.LocalDate): Money =
+        incomes.map { netIncomeThisMonth(it, month) }.total()
 
     fun thirteenthShownSeparately(incomes: List<Income>): Money? {
         val separate = incomes
@@ -47,8 +64,9 @@ object AvailabilityEngine {
         plannedSavings: Money = Money.zero,
         billsDueThisMonth: Money = Money.zero,
         overdueOpenBills: Money = Money.zero,
+        month: java.time.LocalDate = java.time.LocalDate.now(),
     ): MonthlyAvailability {
-        val netIncome = netIncomeThisMonth(incomes)
+        val netIncome = netIncomeThisMonth(incomes, month)
         val fixed = fixedCosts.map { it.monthlyAmount }.total()
         val variable = variableBudgets.map { it.plannedAmount }.total()
         val available = netIncome - fixed - variable - billsDueThisMonth - overdueOpenBills - plannedSavings
@@ -82,5 +100,6 @@ object AvailabilityEngine {
         // All bills due this month count, paid or not — paying one doesn't free up money.
         billsDueThisMonth = BillClassifier.amountDueInMonth(bills, today),
         overdueOpenBills = BillClassifier.amount(BillState.OVERDUE, bills, today),
+        month = today,
     )
 }

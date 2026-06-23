@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "请输入有效金额。",
         .formThirteenthAmount: "第 13 个月工资（金额）",
         .formThirteenthModel: "第 13 个月工资模式",
+        .incomeBonuses: "额外付款",
+        .formMonth: "月份",
         .thirteenthModelSeparate: "单独显示",
         .thirteenthModelAveraged: "分摊到 12 个月",
         .formTarget: "储蓄目标（金额）",

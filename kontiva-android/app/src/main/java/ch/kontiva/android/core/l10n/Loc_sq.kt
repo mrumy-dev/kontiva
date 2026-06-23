@@ -80,6 +80,8 @@ internal val LOC_sq: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Fut një shumë të vlefshme.",
     L10nKey.formThirteenthAmount to "Paga e 13-të (shuma)",
     L10nKey.formThirteenthModel to "Modeli i pagës së 13-të",
+    L10nKey.incomeBonuses to "Pagesa shtesë",
+    L10nKey.formMonth to "Muaji",
     L10nKey.thirteenthModelSeparate to "Shfaq veçmas",
     L10nKey.thirteenthModelAveraged to "Shpërndaj në 12 muaj",
     L10nKey.formTarget to "Qëllimi i kursimit (shuma)",

@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Adj meg érvényes összeget.",
         .formThirteenthAmount: "13. havi fizetés (összeg)",
         .formThirteenthModel: "13. havi fizetés modellje",
+        .incomeBonuses: "Külön kifizetések",
+        .formMonth: "Hónap",
         .thirteenthModelSeparate: "Külön megjelenítés",
         .thirteenthModelAveraged: "Elosztás 12 hónapra",
         .formTarget: "Megtakarítási cél (összeg)",

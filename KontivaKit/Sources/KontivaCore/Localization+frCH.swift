@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Veuillez saisir un montant valide.",
         .formThirteenthAmount: "13e salaire (montant)",
         .formThirteenthModel: "Modèle 13e salaire",
+        .incomeBonuses: "Paiements spéciaux",
+        .formMonth: "Mois",
         .thirteenthModelSeparate: "Indiquer séparément",
         .thirteenthModelAveraged: "Répartir sur 12 mois",
         .formTarget: "Objectif d’épargne (montant)",

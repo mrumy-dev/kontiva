@@ -80,6 +80,8 @@ internal val LOC_bs: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Unesite važeći iznos.",
     L10nKey.formThirteenthAmount to "13. plata (iznos)",
     L10nKey.formThirteenthModel to "Model 13. plate",
+    L10nKey.incomeBonuses to "Dodatne isplate",
+    L10nKey.formMonth to "Mjesec",
     L10nKey.thirteenthModelSeparate to "Prikaži zasebno",
     L10nKey.thirteenthModelAveraged to "Rasporedi na 12 mjeseci",
     L10nKey.formTarget to "Cilj štednje (iznos)",

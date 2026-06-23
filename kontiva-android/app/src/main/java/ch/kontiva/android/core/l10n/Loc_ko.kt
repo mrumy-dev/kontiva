@@ -80,6 +80,8 @@ internal val LOC_ko: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "유효한 금액을 입력하세요.",
     L10nKey.formThirteenthAmount to "13개월째 급여 (금액)",
     L10nKey.formThirteenthModel to "13개월째 급여 방식",
+    L10nKey.incomeBonuses to "추가 지급",
+    L10nKey.formMonth to "월",
     L10nKey.thirteenthModelSeparate to "별도로 표시",
     L10nKey.thirteenthModelAveraged to "12개월에 분산",
     L10nKey.formTarget to "저축 목표 (금액)",

@@ -80,6 +80,8 @@ internal val LOC_fi: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Anna kelvollinen summa.",
     L10nKey.formThirteenthAmount to "13. kuukausipalkka (summa)",
     L10nKey.formThirteenthModel to "13. kuukausipalkan malli",
+    L10nKey.incomeBonuses to "Lisämaksut",
+    L10nKey.formMonth to "Kuukausi",
     L10nKey.thirteenthModelSeparate to "Näytä erikseen",
     L10nKey.thirteenthModelAveraged to "Jaa 12 kuukaudelle",
     L10nKey.formTarget to "Säästötavoite (summa)",

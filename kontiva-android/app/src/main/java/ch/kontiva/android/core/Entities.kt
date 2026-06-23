@@ -6,12 +6,24 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import java.util.UUID
 
-/** How a 13th salary is treated (1:1 with iOS). */
+/** When the 13th salary actually lands — the Swiss patterns (1:1 with iOS). */
 @Serializable
-enum class ThirteenthSalaryModel(val labelKey: L10nKey) {
-    SEPARATE(L10nKey.thirteenthModelSeparate),
-    AVERAGED_MONTHLY(L10nKey.thirteenthModelAveraged),
+enum class ThirteenthSalaryModel {
+    SEPARATE,          // shown on its own, excluded from monthly available
+    AVERAGED_MONTHLY,  // amount / 12 every month
+    DECEMBER,          // full in December
+    NOVEMBER,          // full in November
+    SPLIT_NOV_DEC,     // 11/12 in November, 1/12 in December
 }
+
+/** An irregular extra payment (Sonderzahlung) that lands in one month each year. */
+@Serializable
+data class Bonus(
+    val id: String = UUID.randomUUID().toString(),
+    val label: String,
+    val amount: Money,
+    val month: Int, // 1 = January … 12 = December
+)
 
 @Serializable
 data class Income(
@@ -19,7 +31,8 @@ data class Income(
     val label: String,
     val monthlyNet: Money,
     val thirteenthAmount: Money? = null,
-    val thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.SEPARATE,
+    val thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.DECEMBER,
+    val bonuses: List<Bonus> = emptyList(),
 ) {
     val hasThirteenth: Boolean get() = thirteenthAmount?.isZero == false
 }

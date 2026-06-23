@@ -80,6 +80,8 @@ internal val LOC_uk: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Введіть коректну суму.",
     L10nKey.formThirteenthAmount to "13-та зарплата (сума)",
     L10nKey.formThirteenthModel to "Модель 13-ї зарплати",
+    L10nKey.incomeBonuses to "Додаткові виплати",
+    L10nKey.formMonth to "Місяць",
     L10nKey.thirteenthModelSeparate to "Показувати окремо",
     L10nKey.thirteenthModelAveraged to "Розподілити на 12 місяців",
     L10nKey.formTarget to "Ціль заощадження (сума)",

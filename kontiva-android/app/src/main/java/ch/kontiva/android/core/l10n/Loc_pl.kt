@@ -80,6 +80,8 @@ internal val LOC_pl: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Wprowadź prawidłową kwotę.",
     L10nKey.formThirteenthAmount to "13. pensja (kwota)",
     L10nKey.formThirteenthModel to "Model 13. pensji",
+    L10nKey.incomeBonuses to "Dodatkowe wypłaty",
+    L10nKey.formMonth to "Miesiąc",
     L10nKey.thirteenthModelSeparate to "Pokaż osobno",
     L10nKey.thirteenthModelAveraged to "Rozłóż na 12 miesięcy",
     L10nKey.formTarget to "Cel oszczędnościowy (kwota)",

@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "有効な金額を入力してください。",
         .formThirteenthAmount: "13か月目の給与（金額）",
         .formThirteenthModel: "13か月目の給与の方式",
+        .incomeBonuses: "特別支払い",
+        .formMonth: "月",
         .thirteenthModelSeparate: "個別に表示",
         .thirteenthModelAveraged: "12か月に分散",
         .formTarget: "貯蓄目標（金額）",

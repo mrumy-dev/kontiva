@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Please enter a valid amount.",
         .formThirteenthAmount: "13th salary (amount)",
         .formThirteenthModel: "13th salary model",
+        .incomeBonuses: "Extra payments",
+        .formMonth: "Month",
         .thirteenthModelSeparate: "Show separately",
         .thirteenthModelAveraged: "Spread over 12 months",
         .formTarget: "Savings target (amount)",

@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Внесете важечки износ.",
         .formThirteenthAmount: "13-та плата (износ)",
         .formThirteenthModel: "Модел на 13-та плата",
+        .incomeBonuses: "Дополнителни исплати",
+        .formMonth: "Месец",
         .thirteenthModelSeparate: "Прикажи одделно",
         .thirteenthModelAveraged: "Распредели на 12 месеци",
         .formTarget: "Цел за штедење (износ)",

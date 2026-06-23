@@ -98,6 +98,8 @@ extension Localization {
         .formInvalidAmount: "یو سم مبلغ ولیکئ.",
         .formThirteenthAmount: "۱۳مه میاشتنۍ معاش (مبلغ)",
         .formThirteenthModel: "د ۱۳مې معاش ماډل",
+        .incomeBonuses: "اضافي تادیات",
+        .formMonth: "میاشت",
         .thirteenthModelSeparate: "جلا وښایاست",
         .thirteenthModelAveraged: "په ۱۲ میاشتو ووېشئ",
         .formTarget: "د سپما موخه (مبلغ)",

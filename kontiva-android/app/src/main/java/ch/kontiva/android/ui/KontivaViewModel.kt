@@ -13,6 +13,7 @@ import ch.kontiva.android.core.AutoLockInterval
 import ch.kontiva.android.core.AvailabilityEngine
 import ch.kontiva.android.core.BillSort
 import ch.kontiva.android.core.BillStatus
+import ch.kontiva.android.core.Bonus
 import ch.kontiva.android.core.Canton
 import ch.kontiva.android.core.DebtItem
 import ch.kontiva.android.core.DebtType
@@ -253,8 +254,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun addIncome(label: String, amount: Money, thirteenth: Money? = null, thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.SEPARATE) =
-        edit { it.copy(incomes = it.incomes + Income(label = label, monthlyNet = amount, thirteenthAmount = thirteenth, thirteenthModel = thirteenthModel)) }
+    fun addIncome(label: String, amount: Money, thirteenth: Money? = null, thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.DECEMBER, bonuses: List<Bonus> = emptyList()) =
+        edit { it.copy(incomes = it.incomes + Income(label = label, monthlyNet = amount, thirteenthAmount = thirteenth, thirteenthModel = thirteenthModel, bonuses = bonuses)) }
 
     fun addFixedCost(name: String, amount: Money, category: FixedExpenseCategory, startMonth: LocalDate? = null, installments: Int? = null) =
         edit { it.copy(fixedCosts = it.fixedCosts + RecurringFixedExpense(name = name, monthlyAmount = amount, category = category, startMonth = startMonth, installments = installments)) }
@@ -289,8 +290,8 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     fun deleteDebt(id: String) = edit { it.copy(debts = it.debts.filterNot { e -> e.id == id }) }
 
     // Edits ----------------------------------------------------------------
-    fun updateIncome(id: String, label: String, amount: Money, thirteenth: Money?, thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.SEPARATE) =
-        edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount, thirteenthAmount = thirteenth, thirteenthModel = thirteenthModel) else it }) }
+    fun updateIncome(id: String, label: String, amount: Money, thirteenth: Money?, thirteenthModel: ThirteenthSalaryModel = ThirteenthSalaryModel.DECEMBER, bonuses: List<Bonus> = emptyList()) =
+        edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount, thirteenthAmount = thirteenth, thirteenthModel = thirteenthModel, bonuses = bonuses) else it }) }
 
     fun updateFixedCost(id: String, name: String, amount: Money, category: FixedExpenseCategory, startMonth: LocalDate? = null, installments: Int? = null) =
         edit { ds -> ds.copy(fixedCosts = ds.fixedCosts.map { if (it.id == id) it.copy(name = name, monthlyAmount = amount, category = category, startMonth = startMonth, installments = installments) else it }) }

@@ -80,6 +80,8 @@ internal val LOC_ar: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "أدخل مبلغًا صالحًا.",
     L10nKey.formThirteenthAmount to "الراتب الـ13 (المبلغ)",
     L10nKey.formThirteenthModel to "نموذج الراتب الـ13",
+    L10nKey.incomeBonuses to "مدفوعات إضافية",
+    L10nKey.formMonth to "الشهر",
     L10nKey.thirteenthModelSeparate to "إظهار منفصلًا",
     L10nKey.thirteenthModelAveraged to "توزيع على 12 شهرًا",
     L10nKey.formTarget to "هدف الادخار (المبلغ)",

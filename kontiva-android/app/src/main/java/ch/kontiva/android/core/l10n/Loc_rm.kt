@@ -80,6 +80,8 @@ internal val LOC_rm: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Endatescha ina summa valaivla.",
     L10nKey.formThirteenthAmount to "13avla pajaglia (summa)",
     L10nKey.formThirteenthModel to "Model da la 13avla pajaglia",
+    L10nKey.incomeBonuses to "Pajaments supplementars",
+    L10nKey.formMonth to "Mais",
     L10nKey.thirteenthModelSeparate to "Mussar separà",
     L10nKey.thirteenthModelAveraged to "Repartir sin 12 mais",
     L10nKey.formTarget to "Finamira da spargn (summa)",

@@ -80,6 +80,8 @@ internal val LOC_ro: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "Introdu o sumă validă.",
     L10nKey.formThirteenthAmount to "Al 13-lea salariu (sumă)",
     L10nKey.formThirteenthModel to "Model al 13-lea salariu",
+    L10nKey.incomeBonuses to "Plăți suplimentare",
+    L10nKey.formMonth to "Luna",
     L10nKey.thirteenthModelSeparate to "Afișează separat",
     L10nKey.thirteenthModelAveraged to "Distribuie pe 12 luni",
     L10nKey.formTarget to "Obiectiv de economisire (sumă)",

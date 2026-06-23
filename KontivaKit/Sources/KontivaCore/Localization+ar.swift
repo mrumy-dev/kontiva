@@ -98,6 +98,8 @@ extension Localization {
         .formInvalidAmount: "أدخل مبلغًا صالحًا.",
         .formThirteenthAmount: "الراتب الـ13 (المبلغ)",
         .formThirteenthModel: "نموذج الراتب الـ13",
+        .incomeBonuses: "مدفوعات إضافية",
+        .formMonth: "الشهر",
         .thirteenthModelSeparate: "إظهار منفصلًا",
         .thirteenthModelAveraged: "توزيع على 12 شهرًا",
         .formTarget: "هدف الادخار (المبلغ)",

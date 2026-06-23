@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Introdu o sumă validă.",
         .formThirteenthAmount: "Al 13-lea salariu (sumă)",
         .formThirteenthModel: "Model al 13-lea salariu",
+        .incomeBonuses: "Plăți suplimentare",
+        .formMonth: "Luna",
         .thirteenthModelSeparate: "Afișează separat",
         .thirteenthModelAveraged: "Distribuie pe 12 luni",
         .formTarget: "Obiectiv de economisire (sumă)",

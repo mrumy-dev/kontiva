@@ -80,6 +80,8 @@ internal val LOC_ur: Map<L10nKey, String> = mapOf(
     L10nKey.formInvalidAmount to "ایک درست رقم درج کریں۔",
     L10nKey.formThirteenthAmount to "13واں ماہانہ تنخواہ (رقم)",
     L10nKey.formThirteenthModel to "13ویں تنخواہ کا ماڈل",
+    L10nKey.incomeBonuses to "اضافی ادائیگیاں",
+    L10nKey.formMonth to "مہینہ",
     L10nKey.thirteenthModelSeparate to "علیحدہ دکھائیں",
     L10nKey.thirteenthModelAveraged to "12 ماہ پر تقسیم کریں",
     L10nKey.formTarget to "بچت کا ہدف (رقم)",

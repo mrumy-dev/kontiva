@@ -96,6 +96,8 @@ extension Localization {
         .formInvalidAmount: "Anna kelvollinen summa.",
         .formThirteenthAmount: "13. kuukausipalkka (summa)",
         .formThirteenthModel: "13. kuukausipalkan malli",
+        .incomeBonuses: "Lisämaksut",
+        .formMonth: "Kuukausi",
         .thirteenthModelSeparate: "Näytä erikseen",
         .thirteenthModelAveraged: "Jaa 12 kuukaudelle",
         .formTarget: "Säästötavoite (summa)",

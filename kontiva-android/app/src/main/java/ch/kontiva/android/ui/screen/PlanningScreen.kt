@@ -64,14 +64,15 @@ fun PlanningScreen(vm: KontivaViewModel) {
     var initFixedCat by remember { mutableStateOf<FixedExpenseCategory?>(null) }
     var initVarCat by remember { mutableStateOf<VariableBudgetCategory?>(null) }
     var init13th by remember { mutableStateOf("") }
-    var init13thModel by remember { mutableStateOf(ch.kontiva.android.core.ThirteenthSalaryModel.SEPARATE) }
+    var init13thModel by remember { mutableStateOf(ch.kontiva.android.core.ThirteenthSalaryModel.DECEMBER) }
+    var init13thBonuses by remember { mutableStateOf<List<ch.kontiva.android.core.Bonus>>(emptyList()) }
     var initLimited by remember { mutableStateOf(false) }
     var initStartMonth by remember { mutableStateOf<java.time.LocalDate?>(null) }
     var initInstallments by remember { mutableStateOf<Int?>(null) }
 
     fun startAdd(k: Sheet) {
         editId = null; initName = ""; initAmt = ""; initFixedCat = null; initVarCat = null; init13th = ""
-        init13thModel = ch.kontiva.android.core.ThirteenthSalaryModel.SEPARATE
+        init13thModel = ch.kontiva.android.core.ThirteenthSalaryModel.DECEMBER; init13thBonuses = emptyList()
         initLimited = false; initStartMonth = null; initInstallments = null; sheet = k
     }
 
@@ -103,7 +104,8 @@ fun PlanningScreen(vm: KontivaViewModel) {
                         Icons.Rounded.AttachMoney, e.label, e.thirteenthAmount?.let { "+13. ${it.formattedCHF()}" }, e.monthlyNet.formattedCHF(),
                         onClick = {
                             editId = e.id; initName = e.label; initAmt = e.monthlyNet.formattedCHF(false)
-                            init13th = e.thirteenthAmount?.formattedCHF(false) ?: ""; init13thModel = e.thirteenthModel; sheet = Sheet.INCOME
+                            init13th = e.thirteenthAmount?.formattedCHF(false) ?: ""; init13thModel = e.thirteenthModel
+                            init13thBonuses = e.bonuses; sheet = Sheet.INCOME
                         },
                         onDelete = { vm.deleteIncome(e.id) },
                     )
@@ -153,10 +155,10 @@ fun PlanningScreen(vm: KontivaViewModel) {
 
     when (sheet) {
         Sheet.INCOME -> IncomeSheet(
-            initialName = initName, initialAmount = initAmt, initialThirteenth = init13th, initialModel = init13thModel,
+            initialName = initName, initialAmount = initAmt, initialThirteenth = init13th, initialModel = init13thModel, initialBonuses = init13thBonuses,
             onDismiss = { sheet = null },
-            onSave = { name, amount, thirteenth, model ->
-                editId?.let { vm.updateIncome(it, name, amount, thirteenth, model) } ?: vm.addIncome(name, amount, thirteenth, model); sheet = null
+            onSave = { name, amount, thirteenth, model, bonuses ->
+                editId?.let { vm.updateIncome(it, name, amount, thirteenth, model, bonuses) } ?: vm.addIncome(name, amount, thirteenth, model, bonuses); sheet = null
             },
         )
         Sheet.FIXED -> FixedCostSheet(

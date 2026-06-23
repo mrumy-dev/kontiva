@@ -71,6 +71,14 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     var unlockFailed by mutableStateOf(false)
         private set
 
+    /** The month the whole app is viewing (first of month). Drives availability,
+     *  bill classification, savings accumulation, and insights. */
+    var selectedMonth by mutableStateOf(LocalDate.now().withDayOfMonth(1))
+        private set
+
+    fun previousMonth() { selectedMonth = selectedMonth.minusMonths(1) }
+    fun nextMonth() { selectedMonth = selectedMonth.plusMonths(1) }
+
     init {
         // Persist the resolved default so the lock screen reads the same language.
         settingsStore.save(settings)
@@ -164,7 +172,7 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     /** The live monthly breakdown (income − fixed − variable − bills − savings). */
     val availability: MonthlyAvailability
         get() = AvailabilityEngine.compute(
-            dataset.incomes, dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals,
+            dataset.incomes, dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals, selectedMonth,
         )
 
     private fun edit(block: (AppDataset) -> AppDataset) {
@@ -209,9 +217,28 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     fun deleteDebt(id: String) = edit { it.copy(debts = it.debts.filterNot { e -> e.id == id }) }
 
+    // Edits ----------------------------------------------------------------
+    fun updateIncome(id: String, label: String, amount: Money) =
+        edit { ds -> ds.copy(incomes = ds.incomes.map { if (it.id == id) it.copy(label = label, monthlyNet = amount) else it }) }
+
+    fun updateFixedCost(id: String, name: String, amount: Money, category: FixedExpenseCategory) =
+        edit { ds -> ds.copy(fixedCosts = ds.fixedCosts.map { if (it.id == id) it.copy(name = name, monthlyAmount = amount, category = category) else it }) }
+
+    fun updateVariableBudget(id: String, name: String, amount: Money, category: VariableBudgetCategory) =
+        edit { ds -> ds.copy(variableBudgets = ds.variableBudgets.map { if (it.id == id) it.copy(name = name, plannedAmount = amount, category = category) else it }) }
+
+    fun updateBill(id: String, provider: String, amount: Money, dueDate: LocalDate, paid: Boolean) =
+        edit { ds -> ds.copy(bills = ds.bills.map { if (it.id == id) it.copy(provider = provider, amount = amount, dueDate = dueDate, status = if (paid) BillStatus.PAID else BillStatus.OPEN) else it }) }
+
+    fun updateSavingsGoal(id: String, name: String, category: SavingsCategory, monthly: Money?, starting: Money, target: Money) =
+        edit { ds -> ds.copy(savingsGoals = ds.savingsGoals.map { if (it.id == id) it.copy(name = name, category = category, monthlyContribution = monthly, startingBalance = starting, target = target) else it }) }
+
+    fun updateDebt(id: String, creditor: String, amount: Money, type: DebtType) =
+        edit { ds -> ds.copy(debts = ds.debts.map { if (it.id == id) it.copy(creditor = creditor, amount = amount, type = type) else it }) }
+
     /** Rule-based insights about this month's plan. */
     val insights: List<Insight>
-        get() = InsightEngine.analyze(dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals, availability)
+        get() = InsightEngine.analyze(dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals, availability, selectedMonth)
 
     fun lock() {
         store.lock()

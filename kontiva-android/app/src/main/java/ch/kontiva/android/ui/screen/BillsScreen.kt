@@ -76,11 +76,13 @@ fun BillsScreen(vm: KontivaViewModel) {
     val colors = KontivaTheme.colors
     val bills = vm.dataset.bills
     var showSheet by remember { mutableStateOf(false) }
+    var editBill by remember { mutableStateOf<OneOffBill?>(null) }
 
-    val overdue = bills.filter { BillClassifier.state(it) == BillState.OVERDUE }
-    val due = bills.filter { BillClassifier.state(it) == BillState.DUE_THIS_MONTH }
-    val future = bills.filter { BillClassifier.state(it) == BillState.FUTURE }
-    val paid = bills.filter { BillClassifier.state(it) == BillState.PAID }
+    val month = vm.selectedMonth
+    val overdue = bills.filter { BillClassifier.state(it, month) == BillState.OVERDUE }
+    val due = bills.filter { BillClassifier.state(it, month) == BillState.DUE_THIS_MONTH }
+    val future = bills.filter { BillClassifier.state(it, month) == BillState.FUTURE }
+    val paid = bills.filter { BillClassifier.state(it, month) == BillState.PAID }
 
     LazyColumn(
         Modifier.fillMaxSize(),
@@ -91,7 +93,8 @@ fun BillsScreen(vm: KontivaViewModel) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(loc(L10nKey.billsTitle), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = { showSheet = true }) {
+                MonthSelector(vm)
+                IconButton(onClick = { editBill = null; showSheet = true }) {
                     Icon(Icons.Rounded.Add, contentDescription = null, tint = KontivaTheme.accent)
                 }
             }
@@ -114,24 +117,36 @@ fun BillsScreen(vm: KontivaViewModel) {
                 }
             }
         }
-        billSection(loc(L10nKey.billsStateDueThisMonth), due, vm)
-        billSection(loc(L10nKey.billsStateOverdue), overdue, vm)
-        billSection(loc(L10nKey.billsStateFuture), future, vm)
-        billSection(loc(L10nKey.billsStatusPaid), paid, vm)
+        val onEdit: (OneOffBill) -> Unit = { editBill = it; showSheet = true }
+        billSection(loc(L10nKey.billsStateDueThisMonth), due, vm, onEdit)
+        billSection(loc(L10nKey.billsStateOverdue), overdue, vm, onEdit)
+        billSection(loc(L10nKey.billsStateFuture), future, vm, onEdit)
+        billSection(loc(L10nKey.billsStatusPaid), paid, vm, onEdit)
     }
 
-    if (showSheet) BillSheet(onDismiss = { showSheet = false }, onSave = { p, a, d, paidFlag ->
-        vm.addBill(p, a, d, paidFlag); showSheet = false
-    })
+    if (showSheet) {
+        val b = editBill
+        BillSheet(
+            onDismiss = { showSheet = false },
+            onSave = { p, a, d, paidFlag ->
+                if (b != null) vm.updateBill(b.id, p, a, d, paidFlag) else vm.addBill(p, a, d, paidFlag)
+                showSheet = false
+            },
+            initialProvider = b?.provider ?: "",
+            initialAmount = b?.amount?.formattedCHF(false) ?: "",
+            initialDate = b?.dueDate ?: LocalDate.now(),
+            initialPaid = b?.status == BillStatus.PAID,
+        )
+    }
 }
 
-private fun LazyListScope.billSection(title: String, items: List<OneOffBill>, vm: KontivaViewModel) {
+private fun LazyListScope.billSection(title: String, items: List<OneOffBill>, vm: KontivaViewModel, onEdit: (OneOffBill) -> Unit) {
     if (items.isEmpty()) return
     item {
         Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = KontivaTheme.colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(KontivaTheme.spaceMd)) {
                 Text(title, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = KontivaTheme.colors.textSecondary)
-                items.forEach { BillRow(it, vm) }
+                items.forEach { b -> BillRow(b, onEdit = { onEdit(b) }, onToggle = { vm.toggleBillPaid(b.id) }, onDelete = { vm.deleteBill(b.id) }) }
             }
         }
     }
@@ -139,20 +154,21 @@ private fun LazyListScope.billSection(title: String, items: List<OneOffBill>, vm
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun BillRow(bill: OneOffBill, vm: KontivaViewModel) {
+private fun BillRow(bill: OneOffBill, onEdit: () -> Unit, onToggle: () -> Unit, onDelete: () -> Unit) {
     val colors = KontivaTheme.colors
     val isPaid = bill.status == BillStatus.PAID
     Row(
         Modifier
             .fillMaxWidth()
-            .combinedClickable(onClick = { vm.toggleBillPaid(bill.id) }, onLongClick = { vm.deleteBill(bill.id) })
+            .combinedClickable(onClick = onEdit, onLongClick = onDelete)
             .padding(vertical = KontivaTheme.spaceSm),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             Modifier.size(24.dp).clip(CircleShape)
                 .background(if (isPaid) colors.positive else Color.Transparent)
-                .border(1.5.dp, if (isPaid) colors.positive else colors.softBorder, CircleShape),
+                .border(1.5.dp, if (isPaid) colors.positive else colors.softBorder, CircleShape)
+                .clickable(onClick = onToggle),
             contentAlignment = Alignment.Center,
         ) {
             if (isPaid) Icon(Icons.Rounded.Check, contentDescription = null, tint = Color.White, modifier = Modifier.size(15.dp))
@@ -189,13 +205,20 @@ internal fun EmptyCard(text: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BillSheet(onDismiss: () -> Unit, onSave: (String, Money, LocalDate, Boolean) -> Unit) {
+private fun BillSheet(
+    onDismiss: () -> Unit,
+    onSave: (String, Money, LocalDate, Boolean) -> Unit,
+    initialProvider: String = "",
+    initialAmount: String = "",
+    initialDate: LocalDate = LocalDate.now(),
+    initialPaid: Boolean = false,
+) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
-    var provider by remember { mutableStateOf("") }
-    var amountText by remember { mutableStateOf("") }
-    var dueDate by remember { mutableStateOf(LocalDate.now()) }
-    var paid by remember { mutableStateOf(false) }
+    var provider by remember { mutableStateOf(initialProvider) }
+    var amountText by remember { mutableStateOf(initialAmount) }
+    var dueDate by remember { mutableStateOf(initialDate) }
+    var paid by remember { mutableStateOf(initialPaid) }
     var showPicker by remember { mutableStateOf(false) }
     val amount = Money.parse(amountText)
     val canSave = provider.isNotBlank() && amount != null && !amount.isZero

@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.kontiva.android.core.BillClassifier
 import ch.kontiva.android.core.BillState
+import ch.kontiva.android.core.DebtItem
 import ch.kontiva.android.core.DebtType
 import ch.kontiva.android.core.Money
 import ch.kontiva.android.core.total
@@ -60,8 +61,9 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
     var showSheet by remember { mutableStateOf(false) }
+    var editDebt by remember { mutableStateOf<DebtItem?>(null) }
 
-    val overdueBills = vm.dataset.bills.filter { BillClassifier.state(it) == BillState.OVERDUE }
+    val overdueBills = vm.dataset.bills.filter { BillClassifier.state(it, vm.selectedMonth) == BillState.OVERDUE }
     val overdueTotal = overdueBills.map { it.amount }.total()
     val debts = vm.dataset.debts
     val recordedTotal = debts.map { it.amount }.total()
@@ -77,7 +79,7 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                 IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = "back", tint = colors.textPrimary) }
                 Text(loc(L10nKey.navSchulden), fontSize = 24.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = { showSheet = true }) { Icon(Icons.Rounded.Add, contentDescription = null, tint = KontivaTheme.accent) }
+                IconButton(onClick = { editDebt = null; showSheet = true }) { Icon(Icons.Rounded.Add, contentDescription = null, tint = KontivaTheme.accent) }
             }
         }
         if (overdueBills.isEmpty() && debts.isEmpty()) {
@@ -108,7 +110,7 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                         Column(Modifier.padding(KontivaTheme.spaceMd)) {
                             Text(loc(L10nKey.schuldenOverdueBills), fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colors.textSecondary)
                             overdueBills.forEach { b ->
-                                DebtRow(b.provider, "", b.amount.formattedCHF()) {}
+                                DebtRow(b.provider, "", b.amount.formattedCHF(), onClick = {}, onDelete = {})
                             }
                             Text(loc(L10nKey.schuldenManagedInBills), fontSize = 12.sp, color = colors.textTertiary, modifier = Modifier.padding(top = KontivaTheme.spaceXs))
                         }
@@ -121,7 +123,11 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                         Column(Modifier.padding(KontivaTheme.spaceMd)) {
                             Text(loc(L10nKey.schuldenRecorded), fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = colors.textSecondary)
                             debts.sortedBy { it.type.severityRank }.forEach { d ->
-                                DebtRow(d.creditor, loc(d.type.labelKey), d.amount.formattedCHF()) { vm.deleteDebt(d.id) }
+                                DebtRow(
+                                    d.creditor, loc(d.type.labelKey), d.amount.formattedCHF(),
+                                    onClick = { editDebt = d; showSheet = true },
+                                    onDelete = { vm.deleteDebt(d.id) },
+                                )
                             }
                         }
                     }
@@ -142,15 +148,27 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
         item { Text(loc(L10nKey.schuldenDisclaimer), fontSize = 11.sp, color = colors.textTertiary, modifier = Modifier.padding(KontivaTheme.spaceXs)) }
     }
 
-    if (showSheet) DebtSheet(onDismiss = { showSheet = false }, onSave = { c, a, t -> vm.addDebt(c, a, t); showSheet = false })
+    if (showSheet) {
+        val d = editDebt
+        DebtSheet(
+            onDismiss = { showSheet = false },
+            onSave = { c, a, t ->
+                if (d != null) vm.updateDebt(d.id, c, a, t) else vm.addDebt(c, a, t)
+                showSheet = false
+            },
+            initialCreditor = d?.creditor ?: "",
+            initialAmount = d?.amount?.formattedCHF(false) ?: "",
+            initialType = d?.type ?: DebtType.OPEN_CLAIM,
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun DebtRow(creditor: String, type: String, amount: String, onDelete: () -> Unit) {
+private fun DebtRow(creditor: String, type: String, amount: String, onClick: () -> Unit, onDelete: () -> Unit) {
     val colors = KontivaTheme.colors
     Row(
-        Modifier.fillMaxWidth().combinedClickable(onClick = {}, onLongClick = onDelete).padding(vertical = KontivaTheme.spaceSm),
+        Modifier.fillMaxWidth().combinedClickable(onClick = onClick, onLongClick = onDelete).padding(vertical = KontivaTheme.spaceSm),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
@@ -172,12 +190,18 @@ private fun Tip(title: String, body: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun DebtSheet(onDismiss: () -> Unit, onSave: (String, Money, DebtType) -> Unit) {
+private fun DebtSheet(
+    onDismiss: () -> Unit,
+    onSave: (String, Money, DebtType) -> Unit,
+    initialCreditor: String = "",
+    initialAmount: String = "",
+    initialType: DebtType = DebtType.OPEN_CLAIM,
+) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
-    var creditor by remember { mutableStateOf("") }
-    var amountText by remember { mutableStateOf("") }
-    var type by remember { mutableStateOf(DebtType.OPEN_CLAIM) }
+    var creditor by remember { mutableStateOf(initialCreditor) }
+    var amountText by remember { mutableStateOf(initialAmount) }
+    var type by remember { mutableStateOf(initialType) }
     var menu by remember { mutableStateOf(false) }
     val amount = Money.parse(amountText)
     val canSave = creditor.isNotBlank() && amount != null && !amount.isZero

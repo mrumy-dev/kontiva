@@ -49,12 +49,15 @@ fun <C> EntrySheet(
     categoryLabel: (C) -> String,
     onDismiss: () -> Unit,
     onSave: (name: String, amount: Money, category: C?) -> Unit,
+    initialName: String = "",
+    initialAmount: String = "",
+    initialCategory: C? = null,
 ) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
-    var name by remember { mutableStateOf("") }
-    var amountText by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf(categories?.firstOrNull()) }
+    var name by remember { mutableStateOf(initialName) }
+    var amountText by remember { mutableStateOf(initialAmount) }
+    var category by remember { mutableStateOf(initialCategory ?: categories?.firstOrNull()) }
     var menuOpen by remember { mutableStateOf(false) }
 
     val amount = Money.parse(amountText)

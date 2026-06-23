@@ -54,6 +54,13 @@ fun PlanningScreen(vm: KontivaViewModel) {
     val d = vm.dataset
     val avail = vm.availability
     var sheet by remember { mutableStateOf<Sheet?>(null) }
+    var editId by remember { mutableStateOf<String?>(null) }
+    var initName by remember { mutableStateOf("") }
+    var initAmt by remember { mutableStateOf("") }
+    var initFixedCat by remember { mutableStateOf<FixedExpenseCategory?>(null) }
+    var initVarCat by remember { mutableStateOf<VariableBudgetCategory?>(null) }
+
+    fun startAdd(k: Sheet) { editId = null; initName = ""; initAmt = ""; initFixedCat = null; initVarCat = null; sheet = k }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -61,7 +68,11 @@ fun PlanningScreen(vm: KontivaViewModel) {
         verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
     ) {
         item {
-            Text(loc(L10nKey.planningTitle), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(loc(L10nKey.planningTitle), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+                Spacer(Modifier.weight(1f))
+                MonthSelector(vm)
+            }
         }
         item {
             SummaryCard(
@@ -78,10 +89,14 @@ fun PlanningScreen(vm: KontivaViewModel) {
                 title = loc(L10nKey.planningIncome),
                 count = d.incomes.size,
                 total = avail.netIncomeThisMonth.formattedCHF(),
-                onAdd = { sheet = Sheet.INCOME },
+                onAdd = { startAdd(Sheet.INCOME) },
             ) {
                 d.incomes.forEach { e ->
-                    EntryRow(Icons.Rounded.AttachMoney, e.label, null, e.monthlyNet.formattedCHF()) { vm.deleteIncome(e.id) }
+                    EntryRow(
+                        Icons.Rounded.AttachMoney, e.label, null, e.monthlyNet.formattedCHF(),
+                        onClick = { editId = e.id; initName = e.label; initAmt = e.monthlyNet.formattedCHF(false); sheet = Sheet.INCOME },
+                        onDelete = { vm.deleteIncome(e.id) },
+                    )
                 }
             }
         }
@@ -92,10 +107,14 @@ fun PlanningScreen(vm: KontivaViewModel) {
                 count = d.fixedCosts.size,
                 total = avail.recurringFixedCosts.formattedCHF(),
                 explainer = loc(L10nKey.planningFixedExplainer),
-                onAdd = { sheet = Sheet.FIXED },
+                onAdd = { startAdd(Sheet.FIXED) },
             ) {
                 d.fixedCosts.forEach { e ->
-                    EntryRow(e.category.icon(), e.name, loc(e.category.labelKey), e.monthlyAmount.formattedCHF()) { vm.deleteFixedCost(e.id) }
+                    EntryRow(
+                        e.category.icon(), e.name, loc(e.category.labelKey), e.monthlyAmount.formattedCHF(),
+                        onClick = { editId = e.id; initName = e.name; initAmt = e.monthlyAmount.formattedCHF(false); initFixedCat = e.category; sheet = Sheet.FIXED },
+                        onDelete = { vm.deleteFixedCost(e.id) },
+                    )
                 }
             }
         }
@@ -106,10 +125,14 @@ fun PlanningScreen(vm: KontivaViewModel) {
                 count = d.variableBudgets.size,
                 total = avail.plannedVariableBudgets.formattedCHF(),
                 explainer = loc(L10nKey.planningVariableExplainer),
-                onAdd = { sheet = Sheet.VARIABLE },
+                onAdd = { startAdd(Sheet.VARIABLE) },
             ) {
                 d.variableBudgets.forEach { e ->
-                    EntryRow(e.category.icon(), e.name, loc(e.category.labelKey), e.plannedAmount.formattedCHF()) { vm.deleteVariableBudget(e.id) }
+                    EntryRow(
+                        e.category.icon(), e.name, loc(e.category.labelKey), e.plannedAmount.formattedCHF(),
+                        onClick = { editId = e.id; initName = e.name; initAmt = e.plannedAmount.formattedCHF(false); initVarCat = e.category; sheet = Sheet.VARIABLE },
+                        onDelete = { vm.deleteVariableBudget(e.id) },
+                    )
                 }
             }
         }
@@ -120,22 +143,33 @@ fun PlanningScreen(vm: KontivaViewModel) {
             title = loc(L10nKey.planningIncome),
             categories = null,
             categoryLabel = { "" },
+            initialName = initName, initialAmount = initAmt,
             onDismiss = { sheet = null },
-            onSave = { name, amount, _ -> vm.addIncome(name, amount); sheet = null },
+            onSave = { name, amount, _ ->
+                editId?.let { vm.updateIncome(it, name, amount) } ?: vm.addIncome(name, amount); sheet = null
+            },
         )
         Sheet.FIXED -> EntrySheet(
             title = loc(L10nKey.planningFixed),
             categories = FixedExpenseCategory.entries,
             categoryLabel = { loc(it.labelKey) },
+            initialName = initName, initialAmount = initAmt, initialCategory = initFixedCat,
             onDismiss = { sheet = null },
-            onSave = { name, amount, cat -> vm.addFixedCost(name, amount, cat ?: FixedExpenseCategory.OTHER); sheet = null },
+            onSave = { name, amount, cat ->
+                val c = cat ?: FixedExpenseCategory.OTHER
+                editId?.let { vm.updateFixedCost(it, name, amount, c) } ?: vm.addFixedCost(name, amount, c); sheet = null
+            },
         )
         Sheet.VARIABLE -> EntrySheet(
             title = loc(L10nKey.planningVariable),
             categories = VariableBudgetCategory.entries,
             categoryLabel = { loc(it.labelKey) },
+            initialName = initName, initialAmount = initAmt, initialCategory = initVarCat,
             onDismiss = { sheet = null },
-            onSave = { name, amount, cat -> vm.addVariableBudget(name, amount, cat ?: VariableBudgetCategory.OTHER); sheet = null },
+            onSave = { name, amount, cat ->
+                val c = cat ?: VariableBudgetCategory.OTHER
+                editId?.let { vm.updateVariableBudget(it, name, amount, c) } ?: vm.addVariableBudget(name, amount, c); sheet = null
+            },
         )
         null -> Unit
     }
@@ -207,12 +241,12 @@ private fun SectionCard(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun EntryRow(icon: ImageVector, name: String, subtitle: String?, amount: String, onDelete: () -> Unit) {
+private fun EntryRow(icon: ImageVector, name: String, subtitle: String?, amount: String, onClick: () -> Unit, onDelete: () -> Unit) {
     val colors = KontivaTheme.colors
     Row(
         Modifier
             .fillMaxWidth()
-            .combinedClickable(onClick = {}, onLongClick = onDelete)
+            .combinedClickable(onClick = onClick, onLongClick = onDelete)
             .padding(vertical = KontivaTheme.spaceSm),
         verticalAlignment = Alignment.CenterVertically,
     ) {

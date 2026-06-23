@@ -45,7 +45,11 @@ fun OverviewScreen(vm: KontivaViewModel) {
         verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
     ) {
         item {
-            Text(loc(L10nKey.navOverview), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(loc(L10nKey.navOverview), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+                Spacer(Modifier.weight(1f))
+                MonthSelector(vm)
+            }
         }
 
         if (!hasData) {
@@ -107,7 +111,7 @@ private fun BreakdownCard(a: MonthlyAvailability) {
     val rows = listOf(
         Triple(colors.chartFixed, loc(L10nKey.overviewRecurringFixed), a.recurringFixedCosts),
         Triple(colors.chartVariable, loc(L10nKey.overviewPlannedVariable), a.plannedVariableBudgets),
-        Triple(colors.chartBills, loc(L10nKey.overviewBillsDueThisMonth), a.openBillsDueThisMonth),
+        Triple(colors.chartBills, loc(L10nKey.overviewBillsDueThisMonth), a.openBillsDueThisMonth + a.overdueOpenBills),
         Triple(colors.chartSavings, loc(L10nKey.overviewPlannedSavings), a.plannedSavings),
         Triple(colors.chartAvailable, loc(L10nKey.overviewAvailableThisMonth), avail),
     )

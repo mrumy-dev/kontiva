@@ -72,6 +72,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
     val colors = KontivaTheme.colors
     val goals = vm.dataset.savingsGoals
     var showSheet by remember { mutableStateOf(false) }
+    var editGoal by remember { mutableStateOf<SavingsGoal?>(null) }
 
     LazyColumn(
         Modifier.fillMaxSize(),
@@ -82,7 +83,8 @@ fun SavingsScreen(vm: KontivaViewModel) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(loc(L10nKey.navSparen), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = { showSheet = true }) { Icon(Icons.Rounded.Add, contentDescription = null, tint = KontivaTheme.accent) }
+                MonthSelector(vm)
+                IconButton(onClick = { editGoal = null; showSheet = true }) { Icon(Icons.Rounded.Add, contentDescription = null, tint = KontivaTheme.accent) }
             }
         }
         if (goals.isEmpty()) {
@@ -90,7 +92,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
             return@LazyColumn
         }
         item {
-            val accumulated = goals.map { it.accumulated() }.total()
+            val accumulated = goals.map { it.accumulated(vm.selectedMonth) }.total()
             val monthly = goals.mapNotNull { it.monthlyContribution }.total()
             Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(KontivaTheme.spaceMd)) {
@@ -111,24 +113,37 @@ fun SavingsScreen(vm: KontivaViewModel) {
             }
         }
         for (g in goals) {
-            item { GoalCard(g, onDelete = { vm.deleteSavingsGoal(g.id) }) }
+            item { GoalCard(g, vm.selectedMonth, onClick = { editGoal = g; showSheet = true }, onDelete = { vm.deleteSavingsGoal(g.id) }) }
         }
     }
 
-    if (showSheet) SavingsSheet(onDismiss = { showSheet = false }, onSave = { name, cat, monthly, starting, target ->
-        vm.addSavingsGoal(name, cat, monthly, starting, target); showSheet = false
-    })
+    if (showSheet) {
+        val g = editGoal
+        SavingsSheet(
+            onDismiss = { showSheet = false },
+            onSave = { name, cat, monthly, starting, target ->
+                if (g != null) vm.updateSavingsGoal(g.id, name, cat, monthly, starting, target)
+                else vm.addSavingsGoal(name, cat, monthly, starting, target)
+                showSheet = false
+            },
+            initialName = g?.name ?: "",
+            initialCategory = g?.category ?: SavingsCategory.EMERGENCY,
+            initialMonthly = g?.monthlyContribution?.formattedCHF(false) ?: "",
+            initialStarting = g?.startingBalance?.takeIf { !it.isZero }?.formattedCHF(false) ?: "",
+            initialTarget = g?.target?.takeIf { !it.isZero }?.formattedCHF(false) ?: "",
+        )
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun GoalCard(g: SavingsGoal, onDelete: () -> Unit) {
+private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> Unit, onDelete: () -> Unit) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
     Surface(
         shape = RoundedCornerShape(KontivaTheme.radiusCard),
         color = colors.cardSurface,
-        modifier = Modifier.fillMaxWidth().combinedClickable(onClick = {}, onLongClick = onDelete),
+        modifier = Modifier.fillMaxWidth().combinedClickable(onClick = onClick, onLongClick = onDelete),
     ) {
         Row(Modifier.padding(KontivaTheme.spaceMd), verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(38.dp).clip(CircleShape).background(KontivaTheme.accent.copy(alpha = 0.12f)), contentAlignment = Alignment.Center) {
@@ -141,14 +156,14 @@ private fun GoalCard(g: SavingsGoal, onDelete: () -> Unit) {
                     g.monthlyContribution?.let { append(it.formattedCHF()).append(" ").append(loc(L10nKey.sparenPerMonth)) }
                     if (g.hasTarget) {
                         if (isNotEmpty()) append("  ·  ")
-                        append(g.accumulated().formattedCHF()).append(" / ").append(g.target.formattedCHF())
+                        append(g.accumulated(month).formattedCHF()).append(" / ").append(g.target.formattedCHF())
                     }
                 }
                 if (sub.isNotEmpty()) Text(sub, fontSize = 12.sp, color = colors.textTertiary)
             }
             if (g.hasTarget) {
                 Spacer(Modifier.size(KontivaTheme.spaceSm))
-                ProgressRing(g.progressPercent())
+                ProgressRing(g.progressPercent(month))
             }
         }
     }
@@ -176,15 +191,23 @@ private fun ProgressRing(percent: Int, size: Dp = 48.dp) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SavingsSheet(onDismiss: () -> Unit, onSave: (String, SavingsCategory, Money?, Money, Money) -> Unit) {
+private fun SavingsSheet(
+    onDismiss: () -> Unit,
+    onSave: (String, SavingsCategory, Money?, Money, Money) -> Unit,
+    initialName: String = "",
+    initialCategory: SavingsCategory = SavingsCategory.EMERGENCY,
+    initialMonthly: String = "",
+    initialStarting: String = "",
+    initialTarget: String = "",
+) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
-    var name by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf(SavingsCategory.EMERGENCY) }
+    var name by remember { mutableStateOf(initialName) }
+    var category by remember { mutableStateOf(initialCategory) }
     var menuOpen by remember { mutableStateOf(false) }
-    var monthlyText by remember { mutableStateOf("") }
-    var startingText by remember { mutableStateOf("") }
-    var targetText by remember { mutableStateOf("") }
+    var monthlyText by remember { mutableStateOf(initialMonthly) }
+    var startingText by remember { mutableStateOf(initialStarting) }
+    var targetText by remember { mutableStateOf(initialTarget) }
     val canSave = name.isNotBlank()
 
     ModalBottomSheet(

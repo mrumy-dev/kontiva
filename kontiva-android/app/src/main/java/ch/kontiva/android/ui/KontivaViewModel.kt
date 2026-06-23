@@ -6,10 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import ch.kontiva.android.core.AccentTheme
 import ch.kontiva.android.core.AppLanguage
 import ch.kontiva.android.core.AppSettings
+import ch.kontiva.android.core.AutoLockInterval
 import ch.kontiva.android.core.AvailabilityEngine
 import ch.kontiva.android.core.BillStatus
+import ch.kontiva.android.core.DebtItem
+import ch.kontiva.android.core.DebtType
+import ch.kontiva.android.core.Insight
+import ch.kontiva.android.core.InsightEngine
 import ch.kontiva.android.core.FixedExpenseCategory
 import ch.kontiva.android.core.Income
 import ch.kontiva.android.core.Money
@@ -70,10 +76,40 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         settingsStore.save(settings)
     }
 
-    fun setLanguage(language: AppLanguage) {
-        settings = settings.copy(language = language)
-        settingsStore.save(settings)
-        if (store.isUnlocked) runCatching { store.mutate { it.copy(appSettings = settings) } }
+    fun setLanguage(language: AppLanguage) = applySettings(settings.copy(language = language))
+    fun setAccent(accent: AccentTheme) = applySettings(settings.copy(accent = accent))
+
+    private fun applySettings(updated: AppSettings) {
+        settings = updated
+        settingsStore.save(updated)
+        if (store.isUnlocked) runCatching { store.mutate { it.copy(appSettings = updated) }; dataset = store.snapshot() }
+    }
+
+    fun updateProfile(name: String) {
+        edit { it.copy(household = if (name.isBlank()) null else (it.household?.copy(name = name) ?: Household(name = name))) }
+        household = dataset.household
+    }
+
+    fun setAutoLock(interval: AutoLockInterval) = edit {
+        it.copy(securitySettings = it.securitySettings.copy(autoLock = interval))
+    }
+
+    /** Re-wrap the master key under a new passphrase; reports success on the main thread. */
+    fun changePassphrase(old: String, new: String, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val ok = withContext(Dispatchers.Default) {
+                try { store.changePassphrase(old, new); true } catch (_: Exception) { false }
+            }
+            onResult(ok)
+        }
+    }
+
+    /** Danger zone: wipe the vault and return to onboarding. */
+    fun deleteAllData() {
+        store.deleteAllData()
+        household = null
+        dataset = AppDataset.empty
+        phase = AppPhase.ONBOARDING
     }
 
     /** Finish onboarding: create the encrypted vault, store profile + settings, unlock. */
@@ -166,6 +202,16 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun deleteSavingsGoal(id: String) = edit { it.copy(savingsGoals = it.savingsGoals.filterNot { e -> e.id == id }) }
+
+    fun addDebt(creditor: String, amount: Money, type: DebtType) = edit {
+        it.copy(debts = it.debts + DebtItem(creditor = creditor, amount = amount, type = type))
+    }
+
+    fun deleteDebt(id: String) = edit { it.copy(debts = it.debts.filterNot { e -> e.id == id }) }
+
+    /** Rule-based insights about this month's plan. */
+    val insights: List<Insight>
+        get() = InsightEngine.analyze(dataset.fixedCosts, dataset.variableBudgets, dataset.bills, dataset.savingsGoals, availability)
 
     fun lock() {
         store.lock()

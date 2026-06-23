@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,7 +60,11 @@ fun <C> EntrySheet(
     val amount = Money.parse(amountText)
     val canSave = name.isNotBlank() && amount != null && !amount.isZero
 
-    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = colors.cardSurface) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        containerColor = colors.cardSurface,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    ) {
         Column(
             Modifier
                 .padding(horizontal = KontivaTheme.spaceLg)

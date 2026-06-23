@@ -1,7 +1,11 @@
 package ch.kontiva.android.ui.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,20 +15,26 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.ChevronRight
+import androidx.compose.material.icons.rounded.CreditCard
 import androidx.compose.material.icons.rounded.GridView
+import androidx.compose.material.icons.rounded.Lightbulb
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material.icons.rounded.ReceiptLong
 import androidx.compose.material.icons.rounded.Savings
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -109,19 +119,55 @@ private fun ComingSoon(title: String) {
     }
 }
 
+private enum class MoreDest { MENU, SETTINGS, DEBTS, INSIGHTS }
+
 @Composable
 private fun MoreTab(vm: KontivaViewModel) {
+    var dest by remember { mutableStateOf(MoreDest.MENU) }
+    when (dest) {
+        MoreDest.MENU -> MoreMenu(vm, onOpen = { dest = it })
+        MoreDest.SETTINGS -> SettingsScreen(vm, onBack = { dest = MoreDest.MENU })
+        MoreDest.DEBTS -> DebtsScreen(vm, onBack = { dest = MoreDest.MENU })
+        MoreDest.INSIGHTS -> InsightsScreen(vm, onBack = { dest = MoreDest.MENU })
+    }
+}
+
+@Composable
+private fun MoreMenu(vm: KontivaViewModel, onOpen: (MoreDest) -> Unit) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
-    Column(
-        Modifier.fillMaxSize().padding(KontivaTheme.spaceLg),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        vm.household?.name?.let {
-            Text(it, fontSize = 20.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
-            Spacer(Modifier.height(KontivaTheme.spaceLg))
+    Column(Modifier.fillMaxSize().padding(KontivaTheme.spaceLg), verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd)) {
+        Text(loc(L10nKey.navMore), fontSize = 28.sp, fontWeight = FontWeight.Bold, color = colors.textPrimary)
+        Surface(shape = RoundedCornerShape(KontivaTheme.radiusCard), color = colors.cardSurface, modifier = Modifier.fillMaxWidth()) {
+            Column {
+                MenuRow(Icons.Rounded.CreditCard, loc(L10nKey.navSchulden)) { onOpen(MoreDest.DEBTS) }
+                MenuRow(Icons.Rounded.Lightbulb, loc(L10nKey.navInsights)) { onOpen(MoreDest.INSIGHTS) }
+                MenuRow(Icons.Rounded.Settings, loc(L10nKey.settingsTitle)) { onOpen(MoreDest.SETTINGS) }
+            }
         }
-        PrimaryButton(loc(L10nKey.actionLock), onClick = { vm.lock() })
+        Spacer(Modifier.weight(1f))
+        Surface(
+            shape = RoundedCornerShape(KontivaTheme.radiusControl),
+            color = colors.cardSurface,
+            modifier = Modifier.fillMaxWidth().clickable { vm.lock() },
+        ) {
+            Row(Modifier.padding(KontivaTheme.spaceMd), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Rounded.Lock, contentDescription = null, tint = colors.swissRed, modifier = Modifier.size(18.dp))
+                Spacer(Modifier.size(KontivaTheme.spaceXs))
+                Text(loc(L10nKey.actionLock), color = colors.swissRed, fontWeight = FontWeight.SemiBold)
+            }
+        }
+    }
+}
+
+@Composable
+private fun MenuRow(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, onClick: () -> Unit) {
+    val colors = KontivaTheme.colors
+    Row(Modifier.fillMaxWidth().clickable(onClick = onClick).padding(KontivaTheme.spaceMd), verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(22.dp))
+        Spacer(Modifier.size(KontivaTheme.spaceSm))
+        Text(label, fontSize = 16.sp, color = colors.textPrimary)
+        Spacer(Modifier.weight(1f))
+        Icon(Icons.Rounded.ChevronRight, contentDescription = null, tint = colors.textTertiary)
     }
 }

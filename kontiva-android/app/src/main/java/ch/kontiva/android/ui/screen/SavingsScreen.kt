@@ -36,6 +36,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -186,7 +187,11 @@ private fun SavingsSheet(onDismiss: () -> Unit, onSave: (String, SavingsCategory
     var targetText by remember { mutableStateOf("") }
     val canSave = name.isNotBlank()
 
-    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = colors.cardSurface) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        containerColor = colors.cardSurface,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    ) {
         Column(
             Modifier
                 .verticalScroll(rememberScrollState())

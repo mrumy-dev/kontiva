@@ -34,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -199,7 +200,11 @@ private fun BillSheet(onDismiss: () -> Unit, onSave: (String, Money, LocalDate, 
     val amount = Money.parse(amountText)
     val canSave = provider.isNotBlank() && amount != null && !amount.isZero
 
-    ModalBottomSheet(onDismissRequest = onDismiss, containerColor = colors.cardSurface) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        containerColor = colors.cardSurface,
+        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
+    ) {
         Column(
             Modifier.padding(horizontal = KontivaTheme.spaceLg).padding(bottom = KontivaTheme.spaceLg).navigationBarsPadding(),
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),

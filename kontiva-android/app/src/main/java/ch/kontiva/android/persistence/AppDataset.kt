@@ -1,6 +1,7 @@
 package ch.kontiva.android.persistence
 
 import ch.kontiva.android.core.AppSettings
+import ch.kontiva.android.core.DebtItem
 import ch.kontiva.android.core.Income
 import ch.kontiva.android.core.OneOffBill
 import ch.kontiva.android.core.RecurringFixedExpense
@@ -38,6 +39,7 @@ data class AppDataset(
     val variableBudgets: List<VariableMonthlyBudget> = emptyList(),
     val bills: List<OneOffBill> = emptyList(),
     val savingsGoals: List<SavingsGoal> = emptyList(),
+    val debts: List<DebtItem> = emptyList(),
     val appSettings: AppSettings = AppSettings(),
     val securitySettings: SecuritySettings = SecuritySettings(),
 ) {

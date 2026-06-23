@@ -30,20 +30,64 @@ final class AvailabilityTests: XCTestCase {
             OneOffBill(provider: "Spende", amount: Money.parse("100.00")!,
                        dueDate: date(2026, 8, 1), status: .open),    // future → excluded
             OneOffBill(provider: "Internet", amount: Money.parse("80.00")!,
-                       dueDate: date(2026, 6, 5), status: .paid),    // paid → excluded
+                       dueDate: date(2026, 6, 5), status: .paid),    // paid but due THIS month → still counts
         ]
 
         let result = AvailabilityEngine.compute(
             incomes: [income], fixedCosts: fixed, variableBudgets: variable,
             bills: bills, asOf: reference(), calendar: calendar)
 
-        // 6500 − 2150 − 600 − 300 − 250 = 3200
+        // Bills due this month = Zahnarzt 300 + Internet 80 (paid, but the money is gone
+        // either way) = 380.  6500 − 2150 − 600 − 380 − 250 = 3120.
         XCTAssertEqual(result.netIncomeThisMonth, Money.parse("6'500.00"))
         XCTAssertEqual(result.recurringFixedCosts, Money.parse("2'150.00"))
         XCTAssertEqual(result.plannedVariableBudgets, Money.parse("600.00"))
-        XCTAssertEqual(result.billsDueThisMonth, Money.parse("300.00"))
+        XCTAssertEqual(result.billsDueThisMonth, Money.parse("380.00"))
         XCTAssertEqual(result.overdueOpenBills, Money.parse("250.00"))
-        XCTAssertEqual(result.available, Money.parse("3'200.00"))
+        XCTAssertEqual(result.available, Money.parse("3'120.00"))
+    }
+
+    // MARK: - Regression: paying a bill must not free up money
+
+    func testPayingABillDoesNotChangeAvailable() {
+        let income = Income(label: "Lohn", monthlyNet: Money.parse("5'000.00")!)
+        let openBill = OneOffBill(provider: "Stadtkasse", amount: Money.parse("500.00")!,
+                                  dueDate: date(2026, 6, 20), status: .open)
+        let paidBill = OneOffBill(id: openBill.id, provider: "Stadtkasse", amount: Money.parse("500.00")!,
+                                  dueDate: date(2026, 6, 20), status: .paid)
+
+        let whenOpen = AvailabilityEngine.compute(
+            incomes: [income], fixedCosts: [], variableBudgets: [], bills: [openBill],
+            asOf: reference(), calendar: calendar)
+        let whenPaid = AvailabilityEngine.compute(
+            incomes: [income], fixedCosts: [], variableBudgets: [], bills: [paidBill],
+            asOf: reference(), calendar: calendar)
+
+        XCTAssertEqual(whenOpen.available, Money.parse("4'500.00"))
+        XCTAssertEqual(whenPaid.available, whenOpen.available, "paying a bill must NOT increase available money")
+        XCTAssertEqual(whenPaid.billsDueThisMonth, Money.parse("500.00"))
+    }
+
+    // MARK: - Regression: future savings don't cost anything until they start
+
+    func testFutureSavingsDoNotReduceAvailableUntilTheyStart() {
+        let income = Income(label: "Lohn", monthlyNet: Money.parse("5'000.00")!)
+        let goal = SavingsGoal(name: "Auto", monthlyContribution: Money.parse("1'000.00")!,
+                               startDate: date(2026, 9, 1))   // starts September
+
+        // Viewing June → not started → no deduction.
+        let june = AvailabilityEngine.compute(
+            incomes: [income], fixedCosts: [], variableBudgets: [], bills: [],
+            savingsGoals: [goal], asOf: date(2026, 6, 15), calendar: calendar)
+        XCTAssertEqual(june.plannedSavings, .zero)
+        XCTAssertEqual(june.available, Money.parse("5'000.00"))
+
+        // Viewing September → started → counts.
+        let sept = AvailabilityEngine.compute(
+            incomes: [income], fixedCosts: [], variableBudgets: [], bills: [],
+            savingsGoals: [goal], asOf: date(2026, 9, 15), calendar: calendar)
+        XCTAssertEqual(sept.plannedSavings, Money.parse("1'000.00"))
+        XCTAssertEqual(sept.available, Money.parse("4'000.00"))
     }
 
     // MARK: - 12 vs 13 salary

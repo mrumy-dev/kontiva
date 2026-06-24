@@ -143,7 +143,7 @@ private fun LegendRow(color: Color, label: String, amount: String, percent: Int)
         Spacer(Modifier.size(KontivaTheme.spaceSm))
         Text(
             label, fontSize = 14.sp, color = colors.textPrimary,
-            maxLines = 1, overflow = TextOverflow.Ellipsis,
+            maxLines = 2, overflow = TextOverflow.Ellipsis, lineHeight = 16.sp,
             modifier = Modifier.weight(1f).padding(end = KontivaTheme.spaceXs),
         )
         Text(amount, fontSize = 14.sp, color = colors.textPrimary)

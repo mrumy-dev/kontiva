@@ -86,7 +86,7 @@ fun MainScaffold(vm: KontivaViewModel) {
                         selected = tab == i,
                         onClick = { tab = i },
                         icon = { Icon(t.icon, contentDescription = null) },
-                        label = { Text(loc(t.labelKey), fontSize = 10.sp, maxLines = 1) },
+                        label = { Text(loc(t.labelKey), fontSize = 9.sp, maxLines = 1, softWrap = false) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = KontivaTheme.accent,
                             selectedTextColor = KontivaTheme.accent,

@@ -228,6 +228,7 @@ internal val LOC_sq: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Cilësimet",
     L10nKey.settingsLanguage to "Gjuha",
     L10nKey.settingsTheme to "Tema e ngjyrave",
+    L10nKey.themeCustom to "Temë e personalizuar",
     L10nKey.themeSwissRed to "E kuqe zvicerane",
     L10nKey.themeOrange to "Portokalli",
     L10nKey.themeSand to "Rëra",

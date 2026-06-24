@@ -228,6 +228,7 @@ internal val LOC_ps: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "امستنې",
     L10nKey.settingsLanguage to "ژبه",
     L10nKey.settingsTheme to "د رنګ موضوع",
+    L10nKey.themeCustom to "دودیزه ښکلا",
     L10nKey.themeSwissRed to "سویسي سور",
     L10nKey.themeOrange to "نارنجي",
     L10nKey.themeSand to "شګلن",

@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Ayarlar",
         .settingsLanguage: "Dil",
         .settingsTheme: "Renk teması",
+        .themeCustom: "Özel tema",
         .themeSwissRed: "İsviçre kırmızısı",
         .themeOrange: "Turuncu",
         .themeSand: "Kum",

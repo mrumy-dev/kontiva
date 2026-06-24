@@ -228,6 +228,7 @@ internal val LOC_pl: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Ustawienia",
     L10nKey.settingsLanguage to "Język",
     L10nKey.settingsTheme to "Motyw kolorystyczny",
+    L10nKey.themeCustom to "Motyw niestandardowy",
     L10nKey.themeSwissRed to "Szwajcarska czerwień",
     L10nKey.themeOrange to "Pomarańczowy",
     L10nKey.themeSand to "Piaskowy",

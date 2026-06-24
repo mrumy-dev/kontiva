@@ -228,6 +228,7 @@ internal val LOC_ja: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "設定",
     L10nKey.settingsLanguage to "言語",
     L10nKey.settingsTheme to "カラーテーマ",
+    L10nKey.themeCustom to "カスタムテーマ",
     L10nKey.themeSwissRed to "スイスレッド",
     L10nKey.themeOrange to "オレンジ",
     L10nKey.themeSand to "サンド",

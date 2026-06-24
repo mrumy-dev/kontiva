@@ -228,6 +228,7 @@ internal val LOC_ta: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "அமைப்புகள்",
     L10nKey.settingsLanguage to "மொழி",
     L10nKey.settingsTheme to "வண்ண தீம்",
+    L10nKey.themeCustom to "தனிப்பயன் தீம்",
     L10nKey.themeSwissRed to "சுவிஸ் சிவப்பு",
     L10nKey.themeOrange to "ஆரஞ்சு",
     L10nKey.themeSand to "மணல்",

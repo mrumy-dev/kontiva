@@ -239,6 +239,7 @@ extension Localization {
         .settingsTitle: "Parameters",
         .settingsLanguage: "Lingua",
         .settingsTheme: "Tema da colur",
+        .themeCustom: "Tema persunalisà",
         .themeSwissRed: "Cotschen svizzer",
         .themeOrange: "Oransch",
         .themeSand: "Sablun",

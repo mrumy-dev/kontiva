@@ -229,6 +229,7 @@ enum class L10nKey {
     settingsTitle,
     settingsLanguage,
     settingsTheme,
+    themeCustom,
     themeSwissRed,
     themeOrange,
     themeSand,

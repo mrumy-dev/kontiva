@@ -88,6 +88,11 @@ fun AccentTheme.color(dark: Boolean): Color = when (this) {
     AccentTheme.PINK -> if (dark) Color(0xFFF06CB0) else Color(0xFFD6337F)
 }
 
+/** Parse a "RRGGBB" (or "#RRGGBB") hex string into a Compose Color, or null if invalid. */
+fun parseHexColor(hex: String?): Color? = hex?.takeIf { it.isNotBlank() }?.let {
+    runCatching { Color(("FF" + it.removePrefix("#").trim()).toLong(16)) }.getOrNull()
+}
+
 val LocalKontivaColors = staticCompositionLocalOf { LightColors }
 val LocalAccentColor = staticCompositionLocalOf { KontivaBrand.SwissRed }
 val LocalSecondaryAccentColor = staticCompositionLocalOf { KontivaBrand.SwissRed }
@@ -137,6 +142,8 @@ fun KontivaTheme(
     accent: AccentTheme = AccentTheme.SWISS_RED,
     themeStyle: ThemeStyle = ThemeStyle.SOLID,
     accentSecondary: AccentTheme = AccentTheme.SWISS_RED,
+    customAccent: Color? = null,
+    customSecondary: Color? = null,
     content: @Composable () -> Unit,
 ) {
     val dark = when (appearance) {
@@ -145,9 +152,10 @@ fun KontivaTheme(
         AppAppearance.DARK -> true
     }
     val colors = if (dark) DarkColors else LightColors
+    // Custom builder colours override the preset; otherwise use the tuned preset colour.
     // Smoothly morph the accents (and thus the whole-app tint) when the theme changes.
-    val accentColor by animateColorAsState(accent.color(dark), animationSpec = tween(450), label = "accent")
-    val secondaryColor by animateColorAsState(accentSecondary.color(dark), animationSpec = tween(450), label = "accent2")
+    val accentColor by animateColorAsState(customAccent ?: accent.color(dark), animationSpec = tween(450), label = "accent")
+    val secondaryColor by animateColorAsState(customSecondary ?: accentSecondary.color(dark), animationSpec = tween(450), label = "accent2")
     val scheme = if (dark) {
         darkColorScheme(
             primary = accentColor,

@@ -260,6 +260,7 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case settingsTitle
     case settingsLanguage
     case settingsTheme
+    case themeCustom
     // Accent theme names
     case themeSwissRed
     case themeOrange

@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Instellingen",
         .settingsLanguage: "Taal",
         .settingsTheme: "Kleurthema",
+        .themeCustom: "Aangepast thema",
         .themeSwissRed: "Zwitsers rood",
         .themeOrange: "Oranje",
         .themeSand: "Zand",

@@ -228,6 +228,7 @@ internal val LOC_si: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "සැකසීම්",
     L10nKey.settingsLanguage to "භාෂාව",
     L10nKey.settingsTheme to "වර්ණ තේමාව",
+    L10nKey.themeCustom to "අභිරුචි තේමාව",
     L10nKey.themeSwissRed to "ස්විස් රතු",
     L10nKey.themeOrange to "තැඹිලි",
     L10nKey.themeSand to "වැලි",

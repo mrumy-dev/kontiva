@@ -53,6 +53,8 @@ private fun KontivaRoot(vm: KontivaViewModel) {
     KontivaTheme(
         appearance = vm.settings.appearance, accent = vm.settings.accent,
         themeStyle = vm.settings.themeStyle, accentSecondary = vm.settings.accentSecondary,
+        customAccent = ch.kontiva.android.ui.theme.parseHexColor(vm.settings.customAccent),
+        customSecondary = ch.kontiva.android.ui.theme.parseHexColor(vm.settings.customAccentSecondary),
     ) {
         // The active language drives the Localizer and the layout direction (RTL for
         // Arabic / Urdu / Pashto), so the whole UI mirrors like iOS.

@@ -83,6 +83,9 @@ data class AppSettings(
     val accent: AccentTheme = AccentTheme.SWISS_RED,
     val themeStyle: ThemeStyle = ThemeStyle.SOLID,
     val accentSecondary: AccentTheme = AccentTheme.SWISS_RED,
+    /** Custom builder colours (hex "RRGGBB"); when set they override the preset accents. */
+    val customAccent: String? = null,
+    val customAccentSecondary: String? = null,
     val savingsSort: SavingsSort = SavingsSort.START_MONTH,
     val billSort: BillSort = BillSort.DUE_DATE,
 )

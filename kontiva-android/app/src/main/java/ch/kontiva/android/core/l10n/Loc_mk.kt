@@ -228,6 +228,7 @@ internal val LOC_mk: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Поставки",
     L10nKey.settingsLanguage to "Јазик",
     L10nKey.settingsTheme to "Тема на бои",
+    L10nKey.themeCustom to "Прилагодена тема",
     L10nKey.themeSwissRed to "Швајцарска црвена",
     L10nKey.themeOrange to "Портокалова",
     L10nKey.themeSand to "Песочна",

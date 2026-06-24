@@ -228,6 +228,7 @@ internal val LOC_ro: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Setări",
     L10nKey.settingsLanguage to "Limbă",
     L10nKey.settingsTheme to "Temă de culoare",
+    L10nKey.themeCustom to "Temă personalizată",
     L10nKey.themeSwissRed to "Roșu elvețian",
     L10nKey.themeOrange to "Portocaliu",
     L10nKey.themeSand to "Nisip",

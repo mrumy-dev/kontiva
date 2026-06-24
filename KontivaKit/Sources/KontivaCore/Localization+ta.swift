@@ -237,6 +237,7 @@ extension Localization {
         .settingsTitle: "அமைப்புகள்",
         .settingsLanguage: "மொழி",
         .settingsTheme: "வண்ண தீம்",
+        .themeCustom: "தனிப்பயன் தீம்",
         .themeSwissRed: "சுவிஸ் சிவப்பு",
         .themeOrange: "ஆரஞ்சு",
         .themeSand: "மணல்",

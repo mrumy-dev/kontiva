@@ -83,6 +83,7 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     val context = LocalContext.current
     var showLangPicker by remember { mutableStateOf(false) }
     var showChangePass by remember { mutableStateOf(false) }
+    var showCustomTheme by remember { mutableStateOf(false) }
     var showDeleteConfirm by remember { mutableStateOf(false) }
     var showBackupPass by remember { mutableStateOf(false) }
     var pendingBackupPass by remember { mutableStateOf<String?>(null) }
@@ -164,17 +165,18 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(KontivaTheme.spaceXs),
                 ) {
                     ThemePresets.forEach { p ->
-                        val sel = vm.settings.accent == p.primary && vm.settings.themeStyle == p.style &&
-                            vm.settings.accentSecondary == p.secondary
+                        val sel = vm.settings.customAccent == null && vm.settings.accent == p.primary &&
+                            vm.settings.themeStyle == p.style && vm.settings.accentSecondary == p.secondary
                         PresetSwatch(p, sel) { vm.applyTheme(p.primary, p.style, p.secondary) }
                     }
                 }
                 Spacer(Modifier.height(KontivaTheme.spaceSm))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     AccentTheme.entries.forEach { t ->
-                        AccentSwatch(t, selected = vm.settings.accent == t && vm.settings.themeStyle == ThemeStyle.SOLID) { vm.setAccent(t) }
+                        AccentSwatch(t, selected = vm.settings.accent == t && vm.settings.themeStyle == ThemeStyle.SOLID && vm.settings.customAccent == null) { vm.setAccent(t) }
                     }
                 }
+                NavRow(loc(L10nKey.themeCustom)) { showCustomTheme = true }
             }
         }
 
@@ -239,6 +241,7 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     }
 
     if (showChangePass) ChangePassphraseSheet(onDismiss = { showChangePass = false }, onSubmit = { old, new, done -> vm.changePassphrase(old, new) { ok -> if (ok) showChangePass = false; done(ok) } })
+    if (showCustomTheme) CustomThemeSheet(vm) { showCustomTheme = false }
 
     if (showAvatarPicker) {
         AvatarPickerSheet(

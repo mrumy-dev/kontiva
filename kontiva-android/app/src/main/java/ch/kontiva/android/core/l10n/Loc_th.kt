@@ -228,6 +228,7 @@ internal val LOC_th: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "การตั้งค่า",
     L10nKey.settingsLanguage to "ภาษา",
     L10nKey.settingsTheme to "ธีมสี",
+    L10nKey.themeCustom to "ธีมที่กำหนดเอง",
     L10nKey.themeSwissRed to "แดงสวิส",
     L10nKey.themeOrange to "ส้ม",
     L10nKey.themeSand to "สีทราย",

@@ -237,6 +237,7 @@ extension Localization {
         .settingsTitle: "සැකසීම්",
         .settingsLanguage: "භාෂාව",
         .settingsTheme: "වර්ණ තේමාව",
+        .themeCustom: "අභිරුචි තේමාව",
         .themeSwissRed: "ස්විස් රතු",
         .themeOrange: "තැඹිලි",
         .themeSand: "වැලි",

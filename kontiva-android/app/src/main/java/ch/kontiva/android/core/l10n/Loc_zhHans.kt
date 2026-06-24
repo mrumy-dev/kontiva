@@ -228,6 +228,7 @@ internal val LOC_zhHans: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "设置",
     L10nKey.settingsLanguage to "语言",
     L10nKey.settingsTheme to "配色主题",
+    L10nKey.themeCustom to "自定义主题",
     L10nKey.themeSwissRed to "瑞士红",
     L10nKey.themeOrange to "橙色",
     L10nKey.themeSand to "沙色",

@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "설정",
         .settingsLanguage: "언어",
         .settingsTheme: "색상 테마",
+        .themeCustom: "사용자 지정 테마",
         .themeSwissRed: "스위스 레드",
         .themeOrange: "주황",
         .themeSand: "샌드",

@@ -237,6 +237,7 @@ extension Localization {
         .settingsTitle: "ترتیبات",
         .settingsLanguage: "زبان",
         .settingsTheme: "رنگ تھیم",
+        .themeCustom: "حسب ضرورت تھیم",
         .themeSwissRed: "سوئس سرخ",
         .themeOrange: "نارنجی",
         .themeSand: "ریتی",

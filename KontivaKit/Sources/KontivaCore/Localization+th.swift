@@ -238,6 +238,7 @@ extension Localization {
         .settingsTitle: "การตั้งค่า",
         .settingsLanguage: "ภาษา",
         .settingsTheme: "ธีมสี",
+        .themeCustom: "ธีมที่กำหนดเอง",
         .themeSwissRed: "แดงสวิส",
         .themeOrange: "ส้ม",
         .themeSand: "สีทราย",

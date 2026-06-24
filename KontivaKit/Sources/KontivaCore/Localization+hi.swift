@@ -237,6 +237,7 @@ extension Localization {
         .settingsTitle: "सेटिंग्स",
         .settingsLanguage: "भाषा",
         .settingsTheme: "रंग थीम",
+        .themeCustom: "कस्टम थीम",
         .themeSwissRed: "स्विस लाल",
         .themeOrange: "नारंगी",
         .themeSand: "रेत",

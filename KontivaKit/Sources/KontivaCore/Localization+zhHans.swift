@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "设置",
         .settingsLanguage: "语言",
         .settingsTheme: "配色主题",
+        .themeCustom: "自定义主题",
         .themeSwissRed: "瑞士红",
         .themeOrange: "橙色",
         .themeSand: "沙色",

@@ -311,19 +311,26 @@ public struct AppSettings: Equatable, Codable, Sendable {
     public var accent: AccentTheme
     public var themeStyle: ThemeStyle
     public var accentSecondary: AccentTheme
+    /// Custom builder colours (hex "RRGGBB"). When set they override the preset
+    /// accent / accentSecondary, so the user can pick any colour. nil = use the preset.
+    public var customAccent: String?
+    public var customAccentSecondary: String?
     public var savingsSort: SavingsSort
     public var billSort: BillSort
 
     // Follows the system appearance by default (fluid light/dark).
     public init(language: AppLanguage = .deCH, appearance: AppAppearance = .system,
                 accent: AccentTheme = .swissRed, themeStyle: ThemeStyle = .solid,
-                accentSecondary: AccentTheme = .swissRed, savingsSort: SavingsSort = .startMonth,
-                billSort: BillSort = .dueDate) {
+                accentSecondary: AccentTheme = .swissRed,
+                customAccent: String? = nil, customAccentSecondary: String? = nil,
+                savingsSort: SavingsSort = .startMonth, billSort: BillSort = .dueDate) {
         self.language = language
         self.appearance = appearance
         self.accent = accent
         self.themeStyle = themeStyle
         self.accentSecondary = accentSecondary
+        self.customAccent = customAccent
+        self.customAccentSecondary = customAccentSecondary
         self.savingsSort = savingsSort
         self.billSort = billSort
     }

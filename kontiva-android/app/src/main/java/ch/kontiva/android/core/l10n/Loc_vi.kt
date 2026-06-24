@@ -228,6 +228,7 @@ internal val LOC_vi: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Cài đặt",
     L10nKey.settingsLanguage to "Ngôn ngữ",
     L10nKey.settingsTheme to "Chủ đề màu",
+    L10nKey.themeCustom to "Chủ đề tùy chỉnh",
     L10nKey.themeSwissRed to "Đỏ Thụy Sĩ",
     L10nKey.themeOrange to "Cam",
     L10nKey.themeSand to "Cát",

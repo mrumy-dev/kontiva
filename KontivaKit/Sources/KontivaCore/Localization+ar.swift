@@ -238,6 +238,7 @@ extension Localization {
         .settingsTitle: "الإعدادات",
         .settingsLanguage: "اللغة",
         .settingsTheme: "سمة الألوان",
+        .themeCustom: "سمة مخصصة",
         .themeSwissRed: "أحمر سويسري",
         .themeOrange: "برتقالي",
         .themeSand: "رملي",

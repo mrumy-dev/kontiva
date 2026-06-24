@@ -16,6 +16,8 @@ class SettingsStore(context: Context) {
         accent = prefs.getString(KEY_ACCENT, null).toEnum(AccentTheme.SWISS_RED),
         themeStyle = prefs.getString(KEY_THEME_STYLE, null).toEnum(ThemeStyle.SOLID),
         accentSecondary = prefs.getString(KEY_ACCENT_SECONDARY, null).toEnum(AccentTheme.SWISS_RED),
+        customAccent = prefs.getString(KEY_CUSTOM_ACCENT, null),
+        customAccentSecondary = prefs.getString(KEY_CUSTOM_ACCENT_SECONDARY, null),
     )
 
     fun save(settings: AppSettings) {
@@ -25,6 +27,8 @@ class SettingsStore(context: Context) {
             .putString(KEY_ACCENT, settings.accent.name)
             .putString(KEY_THEME_STYLE, settings.themeStyle.name)
             .putString(KEY_ACCENT_SECONDARY, settings.accentSecondary.name)
+            .putString(KEY_CUSTOM_ACCENT, settings.customAccent)
+            .putString(KEY_CUSTOM_ACCENT_SECONDARY, settings.customAccentSecondary)
             .apply()
     }
 
@@ -37,6 +41,8 @@ class SettingsStore(context: Context) {
         const val KEY_ACCENT = "accent"
         const val KEY_THEME_STYLE = "themeStyle"
         const val KEY_ACCENT_SECONDARY = "accentSecondary"
+        const val KEY_CUSTOM_ACCENT = "customAccent"
+        const val KEY_CUSTOM_ACCENT_SECONDARY = "customAccentSecondary"
     }
 }
 

@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Поставки",
         .settingsLanguage: "Јазик",
         .settingsTheme: "Тема на бои",
+        .themeCustom: "Прилагодена тема",
         .themeSwissRed: "Швајцарска црвена",
         .themeOrange: "Портокалова",
         .themeSand: "Песочна",

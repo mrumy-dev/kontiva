@@ -238,6 +238,7 @@ extension Localization {
         .settingsTitle: "امستنې",
         .settingsLanguage: "ژبه",
         .settingsTheme: "د رنګ موضوع",
+        .themeCustom: "دودیزه ښکلا",
         .themeSwissRed: "سویسي سور",
         .themeOrange: "نارنجي",
         .themeSand: "شګلن",

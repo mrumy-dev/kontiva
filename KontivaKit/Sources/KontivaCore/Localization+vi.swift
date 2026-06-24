@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Cài đặt",
         .settingsLanguage: "Ngôn ngữ",
         .settingsTheme: "Chủ đề màu",
+        .themeCustom: "Chủ đề tùy chỉnh",
         .themeSwissRed: "Đỏ Thụy Sĩ",
         .themeOrange: "Cam",
         .themeSand: "Cát",

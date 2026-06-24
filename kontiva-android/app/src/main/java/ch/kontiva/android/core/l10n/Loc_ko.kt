@@ -228,6 +228,7 @@ internal val LOC_ko: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "설정",
     L10nKey.settingsLanguage to "언어",
     L10nKey.settingsTheme to "색상 테마",
+    L10nKey.themeCustom to "사용자 지정 테마",
     L10nKey.themeSwissRed to "스위스 레드",
     L10nKey.themeOrange to "주황",
     L10nKey.themeSand to "샌드",

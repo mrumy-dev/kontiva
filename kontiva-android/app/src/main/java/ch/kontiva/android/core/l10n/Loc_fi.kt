@@ -228,6 +228,7 @@ internal val LOC_fi: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Asetukset",
     L10nKey.settingsLanguage to "Kieli",
     L10nKey.settingsTheme to "Väriteema",
+    L10nKey.themeCustom to "Oma teema",
     L10nKey.themeSwissRed to "Sveitsinpunainen",
     L10nKey.themeOrange to "Oranssi",
     L10nKey.themeSand to "Hiekka",

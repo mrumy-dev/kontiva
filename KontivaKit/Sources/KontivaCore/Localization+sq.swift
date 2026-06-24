@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Cilësimet",
         .settingsLanguage: "Gjuha",
         .settingsTheme: "Tema e ngjyrave",
+        .themeCustom: "Temë e personalizuar",
         .themeSwissRed: "E kuqe zvicerane",
         .themeOrange: "Portokalli",
         .themeSand: "Rëra",

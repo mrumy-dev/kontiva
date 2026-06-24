@@ -228,6 +228,7 @@ internal val LOC_tr: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Ayarlar",
     L10nKey.settingsLanguage to "Dil",
     L10nKey.settingsTheme to "Renk teması",
+    L10nKey.themeCustom to "Özel tema",
     L10nKey.themeSwissRed to "İsviçre kırmızısı",
     L10nKey.themeOrange to "Turuncu",
     L10nKey.themeSand to "Kum",

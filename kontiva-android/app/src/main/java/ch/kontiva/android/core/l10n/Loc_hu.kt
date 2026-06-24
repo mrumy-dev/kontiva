@@ -228,6 +228,7 @@ internal val LOC_hu: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "Beállítások",
     L10nKey.settingsLanguage to "Nyelv",
     L10nKey.settingsTheme to "Színtéma",
+    L10nKey.themeCustom to "Egyéni téma",
     L10nKey.themeSwissRed to "Svájci vörös",
     L10nKey.themeOrange to "Narancs",
     L10nKey.themeSand to "Homok",

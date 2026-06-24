@@ -228,6 +228,7 @@ internal val LOC_hi: Map<L10nKey, String> = mapOf(
     L10nKey.settingsTitle to "सेटिंग्स",
     L10nKey.settingsLanguage to "भाषा",
     L10nKey.settingsTheme to "रंग थीम",
+    L10nKey.themeCustom to "कस्टम थीम",
     L10nKey.themeSwissRed to "स्विस लाल",
     L10nKey.themeOrange to "नारंगी",
     L10nKey.themeSand to "रेत",

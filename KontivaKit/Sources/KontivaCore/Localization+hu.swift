@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Beállítások",
         .settingsLanguage: "Nyelv",
         .settingsTheme: "Színtéma",
+        .themeCustom: "Egyéni téma",
         .themeSwissRed: "Svájci vörös",
         .themeOrange: "Narancs",
         .themeSand: "Homok",

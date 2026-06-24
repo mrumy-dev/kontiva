@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Setări",
         .settingsLanguage: "Limbă",
         .settingsTheme: "Temă de culoare",
+        .themeCustom: "Temă personalizată",
         .themeSwissRed: "Roșu elvețian",
         .themeOrange: "Portocaliu",
         .themeSand: "Nisip",

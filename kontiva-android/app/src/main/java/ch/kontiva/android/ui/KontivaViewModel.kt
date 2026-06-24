@@ -131,12 +131,17 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun setLanguage(language: AppLanguage) = applySettings(settings.copy(language = language))
-    /** Pick a solid accent (resets to the single-colour style). */
+    /** Pick a solid accent (resets to the single-colour style, clears any custom colours). */
     fun setAccent(accent: AccentTheme) =
-        applySettings(settings.copy(accent = accent, themeStyle = ThemeStyle.SOLID, accentSecondary = accent))
-    /** Apply a full theme preset: primary accent + style + secondary (for 2-colour). */
+        applySettings(settings.copy(accent = accent, themeStyle = ThemeStyle.SOLID, accentSecondary = accent,
+            customAccent = null, customAccentSecondary = null))
+    /** Apply a curated preset: primary accent + style + secondary (clears custom colours). */
     fun applyTheme(primary: AccentTheme, style: ThemeStyle, secondary: AccentTheme) =
-        applySettings(settings.copy(accent = primary, themeStyle = style, accentSecondary = secondary))
+        applySettings(settings.copy(accent = primary, themeStyle = style, accentSecondary = secondary,
+            customAccent = null, customAccentSecondary = null))
+    /** Apply a fully custom theme: any primary (+ second) hex colour and a style. */
+    fun applyCustomTheme(primaryHex: String, style: ThemeStyle, secondaryHex: String?) =
+        applySettings(settings.copy(themeStyle = style, customAccent = primaryHex, customAccentSecondary = secondaryHex))
     fun setSavingsSort(sort: SavingsSort) = applySettings(settings.copy(savingsSort = sort))
     fun setBillSort(sort: BillSort) = applySettings(settings.copy(billSort = sort))
 

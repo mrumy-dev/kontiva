@@ -236,6 +236,7 @@ extension Localization {
         .settingsTitle: "Asetukset",
         .settingsLanguage: "Kieli",
         .settingsTheme: "Väriteema",
+        .themeCustom: "Oma teema",
         .themeSwissRed: "Sveitsinpunainen",
         .themeOrange: "Oranssi",
         .themeSand: "Hiekka",

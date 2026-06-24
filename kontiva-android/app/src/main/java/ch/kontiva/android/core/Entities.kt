@@ -14,6 +14,7 @@ enum class ThirteenthSalaryModel {
     DECEMBER,          // full in December
     NOVEMBER,          // full in November
     SPLIT_NOV_DEC,     // 11/12 in November, 1/12 in December
+    HALF_YEARLY,       // half in June, half in December
 }
 
 /** An irregular extra payment (Sonderzahlung) that lands in one month each year. */

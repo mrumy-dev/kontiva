@@ -292,6 +292,11 @@ private fun thirteenthLabel(m: ThirteenthSalaryModel, loc: ch.kontiva.android.co
         val dez = Month.DECEMBER.getDisplayName(TextStyle.SHORT, loc.language.locale)
         "11/12 $nov · 1/12 $dez"
     }
+    ThirteenthSalaryModel.HALF_YEARLY -> {
+        val jun = Month.JUNE.getDisplayName(TextStyle.SHORT, loc.language.locale)
+        val dez = Month.DECEMBER.getDisplayName(TextStyle.SHORT, loc.language.locale)
+        "½ $jun · ½ $dez"
+    }
 }
 
 /** Fixed-cost add/edit sheet: name + amount + category + optional limited standing

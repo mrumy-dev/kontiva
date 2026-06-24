@@ -52,6 +52,10 @@ public enum AvailabilityEngine {
                 let twelfth = th.divided(by: 12)
                 if m == 11 { total = total + (th - twelfth) }     // 11/12
                 else if m == 12 { total = total + twelfth }       // 1/12
+            case .halfYearly:
+                let half = th.divided(by: 2)
+                if m == 6 { total = total + half }                // ½ in June
+                else if m == 12 { total = total + (th - half) }   // ½ in December
             }
         }
         // Bonuses (Sonderzahlungen) that land in this month.

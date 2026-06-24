@@ -85,6 +85,8 @@ public enum ThirteenthSalaryModel: String, Codable, Sendable, CaseIterable {
     case november
     /// 11/12 in November, 1/12 in December.
     case splitNovDec
+    /// Half in June, half in December (some employers pay the 13th twice a year).
+    case halfYearly
 }
 
 /// An irregular extra payment (Sonderzahlung) — a bonus, gratuity, etc. — that lands

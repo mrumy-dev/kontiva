@@ -39,6 +39,10 @@ object AvailabilityEngine {
                     val twelfth = th.divided(12)
                     when (m) { 11 -> th - twelfth; 12 -> twelfth; else -> Money.zero }
                 }
+                ThirteenthSalaryModel.HALF_YEARLY -> {
+                    val half = th.divided(2)
+                    when (m) { 6 -> half; 12 -> th - half; else -> Money.zero }
+                }
             }
         }
         total += income.bonuses.filter { it.month == m }.map { it.amount }.total()

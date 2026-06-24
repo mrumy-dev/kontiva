@@ -101,6 +101,7 @@ struct IncomeFormSheet: View {
         case .december:        return monthName(12)
         case .november:        return monthName(11)
         case .splitNovDec:     return "11/12 \(monthName(11, short: true)) · 1/12 \(monthName(12, short: true))"
+        case .halfYearly:      return "½ \(monthName(6, short: true)) · ½ \(monthName(12, short: true))"
         }
     }
 

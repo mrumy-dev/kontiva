@@ -12,7 +12,7 @@ struct KontivaApp: App {
             RootView()
                 .environmentObject(model)
                 .environmentObject(model.localizer)
-                .tint(KontivaTheme.accent)
+                .tint(model.accentColor)
                 .onChange(of: scenePhase) { _, phase in
                     switch phase {
                     case .background: model.appDidEnterBackground()

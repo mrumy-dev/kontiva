@@ -186,6 +186,9 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
         sessionPassphrase = null
         household = null
         dataset = AppDataset.empty
+        // A fresh start returns to the brand default — the theme is per-vault.
+        applySettings(settings.copy(accent = AccentTheme.SWISS_RED, themeStyle = ThemeStyle.SOLID,
+            accentSecondary = AccentTheme.SWISS_RED, customAccent = null, customAccentSecondary = null))
         phase = AppPhase.ONBOARDING
     }
 

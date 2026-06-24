@@ -28,7 +28,7 @@ struct SettingsView: View {
             dangerSection
             aboutSection
         }
-        .tint(KontivaTheme.accent)
+        .tint(model.accentColor)
         .navigationTitle(loc(.navSettings))
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: loadProfile)

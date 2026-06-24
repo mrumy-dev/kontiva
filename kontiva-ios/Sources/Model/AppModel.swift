@@ -180,6 +180,12 @@ final class AppModel: ObservableObject {
         else { UserDefaults.standard.removeObject(forKey: key) }
     }
 
+    /// The resolved primary accent (custom hex or preset). Reactive — reading it makes
+    /// a view re-render on theme change, so SwiftUI `.tint()` stays in sync.
+    var accentColor: Color {
+        Color.fromHex(settings.customAccent) ?? settings.accent.color
+    }
+
     /// Persisted sort order for the Sparen list (a non-sensitive UI preference).
     func setSavingsSort(_ sort: SavingsSort) {
         guard sort != settings.savingsSort else { return }
@@ -223,6 +229,8 @@ final class AppModel: ObservableObject {
         disableBiometric()
         sessionPassphrase = nil
         dataset = .empty
+        // A fresh start returns to the brand default — the theme is per-vault.
+        applyTheme(.swissRed, style: .solid, secondary: .swissRed)
         lockState = .needsSetup
     }
 

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import ch.kontiva.android.core.AccentTheme
 import ch.kontiva.android.core.AppAppearance
+import ch.kontiva.android.core.ThemeStyle
 
 /** Fixed brand / danger constants (1:1 with iOS KontivaTheme). */
 object KontivaBrand {
@@ -89,6 +90,8 @@ fun AccentTheme.color(dark: Boolean): Color = when (this) {
 
 val LocalKontivaColors = staticCompositionLocalOf { LightColors }
 val LocalAccentColor = staticCompositionLocalOf { KontivaBrand.SwissRed }
+val LocalSecondaryAccentColor = staticCompositionLocalOf { KontivaBrand.SwissRed }
+val LocalThemeStyle = staticCompositionLocalOf { ThemeStyle.SOLID }
 
 /** Design tokens + ergonomic accessors (mirrors iOS KontivaTheme.Space / Radius). */
 object KontivaTheme {
@@ -109,19 +112,19 @@ object KontivaTheme {
     val accent: Color
         @Composable get() = LocalAccentColor.current
 
-    /** Accent-tinted page background — a soft vertical wash so the whole app (not just
-     *  the symbols) takes on the chosen colour. Reads the live (animated) accent. */
+    /** Accent-tinted page background — a soft wash so the whole app (not just the
+     *  symbols) takes on the chosen colour/style. Reads the live (animated) accents. */
     val pageBrush: Brush
         @Composable get() {
             val bg = LocalKontivaColors.current.pageBackground
             val a = LocalAccentColor.current
-            return Brush.verticalGradient(
-                listOf(
-                    a.copy(alpha = 0.18f).compositeOver(bg),
-                    bg,
-                    a.copy(alpha = 0.06f).compositeOver(bg),
-                ),
-            )
+            val b = LocalSecondaryAccentColor.current
+            fun tint(c: Color, f: Float) = c.copy(alpha = f).compositeOver(bg)
+            return when (LocalThemeStyle.current) {
+                ThemeStyle.SOLID -> Brush.verticalGradient(listOf(tint(a, 0.16f), bg, tint(a, 0.05f)))
+                ThemeStyle.GRADIENT -> Brush.verticalGradient(listOf(tint(a, 0.32f), tint(a, 0.12f), bg))
+                ThemeStyle.DUAL -> Brush.verticalGradient(listOf(tint(a, 0.26f), bg, tint(b, 0.26f)))
+            }
         }
 }
 
@@ -132,6 +135,8 @@ private val KontivaTypography = Typography()
 fun KontivaTheme(
     appearance: AppAppearance = AppAppearance.SYSTEM,
     accent: AccentTheme = AccentTheme.SWISS_RED,
+    themeStyle: ThemeStyle = ThemeStyle.SOLID,
+    accentSecondary: AccentTheme = AccentTheme.SWISS_RED,
     content: @Composable () -> Unit,
 ) {
     val dark = when (appearance) {
@@ -140,8 +145,9 @@ fun KontivaTheme(
         AppAppearance.DARK -> true
     }
     val colors = if (dark) DarkColors else LightColors
-    // Smoothly morph the accent (and thus the whole-app tint) when the theme changes.
+    // Smoothly morph the accents (and thus the whole-app tint) when the theme changes.
     val accentColor by animateColorAsState(accent.color(dark), animationSpec = tween(450), label = "accent")
+    val secondaryColor by animateColorAsState(accentSecondary.color(dark), animationSpec = tween(450), label = "accent2")
     val scheme = if (dark) {
         darkColorScheme(
             primary = accentColor,
@@ -164,6 +170,8 @@ fun KontivaTheme(
     CompositionLocalProvider(
         LocalKontivaColors provides colors,
         LocalAccentColor provides accentColor,
+        LocalSecondaryAccentColor provides secondaryColor,
+        LocalThemeStyle provides themeStyle,
     ) {
         MaterialTheme(colorScheme = scheme, typography = KontivaTypography, content = content)
     }

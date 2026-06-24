@@ -14,6 +14,8 @@ class SettingsStore(context: Context) {
         language = AppLanguage.fromCode(prefs.getString(KEY_LANGUAGE, null)) ?: deviceDefault,
         appearance = prefs.getString(KEY_APPEARANCE, null).toEnum(AppAppearance.SYSTEM),
         accent = prefs.getString(KEY_ACCENT, null).toEnum(AccentTheme.SWISS_RED),
+        themeStyle = prefs.getString(KEY_THEME_STYLE, null).toEnum(ThemeStyle.SOLID),
+        accentSecondary = prefs.getString(KEY_ACCENT_SECONDARY, null).toEnum(AccentTheme.SWISS_RED),
     )
 
     fun save(settings: AppSettings) {
@@ -21,6 +23,8 @@ class SettingsStore(context: Context) {
             .putString(KEY_LANGUAGE, settings.language.code)
             .putString(KEY_APPEARANCE, settings.appearance.name)
             .putString(KEY_ACCENT, settings.accent.name)
+            .putString(KEY_THEME_STYLE, settings.themeStyle.name)
+            .putString(KEY_ACCENT_SECONDARY, settings.accentSecondary.name)
             .apply()
     }
 
@@ -31,6 +35,8 @@ class SettingsStore(context: Context) {
         const val KEY_LANGUAGE = "language"
         const val KEY_APPEARANCE = "appearance"
         const val KEY_ACCENT = "accent"
+        const val KEY_THEME_STYLE = "themeStyle"
+        const val KEY_ACCENT_SECONDARY = "accentSecondary"
     }
 }
 

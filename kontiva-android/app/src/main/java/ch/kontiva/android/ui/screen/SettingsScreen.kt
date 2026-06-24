@@ -4,6 +4,11 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.lerp
+import ch.kontiva.android.core.ThemeStyle
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -151,16 +156,25 @@ fun SettingsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
             }
         }
 
-        // Farbthema
+        // Farbthema — curated presets (gradient / 2-colour) + solid accents.
         item {
             SettingsCard(loc(L10nKey.settingsTheme)) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    AccentTheme.entries.forEach { t ->
-                        AccentSwatch(t, selected = vm.settings.accent == t) { vm.setAccent(t) }
+                Row(
+                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(KontivaTheme.spaceXs),
+                ) {
+                    ThemePresets.forEach { p ->
+                        val sel = vm.settings.accent == p.primary && vm.settings.themeStyle == p.style &&
+                            vm.settings.accentSecondary == p.secondary
+                        PresetSwatch(p, sel) { vm.applyTheme(p.primary, p.style, p.secondary) }
                     }
                 }
-                Spacer(Modifier.height(KontivaTheme.spaceXs))
-                Text(loc(vm.settings.accent.labelKey), fontSize = 12.sp, color = colors.textTertiary)
+                Spacer(Modifier.height(KontivaTheme.spaceSm))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    AccentTheme.entries.forEach { t ->
+                        AccentSwatch(t, selected = vm.settings.accent == t && vm.settings.themeStyle == ThemeStyle.SOLID) { vm.setAccent(t) }
+                    }
+                }
             }
         }
 
@@ -291,6 +305,38 @@ private fun AccentSwatch(theme: AccentTheme, selected: Boolean, onClick: () -> U
     Box(Modifier.size(40.dp).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
         if (selected) Box(Modifier.size(40.dp).clip(CircleShape).border(2.5.dp, c, CircleShape))
         Box(Modifier.size(26.dp).clip(CircleShape).background(c))
+    }
+}
+
+/** A curated theme = primary accent + style (+ second colour for the 2-colour blend). */
+private data class ThemePreset(val primary: AccentTheme, val style: ThemeStyle, val secondary: AccentTheme)
+
+private val ThemePresets = listOf(
+    ThemePreset(AccentTheme.SWISS_RED, ThemeStyle.SOLID, AccentTheme.SWISS_RED),
+    ThemePreset(AccentTheme.BLUE, ThemeStyle.DUAL, AccentTheme.TEAL),
+    ThemePreset(AccentTheme.ORANGE, ThemeStyle.DUAL, AccentTheme.PINK),
+    ThemePreset(AccentTheme.GREEN, ThemeStyle.DUAL, AccentTheme.TEAL),
+    ThemePreset(AccentTheme.PURPLE, ThemeStyle.DUAL, AccentTheme.PINK),
+    ThemePreset(AccentTheme.TEAL, ThemeStyle.DUAL, AccentTheme.BLUE),
+    ThemePreset(AccentTheme.PINK, ThemeStyle.DUAL, AccentTheme.PURPLE),
+    ThemePreset(AccentTheme.BLUE, ThemeStyle.GRADIENT, AccentTheme.BLUE),
+    ThemePreset(AccentTheme.PURPLE, ThemeStyle.GRADIENT, AccentTheme.PURPLE),
+    ThemePreset(AccentTheme.SAND, ThemeStyle.GRADIENT, AccentTheme.SAND),
+)
+
+@Composable
+private fun PresetSwatch(p: ThemePreset, selected: Boolean, onClick: () -> Unit) {
+    val dark = isSystemInDarkTheme()
+    val a = p.primary.color(dark)
+    val b = p.secondary.color(dark)
+    val brush = when (p.style) {
+        ThemeStyle.SOLID -> Brush.linearGradient(listOf(a, a))
+        ThemeStyle.GRADIENT -> Brush.linearGradient(listOf(a, lerp(a, Color.White, 0.5f)))
+        ThemeStyle.DUAL -> Brush.linearGradient(listOf(a, b))
+    }
+    Box(Modifier.size(40.dp).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+        if (selected) Box(Modifier.size(40.dp).clip(CircleShape).border(2.5.dp, a, CircleShape))
+        Box(Modifier.size(28.dp).clip(CircleShape).background(brush))
     }
 }
 

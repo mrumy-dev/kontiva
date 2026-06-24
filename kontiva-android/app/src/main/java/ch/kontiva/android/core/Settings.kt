@@ -7,6 +7,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class AppAppearance { SYSTEM, LIGHT, DARK }
 
+/** How the accent washes the whole-app background. 1:1 with iOS `ThemeStyle`.
+ *  SOLID = soft single-colour tint, GRADIENT = stronger single-colour gradient,
+ *  DUAL = two-colour blend (accent → accentSecondary). */
+@Serializable
+enum class ThemeStyle { SOLID, GRADIENT, DUAL }
+
 /**
  * User-selectable accent colour. Recolours interactive/brand UI; danger semantics
  * (negative balances, overdue, errors) always stay red. 1:1 with iOS `AccentTheme`.
@@ -75,6 +81,8 @@ data class AppSettings(
     val language: AppLanguage = AppLanguage.deCH,
     val appearance: AppAppearance = AppAppearance.SYSTEM,
     val accent: AccentTheme = AccentTheme.SWISS_RED,
+    val themeStyle: ThemeStyle = ThemeStyle.SOLID,
+    val accentSecondary: AccentTheme = AccentTheme.SWISS_RED,
     val savingsSort: SavingsSort = SavingsSort.START_MONTH,
     val billSort: BillSort = BillSort.DUE_DATE,
 )

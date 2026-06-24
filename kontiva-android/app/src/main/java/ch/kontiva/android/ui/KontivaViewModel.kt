@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import ch.kontiva.android.core.AccentTheme
+import ch.kontiva.android.core.ThemeStyle
 import ch.kontiva.android.core.AppLanguage
 import ch.kontiva.android.core.AppSettings
 import ch.kontiva.android.core.AutoLockInterval
@@ -130,7 +131,12 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun setLanguage(language: AppLanguage) = applySettings(settings.copy(language = language))
-    fun setAccent(accent: AccentTheme) = applySettings(settings.copy(accent = accent))
+    /** Pick a solid accent (resets to the single-colour style). */
+    fun setAccent(accent: AccentTheme) =
+        applySettings(settings.copy(accent = accent, themeStyle = ThemeStyle.SOLID, accentSecondary = accent))
+    /** Apply a full theme preset: primary accent + style + secondary (for 2-colour). */
+    fun applyTheme(primary: AccentTheme, style: ThemeStyle, secondary: AccentTheme) =
+        applySettings(settings.copy(accent = primary, themeStyle = style, accentSecondary = secondary))
     fun setSavingsSort(sort: SavingsSort) = applySettings(settings.copy(savingsSort = sort))
     fun setBillSort(sort: BillSort) = applySettings(settings.copy(billSort = sort))
 

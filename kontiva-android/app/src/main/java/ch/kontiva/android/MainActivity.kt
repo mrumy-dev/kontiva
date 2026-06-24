@@ -50,7 +50,10 @@ class MainActivity : FragmentActivity() {
 
 @Composable
 private fun KontivaRoot(vm: KontivaViewModel) {
-    KontivaTheme(appearance = vm.settings.appearance, accent = vm.settings.accent) {
+    KontivaTheme(
+        appearance = vm.settings.appearance, accent = vm.settings.accent,
+        themeStyle = vm.settings.themeStyle, accentSecondary = vm.settings.accentSecondary,
+    ) {
         // The active language drives the Localizer and the layout direction (RTL for
         // Arabic / Urdu / Pashto), so the whole UI mirrors like iOS.
         val localizer = Localizer(vm.settings.language)

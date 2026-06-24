@@ -183,13 +183,12 @@ struct FixedExpenseFormSheet: View {
     }
 
     private var parsed: Money? { Money.parse(amount) }
-    private var canSave: Bool { !name.isEmpty && parsed != nil && category != nil && (!limited || installments >= 1) }
+    private var canSave: Bool { parsed != nil && category != nil && (!limited || installments >= 1) }
 
     var body: some View {
         FormSheet(title: loc(existing == nil ? .commonAdd : .commonEdit),
                   canSave: canSave, onSave: save) {
             Section {
-                TextField(loc(.formName), text: $name)
                 MoneyRowField(label: loc(.formAmount), text: $amount)
                 Picker(loc(.formCategory), selection: $category) {
                     if category == nil { Text("—").tag(FixedExpenseCategory?.none) }
@@ -216,7 +215,7 @@ struct FixedExpenseFormSheet: View {
 
     private func save() {
         guard let amt = parsed else { return }
-        let item = RecurringFixedExpense(id: existing?.id ?? UUID(), name: name,
+        let item = RecurringFixedExpense(id: existing?.id ?? UUID(), name: (category ?? .other).localizedName(loc.localization),
                                          monthlyAmount: amt, category: category ?? .other,
                                          startMonth: limited ? startMonth : nil,
                                          installments: limited ? installments : nil)
@@ -244,13 +243,12 @@ struct VariableBudgetFormSheet: View {
     }
 
     private var parsed: Money? { Money.parse(amount) }
-    private var canSave: Bool { !name.isEmpty && parsed != nil && category != nil }
+    private var canSave: Bool { parsed != nil && category != nil }
 
     var body: some View {
         FormSheet(title: loc(existing == nil ? .commonAdd : .commonEdit),
                   canSave: canSave, onSave: save) {
             Section {
-                TextField(loc(.formName), text: $name)
                 MoneyRowField(label: loc(.formAmount), text: $amount)
                 Picker(loc(.formCategory), selection: $category) {
                     if category == nil { Text("—").tag(VariableBudgetCategory?.none) }
@@ -264,7 +262,7 @@ struct VariableBudgetFormSheet: View {
 
     private func save() {
         guard let amt = parsed else { return }
-        let item = VariableMonthlyBudget(id: existing?.id ?? UUID(), name: name,
+        let item = VariableMonthlyBudget(id: existing?.id ?? UUID(), name: (category ?? .other).localizedName(loc.localization),
                                          plannedAmount: amt, category: category ?? .other)
         Task { await model.upsertVariableBudget(item); dismiss() }
     }
@@ -297,7 +295,7 @@ struct SavingsGoalFormSheet: View {
 
     private var parsedMonthly: Money? { Money.parse(monthly) }
     private var canSave: Bool {
-        !name.isEmpty && parsedMonthly != nil && category != nil
+        parsedMonthly != nil && category != nil
             && (target.isEmpty || Money.parse(target) != nil)
             && (startingBalance.isEmpty || Money.parse(startingBalance) != nil)
     }
@@ -306,7 +304,6 @@ struct SavingsGoalFormSheet: View {
         FormSheet(title: loc(existing == nil ? .commonAdd : .commonEdit),
                   canSave: canSave, onSave: save) {
             Section {
-                TextField(loc(.formName), text: $name)
                 Picker(loc(.formCategory), selection: $category) {
                     if category == nil { Text("—").tag(SavingsCategory?.none) }
                     ForEach(SavingsCategory.allCases, id: \.self) { c in
@@ -325,7 +322,7 @@ struct SavingsGoalFormSheet: View {
 
     private func save() {
         guard let monthlyAmount = parsedMonthly else { return }
-        let item = SavingsGoal(id: existing?.id ?? UUID(), name: name, category: category ?? .other,
+        let item = SavingsGoal(id: existing?.id ?? UUID(), name: (category ?? .other).localizedName(loc.localization), category: category ?? .other,
                                target: Money.parse(target) ?? .zero,
                                monthlyContribution: monthlyAmount,
                                startingBalance: Money.parse(startingBalance) ?? .zero,

@@ -88,7 +88,8 @@ fun <C> EntrySheet(
     var menuOpen by remember { mutableStateOf(false) }
 
     val amount = Money.parse(amountText)
-    val canSave = name.isNotBlank() && amount != null && !amount.isZero && (categories == null || category != null)
+    // Category-only when categories are supplied: the category is the label, no name field.
+    val canSave = amount != null && !amount.isZero && (if (categories == null) name.isNotBlank() else category != null)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -104,11 +105,13 @@ fun <C> EntrySheet(
         ) {
             Text(title, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
 
-            OutlinedTextField(
-                value = name, onValueChange = { name = it },
-                label = { Text(loc(L10nKey.formName)) },
-                singleLine = true, modifier = Modifier.fillMaxWidth(),
-            )
+            if (categories == null) {
+                OutlinedTextField(
+                    value = name, onValueChange = { name = it },
+                    label = { Text(loc(L10nKey.formName)) },
+                    singleLine = true, modifier = Modifier.fillMaxWidth(),
+                )
+            }
             OutlinedTextField(
                 value = amountText, onValueChange = { amountText = it },
                 label = { Text(loc(L10nKey.formAmount)) },
@@ -149,7 +152,7 @@ fun <C> EntrySheet(
 
             Spacer(Modifier.height(KontivaTheme.spaceXs))
             Button(
-                onClick = { if (canSave) onSave(name.trim(), amount!!, category) },
+                onClick = { if (canSave) onSave(category?.let(categoryLabel) ?: name.trim(), amount!!, category) },
                 enabled = canSave,
                 modifier = Modifier.fillMaxWidth().height(52.dp),
                 shape = RoundedCornerShape(KontivaTheme.radiusControl),
@@ -326,7 +329,7 @@ fun FixedCostSheet(
     var showDate by remember { mutableStateOf(false) }
 
     val amount = Money.parse(amountText)
-    val canSave = name.isNotBlank() && amount != null && !amount.isZero && category != null && (!limited || installments >= 1)
+    val canSave = amount != null && !amount.isZero && category != null && (!limited || installments >= 1)
     val monthFmt = DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale)
 
     ModalBottomSheet(
@@ -344,7 +347,6 @@ fun FixedCostSheet(
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
         ) {
             Text(loc(L10nKey.planningFixed), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
-            OutlinedTextField(name, { name = it }, label = { Text(loc(L10nKey.formName)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(
                 amountText, { amountText = it }, label = { Text(loc(L10nKey.formAmount)) }, prefix = { Text("CHF ") },
                 singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth(),
@@ -405,7 +407,7 @@ fun FixedCostSheet(
             Button(
                 onClick = {
                     if (canSave) onSave(
-                        name.trim(), amount!!, category!!,
+                        loc(category!!.labelKey), amount!!, category!!,
                         if (limited) startMonth.withDayOfMonth(1) else null,
                         if (limited) installments else null,
                     )

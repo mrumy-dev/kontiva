@@ -123,7 +123,7 @@ fun PlanningScreen(vm: KontivaViewModel) {
             ) {
                 d.fixedCosts.forEach { e ->
                     EntryRow(
-                        e.category.icon(), e.name, fixedSubtitle(e, loc), e.monthlyAmount.formattedCHF(),
+                        e.category.icon(), loc(e.category.labelKey), fixedSubtitle(e, loc), e.monthlyAmount.formattedCHF(),
                         onClick = {
                             editId = e.id; initName = e.name; initAmt = e.monthlyAmount.formattedCHF(false); initFixedCat = e.category
                             initLimited = e.isLimited; initStartMonth = e.startMonth; initInstallments = e.installments; sheet = Sheet.FIXED
@@ -144,7 +144,7 @@ fun PlanningScreen(vm: KontivaViewModel) {
             ) {
                 d.variableBudgets.forEach { e ->
                     EntryRow(
-                        e.category.icon(), e.name, loc(e.category.labelKey), e.plannedAmount.formattedCHF(),
+                        e.category.icon(), loc(e.category.labelKey), null, e.plannedAmount.formattedCHF(),
                         onClick = { editId = e.id; initName = e.name; initAmt = e.plannedAmount.formattedCHF(false); initVarCat = e.category; sheet = Sheet.VARIABLE },
                         onDelete = { vm.deleteVariableBudget(e.id) },
                     )
@@ -285,13 +285,12 @@ private fun EntryRow(icon: ImageVector, name: String, subtitle: String?, amount:
     }
 }
 
-/** Fixed-cost row subtitle: category, plus the standing-order window when limited
- *  (e.g. "Leasing · Dauerauftrag · 6× Juni 2026"). 1:1 with iOS fixedSubtitle. */
-private fun fixedSubtitle(e: RecurringFixedExpense, loc: Localizer): String {
-    val cat = loc(e.category.labelKey)
-    val start = e.startMonth ?: return cat
-    val count = e.installments ?: return cat
-    if (!e.isLimited) return cat
+/** Fixed-cost row subtitle: the standing-order window when limited (the category is
+ *  now the row title), e.g. "Dauerauftrag · 6× Juni 2026". null otherwise. */
+private fun fixedSubtitle(e: RecurringFixedExpense, loc: Localizer): String? {
+    if (!e.isLimited) return null
+    val start = e.startMonth ?: return null
+    val count = e.installments ?: return null
     val fmt = java.time.format.DateTimeFormatter.ofPattern("LLLL yyyy", loc.language.locale)
-    return "$cat · ${loc(L10nKey.planningStandingOrder)} · ${count}× ${start.format(fmt).replaceFirstChar { it.uppercase() }}"
+    return "${loc(L10nKey.planningStandingOrder)} · ${count}× ${start.format(fmt).replaceFirstChar { it.uppercase() }}"
 }

@@ -119,14 +119,11 @@ struct SparenView: View {
                 HStack(spacing: KontivaTheme.Space.sm) {
                     KontivaIconTile(goal.category.systemImage)
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(goal.name).font(.title3.weight(.semibold)).foregroundStyle(KontivaTheme.textPrimary)
+                        Text(goal.category.localizedName(loc.localization)).font(.title3.weight(.semibold)).foregroundStyle(KontivaTheme.textPrimary)
                         if goal.isCompleted {
                             statusBadge(loc(.sparenGoalCompleted), system: "checkmark.seal.fill", color: KontivaTheme.positive)
                         } else if goal.isReached(asOf: month) {
                             statusBadge(loc(.sparenGoalReached), system: "trophy.fill", color: KontivaTheme.accent)
-                        } else {
-                            Text(goal.category.localizedName(loc.localization))
-                                .font(.caption).foregroundStyle(KontivaTheme.textTertiary)
                         }
                     }
                     Spacer(minLength: KontivaTheme.Space.sm)

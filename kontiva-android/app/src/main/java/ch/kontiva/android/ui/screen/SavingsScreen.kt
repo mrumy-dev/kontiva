@@ -199,11 +199,10 @@ private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> 
                 }
                 Spacer(Modifier.size(KontivaTheme.spaceSm))
                 Column(Modifier.weight(1f)) {
-                    Text(g.name, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
+                    Text(loc(g.category.labelKey), fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
                     when {
                         g.isCompleted -> StatusChip(loc(L10nKey.sparenGoalCompleted), Icons.Rounded.CheckCircle, colors.positive)
                         g.isReached(month) -> StatusChip(loc(L10nKey.sparenGoalReached), Icons.Rounded.EmojiEvents, KontivaTheme.accent)
-                        else -> Text(loc(g.category.labelKey), fontSize = 12.sp, color = colors.textTertiary)
                     }
                 }
                 Spacer(Modifier.size(KontivaTheme.spaceSm))
@@ -322,7 +321,7 @@ private fun SavingsSheet(
     var startingText by remember { mutableStateOf(initialStarting) }
     var targetText by remember { mutableStateOf(initialTarget) }
     var startDate by remember { mutableStateOf(initialStartDate) }
-    val canSave = name.isNotBlank() && category != null
+    val canSave = category != null
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -339,7 +338,6 @@ private fun SavingsSheet(
             verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd),
         ) {
             Text(loc(L10nKey.navSparen), fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
-            OutlinedTextField(name, { name = it }, label = { Text(loc(L10nKey.formName)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
             Row(Modifier.fillMaxWidth().clickable { menuOpen = true }.padding(vertical = KontivaTheme.spaceSm), verticalAlignment = Alignment.CenterVertically) {
                 Text(loc(L10nKey.formCategory), color = colors.textSecondary)
                 Spacer(Modifier.weight(1f))
@@ -367,7 +365,7 @@ private fun SavingsSheet(
             Button(
                 onClick = {
                     if (canSave) onSave(
-                        name.trim(), category!!,
+                        loc(category!!.labelKey), category!!,
                         Money.parse(monthlyText), Money.parse(startingText) ?: Money.zero, Money.parse(targetText) ?: Money.zero, startDate,
                     )
                 },

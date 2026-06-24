@@ -113,7 +113,7 @@ struct PlanningView: View {
                  add: { sheet = .fixed(nil) }) {
             ForEach(Array(model.fixedCosts.enumerated()), id: \.element.id) { idx, item in
                 if idx > 0 { rowDivider }
-                planRow(icon: item.category.systemImage, name: item.name,
+                planRow(icon: item.category.systemImage, name: item.category.localizedName(loc.localization),
                         subtitle: fixedSubtitle(item), amount: item.monthlyAmount,
                         edit: { sheet = .fixed(item) },
                         delete: { run { await model.deleteFixedCost(item.id) } },
@@ -130,8 +130,8 @@ struct PlanningView: View {
                  add: { sheet = .variable(nil) }) {
             ForEach(Array(model.variableBudgets.enumerated()), id: \.element.id) { idx, item in
                 if idx > 0 { rowDivider }
-                planRow(icon: item.category.systemImage, name: item.name,
-                        subtitle: item.category.localizedName(loc.localization), amount: item.plannedAmount,
+                planRow(icon: item.category.systemImage, name: item.category.localizedName(loc.localization),
+                        subtitle: nil, amount: item.plannedAmount,
                         edit: { sheet = .variable(item) },
                         delete: { run { await model.deleteVariableBudget(item.id) } },
                         moveUp: idx > 0 ? { run { await model.moveVariableBudgets(from: IndexSet(integer: idx), to: idx - 1) } } : nil,
@@ -229,12 +229,11 @@ struct PlanningView: View {
         return "+ \(loc(.overviewThirteenthSeparate)): \(thirteenth.formattedCHF())"
     }
 
-    private func fixedSubtitle(_ item: RecurringFixedExpense) -> String {
-        let category = item.category.localizedName(loc.localization)
-        guard item.isLimited, let start = item.startMonth, let count = item.installments else { return category }
+    private func fixedSubtitle(_ item: RecurringFixedExpense) -> String? {
+        guard item.isLimited, let start = item.startMonth, let count = item.installments else { return nil }
         let f = DateFormatter()
         f.locale = loc.language.locale; f.calendar = .swiss
         f.setLocalizedDateFormatFromTemplate("MMMM yyyy")
-        return "\(category) · \(loc(.planningStandingOrder)) · \(count)× \(f.string(from: start))"
+        return "\(loc(.planningStandingOrder)) · \(count)× \(f.string(from: start))"
     }
 }

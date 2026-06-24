@@ -166,6 +166,9 @@ public enum FixedExpenseCategory: String, Codable, Sendable, CaseIterable {
     case membership
     case alimony
     case taxes
+    case ratenzahlung
+    case streaming
+    case creditCard
     case other
 }
 

@@ -39,6 +39,9 @@ extension FixedExpenseCategory {
         case .membership:      return loc.string(.catMembership)
         case .alimony:         return loc.string(.catAlimony)
         case .taxes:           return loc.string(.catTaxes)
+        case .ratenzahlung:    return loc.string(.catRatenzahlung)
+        case .streaming:       return loc.string(.catStreaming)
+        case .creditCard:      return loc.string(.catCreditCard)
         case .other:           return loc.string(.catOther)
         }
     }
@@ -60,6 +63,9 @@ extension FixedExpenseCategory {
         case .membership:      return "person.3.fill"
         case .alimony:         return "heart.fill"
         case .taxes:           return "building.columns.fill"
+        case .ratenzahlung:    return "calendar.badge.clock"
+        case .streaming:       return "play.rectangle.fill"
+        case .creditCard:      return "creditcard.fill"
         case .other:           return "ellipsis.circle.fill"
         }
     }

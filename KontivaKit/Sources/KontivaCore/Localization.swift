@@ -145,6 +145,9 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case catMembership
     case catAlimony
     case catTaxes
+    case catRatenzahlung
+    case catStreaming
+    case catCreditCard
     // Variable-budget categories (added)
     case catClothing
     case catHealth

@@ -56,6 +56,9 @@ enum class FixedExpenseCategory(val labelKey: L10nKey) {
     MEMBERSHIP(L10nKey.catMembership),
     ALIMONY(L10nKey.catAlimony),
     TAXES(L10nKey.catTaxes),
+    RATENZAHLUNG(L10nKey.catRatenzahlung),
+    STREAMING(L10nKey.catStreaming),
+    CREDIT_CARD(L10nKey.catCreditCard),
     OTHER(L10nKey.catOther),
 }
 

@@ -2,6 +2,9 @@ package ch.kontiva.android.ui.theme
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBalance
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.CreditCard
+import androidx.compose.material.icons.rounded.Movie
 import androidx.compose.material.icons.rounded.Autorenew
 import androidx.compose.material.icons.rounded.BeachAccess
 import androidx.compose.material.icons.rounded.Bolt
@@ -56,6 +59,9 @@ fun FixedExpenseCategory.icon(): ImageVector = when (this) {
     FixedExpenseCategory.MEMBERSHIP -> Icons.Rounded.Group
     FixedExpenseCategory.ALIMONY -> Icons.Rounded.Favorite
     FixedExpenseCategory.TAXES -> Icons.Rounded.AccountBalance
+    FixedExpenseCategory.RATENZAHLUNG -> Icons.Rounded.CalendarMonth
+    FixedExpenseCategory.STREAMING -> Icons.Rounded.Movie
+    FixedExpenseCategory.CREDIT_CARD -> Icons.Rounded.CreditCard
     FixedExpenseCategory.OTHER -> Icons.Rounded.MoreHoriz
 }
 

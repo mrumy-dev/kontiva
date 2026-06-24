@@ -16,6 +16,7 @@ struct SettingsView: View {
     @State private var showChangePassphrase = false
     @State private var showBackup = false
     @State private var showRestore = false
+    @State private var showCustomTheme = false
 
     var body: some View {
         Form {
@@ -40,6 +41,9 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showBackup) {
             BackupSheet().environmentObject(model).environmentObject(loc)
+        }
+        .sheet(isPresented: $showCustomTheme) {
+            CustomThemeSheet().environmentObject(model).environmentObject(loc)
         }
         .sheet(isPresented: $showRestore) {
             RestoreSheet().environmentObject(model).environmentObject(loc)
@@ -102,6 +106,14 @@ struct SettingsView: View {
                 }
             }
             .padding(.vertical, KontivaTheme.Space.sm)
+            Button { showCustomTheme = true } label: {
+                HStack(spacing: KontivaTheme.Space.sm) {
+                    Image(systemName: "paintpalette.fill").foregroundStyle(KontivaTheme.accent)
+                    Text(loc(.themeCustom)).foregroundStyle(KontivaTheme.textPrimary)
+                    Spacer()
+                    Image(systemName: "chevron.right").font(.caption.weight(.semibold)).foregroundStyle(KontivaTheme.textTertiary)
+                }
+            }
         } header: {
             Text(loc(.settingsTheme))
         }

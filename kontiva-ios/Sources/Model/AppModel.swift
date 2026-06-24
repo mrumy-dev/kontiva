@@ -46,6 +46,8 @@ final class AppModel: ObservableObject {
     private static let accentKey = "kontiva.ui.accent"
     private static let themeStyleKey = "kontiva.ui.themeStyle"
     private static let accentSecondaryKey = "kontiva.ui.accentSecondary"
+    private static let customAccentKey = "kontiva.ui.customAccent"
+    private static let customAccentSecondaryKey = "kontiva.ui.customAccentSecondary"
     private static let savingsSortKey = "kontiva.ui.savingsSort"
     private static let billSortKey = "kontiva.ui.billSort"
 
@@ -77,10 +79,15 @@ final class AppModel: ObservableObject {
             .flatMap(ThemeStyle.init(rawValue:)) ?? .solid
         let savedSecondary = UserDefaults.standard.string(forKey: Self.accentSecondaryKey)
             .flatMap(AccentTheme.init(rawValue:)) ?? savedAccent
+        let savedCustom = UserDefaults.standard.string(forKey: Self.customAccentKey)
+        let savedCustom2 = UserDefaults.standard.string(forKey: Self.customAccentSecondaryKey)
         self.settings.themeStyle = savedStyle
         self.settings.accentSecondary = savedSecondary
+        self.settings.customAccent = savedCustom
+        self.settings.customAccentSecondary = savedCustom2
         KontivaTheme.themeStyle = savedStyle
-        KontivaTheme.accentSecondary = savedSecondary.color
+        KontivaTheme.accent = Color.fromHex(savedCustom) ?? savedAccent.color
+        KontivaTheme.accentSecondary = Color.fromHex(savedCustom2) ?? savedSecondary.color
         self.settings.savingsSort = UserDefaults.standard.string(forKey: Self.savingsSortKey)
             .flatMap(SavingsSort.init(rawValue:)) ?? .startMonth
         self.settings.billSort = UserDefaults.standard.string(forKey: Self.billSortKey)
@@ -136,25 +143,41 @@ final class AppModel: ObservableObject {
     }
 
     /// Change the accent theme. Applies immediately across the app and persists.
-    /// Pick a solid accent (resets to the single-colour style).
+    /// Pick a solid accent (resets to the single-colour style, clears custom colours).
     func setAccent(_ accent: AccentTheme) {
         applyTheme(accent, style: .solid, secondary: accent)
     }
 
-    /// Apply a full theme: primary accent + style + secondary (for the 2-colour blend).
-    func applyTheme(_ primary: AccentTheme, style: ThemeStyle, secondary: AccentTheme) {
-        KontivaTheme.accent = primary.color
-        KontivaTheme.accentSecondary = secondary.color
+    /// Apply a fully custom theme: any primary (+ second) hex colour and a style.
+    func applyCustomTheme(_ primaryHex: String, style: ThemeStyle, secondaryHex: String?) {
+        applyTheme(settings.accent, style: style, secondary: settings.accentSecondary,
+                   customPrimary: primaryHex, customSecondary: secondaryHex)
+    }
+
+    /// Apply a theme: a preset accent + style + secondary, or custom hex overrides.
+    func applyTheme(_ primary: AccentTheme, style: ThemeStyle, secondary: AccentTheme,
+                    customPrimary: String? = nil, customSecondary: String? = nil) {
+        KontivaTheme.accent = Color.fromHex(customPrimary) ?? primary.color
+        KontivaTheme.accentSecondary = Color.fromHex(customSecondary) ?? secondary.color
         KontivaTheme.themeStyle = style
         // Fluidly morph the whole-app tint when the theme changes.
         withAnimation(.easeInOut(duration: 0.45)) {
             settings.accent = primary
             settings.themeStyle = style
             settings.accentSecondary = secondary
+            settings.customAccent = customPrimary
+            settings.customAccentSecondary = customSecondary
         }
         UserDefaults.standard.set(primary.rawValue, forKey: Self.accentKey)
         UserDefaults.standard.set(style.rawValue, forKey: Self.themeStyleKey)
         UserDefaults.standard.set(secondary.rawValue, forKey: Self.accentSecondaryKey)
+        setOrClear(customPrimary, forKey: Self.customAccentKey)
+        setOrClear(customSecondary, forKey: Self.customAccentSecondaryKey)
+    }
+
+    private func setOrClear(_ value: String?, forKey key: String) {
+        if let value { UserDefaults.standard.set(value, forKey: key) }
+        else { UserDefaults.standard.removeObject(forKey: key) }
     }
 
     /// Persisted sort order for the Sparen list (a non-sensitive UI preference).

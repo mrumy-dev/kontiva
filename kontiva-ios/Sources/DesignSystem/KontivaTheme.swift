@@ -80,6 +80,21 @@ extension Color {
                   opacity: 1)
     }
 
+    /// Parse a "RRGGBB" (or "#RRGGBB") hex string into a Color, or nil if invalid.
+    static func fromHex(_ hex: String?) -> Color? {
+        guard let s = hex?.replacingOccurrences(of: "#", with: ""), s.count == 6,
+              let v = UInt32(s, radix: 16) else { return nil }
+        return Color(hex: v)
+    }
+
+    /// This colour as a "RRGGBB" hex string (resolved for the current light/dark traits).
+    var hexString: String {
+        let c = UIColor(self).resolvedColor(with: .current)
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        c.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return String(format: "%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255))
+    }
+
     /// A colour that resolves to `light` or `dark` based on the iOS trait collection.
     static func adaptive(light: UInt32, dark: UInt32) -> Color {
         Color(UIColor { traits in

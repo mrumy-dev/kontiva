@@ -97,15 +97,15 @@ final class AvailabilityTests: XCTestCase {
         let goal = SavingsGoal(name: "Notgroschen", target: Money.parse("2'000.00")!,
                                monthlyContribution: Money.parse("500.00")!,
                                startDate: date(2026, 1, 1), completedDate: date(2026, 6, 1))
-        // June is the completion month → it still counts that month.
+        // Before completion it still counts.
+        let may = AvailabilityEngine.compute(incomes: [income], fixedCosts: [], variableBudgets: [], bills: [],
+                                             savingsGoals: [goal], asOf: date(2026, 5, 15), calendar: calendar)
+        XCTAssertEqual(may.plannedSavings, Money.parse("500.00"))
+        // From the completion month on, it frees up the money immediately.
         let june = AvailabilityEngine.compute(incomes: [income], fixedCosts: [], variableBudgets: [], bills: [],
                                               savingsGoals: [goal], asOf: date(2026, 6, 15), calendar: calendar)
-        XCTAssertEqual(june.plannedSavings, Money.parse("500.00"))
-        // July → done; no longer reduces available.
-        let july = AvailabilityEngine.compute(incomes: [income], fixedCosts: [], variableBudgets: [], bills: [],
-                                              savingsGoals: [goal], asOf: date(2026, 7, 15), calendar: calendar)
-        XCTAssertEqual(july.plannedSavings, .zero)
-        XCTAssertEqual(july.available, Money.parse("5'000.00"))
+        XCTAssertEqual(june.plannedSavings, .zero)
+        XCTAssertEqual(june.available, Money.parse("5'000.00"))
     }
 
     func testCompletedGoalBalanceFreezes() {

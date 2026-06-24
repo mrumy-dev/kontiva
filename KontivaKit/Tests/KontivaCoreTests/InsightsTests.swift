@@ -83,8 +83,8 @@ final class InsightsTests: XCTestCase {
         XCTAssertTrue(two.contains { if case .largestFixedCost(let n, _, _) = $0 { return n == "Miete" }; return false })
     }
 
-    func testEmptyBudgetIsHealthyFallback() {
-        let insights = analyze()
-        XCTAssertEqual(insights, [.allHealthy])
+    func testEmptyBudgetNudgesGettingStarted() {
+        // Nothing entered yet (no income) → a getting-started nudge, not a hollow "all good".
+        XCTAssertEqual(analyze(), [.gettingStarted])
     }
 }

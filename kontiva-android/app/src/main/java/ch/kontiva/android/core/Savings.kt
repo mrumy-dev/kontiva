@@ -56,7 +56,7 @@ data class SavingsGoal(
     fun contributesIn(month: LocalDate): Boolean {
         val m = month.withDayOfMonth(1)
         if (m.isBefore(startDate.withDayOfMonth(1))) return false
-        completedDate?.let { return !m.isAfter(it.withDayOfMonth(1)) }
+        completedDate?.let { return m.isBefore(it.withDayOfMonth(1)) }
         return true
     }
 

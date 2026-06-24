@@ -323,11 +323,11 @@ public struct SavingsGoal: Equatable, Codable, Sendable, Identifiable {
     }
 
     /// Whether a contribution is actually made in `month`: only from the start month
-    /// onward, and only up to the completion month (a completed goal stops after).
+    /// onward, and only before completion (completing frees the money from that month).
     public func contributesIn(_ month: Date, calendar: Calendar = .swiss) -> Bool {
         let m = calendar.startOfMonth(for: month)
         guard m >= calendar.startOfMonth(for: startDate) else { return false }
-        if let done = completedDate { return m <= calendar.startOfMonth(for: done) }
+        if let done = completedDate { return m < calendar.startOfMonth(for: done) }
         return true
     }
 

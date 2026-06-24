@@ -166,7 +166,7 @@ struct FixedExpenseFormSheet: View {
     let existing: RecurringFixedExpense?
     @State private var name: String
     @State private var amount: String
-    @State private var category: FixedExpenseCategory
+    @State private var category: FixedExpenseCategory?
     @State private var limited: Bool
     @State private var startMonth: Date
     @State private var installments: Int
@@ -175,14 +175,14 @@ struct FixedExpenseFormSheet: View {
         self.existing = existing
         _name = State(initialValue: existing?.name ?? "")
         _amount = State(initialValue: moneyEditString(existing?.monthlyAmount))
-        _category = State(initialValue: existing?.category ?? .other)
+        _category = State(initialValue: existing?.category)
         _limited = State(initialValue: existing?.isLimited ?? false)
         _startMonth = State(initialValue: existing?.startMonth ?? Date())
         _installments = State(initialValue: existing?.installments ?? 6)
     }
 
     private var parsed: Money? { Money.parse(amount) }
-    private var canSave: Bool { !name.isEmpty && parsed != nil && (!limited || installments >= 1) }
+    private var canSave: Bool { !name.isEmpty && parsed != nil && category != nil && (!limited || installments >= 1) }
 
     var body: some View {
         FormSheet(title: loc(existing == nil ? .commonAdd : .commonEdit),
@@ -191,8 +191,9 @@ struct FixedExpenseFormSheet: View {
                 TextField(loc(.formName), text: $name)
                 MoneyRowField(label: loc(.formAmount), text: $amount)
                 Picker(loc(.formCategory), selection: $category) {
+                    if category == nil { Text("—").tag(FixedExpenseCategory?.none) }
                     ForEach(FixedExpenseCategory.allCases, id: \.self) { c in
-                        Label(c.localizedName(loc.localization), systemImage: c.systemImage).tag(c)
+                        Label(c.localizedName(loc.localization), systemImage: c.systemImage).tag(Optional(c))
                     }
                 }
             }
@@ -215,7 +216,7 @@ struct FixedExpenseFormSheet: View {
     private func save() {
         guard let amt = parsed else { return }
         let item = RecurringFixedExpense(id: existing?.id ?? UUID(), name: name,
-                                         monthlyAmount: amt, category: category,
+                                         monthlyAmount: amt, category: category ?? .other,
                                          startMonth: limited ? startMonth : nil,
                                          installments: limited ? installments : nil)
         Task { await model.upsertFixedCost(item); dismiss() }
@@ -232,17 +233,17 @@ struct VariableBudgetFormSheet: View {
     let existing: VariableMonthlyBudget?
     @State private var name: String
     @State private var amount: String
-    @State private var category: VariableBudgetCategory
+    @State private var category: VariableBudgetCategory?
 
     init(existing: VariableMonthlyBudget?) {
         self.existing = existing
         _name = State(initialValue: existing?.name ?? "")
         _amount = State(initialValue: moneyEditString(existing?.plannedAmount))
-        _category = State(initialValue: existing?.category ?? .other)
+        _category = State(initialValue: existing?.category)
     }
 
     private var parsed: Money? { Money.parse(amount) }
-    private var canSave: Bool { !name.isEmpty && parsed != nil }
+    private var canSave: Bool { !name.isEmpty && parsed != nil && category != nil }
 
     var body: some View {
         FormSheet(title: loc(existing == nil ? .commonAdd : .commonEdit),
@@ -251,8 +252,9 @@ struct VariableBudgetFormSheet: View {
                 TextField(loc(.formName), text: $name)
                 MoneyRowField(label: loc(.formAmount), text: $amount)
                 Picker(loc(.formCategory), selection: $category) {
+                    if category == nil { Text("—").tag(VariableBudgetCategory?.none) }
                     ForEach(VariableBudgetCategory.allCases, id: \.self) { c in
-                        Label(c.localizedName(loc.localization), systemImage: c.systemImage).tag(c)
+                        Label(c.localizedName(loc.localization), systemImage: c.systemImage).tag(Optional(c))
                     }
                 }
             }
@@ -262,7 +264,7 @@ struct VariableBudgetFormSheet: View {
     private func save() {
         guard let amt = parsed else { return }
         let item = VariableMonthlyBudget(id: existing?.id ?? UUID(), name: name,
-                                         plannedAmount: amt, category: category)
+                                         plannedAmount: amt, category: category ?? .other)
         Task { await model.upsertVariableBudget(item); dismiss() }
     }
 }
@@ -276,7 +278,7 @@ struct SavingsGoalFormSheet: View {
 
     let existing: SavingsGoal?
     @State private var name: String
-    @State private var category: SavingsCategory
+    @State private var category: SavingsCategory?
     @State private var monthly: String
     @State private var startDate: Date
     @State private var startingBalance: String
@@ -285,7 +287,7 @@ struct SavingsGoalFormSheet: View {
     init(existing: SavingsGoal?) {
         self.existing = existing
         _name = State(initialValue: existing?.name ?? "")
-        _category = State(initialValue: existing?.category ?? .other)
+        _category = State(initialValue: existing?.category)
         _monthly = State(initialValue: moneyEditString(existing?.monthlyContribution))
         _startDate = State(initialValue: existing?.startDate ?? Date())
         _startingBalance = State(initialValue: moneyEditString(existing?.startingBalance))
@@ -294,7 +296,7 @@ struct SavingsGoalFormSheet: View {
 
     private var parsedMonthly: Money? { Money.parse(monthly) }
     private var canSave: Bool {
-        !name.isEmpty && parsedMonthly != nil
+        !name.isEmpty && parsedMonthly != nil && category != nil
             && (target.isEmpty || Money.parse(target) != nil)
             && (startingBalance.isEmpty || Money.parse(startingBalance) != nil)
     }
@@ -305,8 +307,9 @@ struct SavingsGoalFormSheet: View {
             Section {
                 TextField(loc(.formName), text: $name)
                 Picker(loc(.formCategory), selection: $category) {
+                    if category == nil { Text("—").tag(SavingsCategory?.none) }
                     ForEach(SavingsCategory.allCases, id: \.self) { c in
-                        Label(c.localizedName(loc.localization), systemImage: c.systemImage).tag(c)
+                        Label(c.localizedName(loc.localization), systemImage: c.systemImage).tag(Optional(c))
                     }
                 }
                 MoneyRowField(label: loc(.formMonthlyContribution), text: $monthly)
@@ -321,7 +324,7 @@ struct SavingsGoalFormSheet: View {
 
     private func save() {
         guard let monthlyAmount = parsedMonthly else { return }
-        let item = SavingsGoal(id: existing?.id ?? UUID(), name: name, category: category,
+        let item = SavingsGoal(id: existing?.id ?? UUID(), name: name, category: category ?? .other,
                                target: Money.parse(target) ?? .zero,
                                monthlyContribution: monthlyAmount,
                                startingBalance: Money.parse(startingBalance) ?? .zero,

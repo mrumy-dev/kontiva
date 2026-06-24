@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "無料の負債相談",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz、Caritas、家計相談は無料かつ秘密厳守で支援します。まず最も影響の大きい負債から返済しましょう。",
         .schuldenDisclaimer: "一般的な情報であり、法的助言ではありません。",
+        .schuldenAsFixed: "固定費として",
+        .schuldenAsBill: "請求書として",
+        .schuldenAsVariable: "変動予算として",
 
         .catInsurance: "保険",
         .catOther: "その他",

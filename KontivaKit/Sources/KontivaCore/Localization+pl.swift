@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Bezpłatne doradztwo dłużników",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas i poradnie budżetowe pomagają bezpłatnie i poufnie. Najpierw spłać długi o najgorszych konsekwencjach.",
         .schuldenDisclaimer: "Informacja ogólna, nie porada prawna.",
+        .schuldenAsFixed: "Jako koszt stały",
+        .schuldenAsBill: "Jako rachunek",
+        .schuldenAsVariable: "Jako budżet zmienny",
 
         .catInsurance: "Ubezpieczenie",
         .catOther: "Inne",

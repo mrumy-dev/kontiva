@@ -207,6 +207,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "استشارة ديون مجانية",
         .schuldenTipCounselingBody: "تساعد Schuldenberatung Schweiz وCaritas واستشارة الميزانية مجانًا وبسرية. سدّد أولًا الديون ذات العواقب الأشد.",
         .schuldenDisclaimer: "معلومات عامة، وليست استشارة قانونية.",
+        .schuldenAsFixed: "كتكلفة ثابتة",
+        .schuldenAsBill: "كفاتورة",
+        .schuldenAsVariable: "كميزانية متغيرة",
 
         .catInsurance: "تأمين",
         .catOther: "أخرى",

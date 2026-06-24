@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Free debt counselling",
         .schuldenTipCounselingBody: "Debt counselling Switzerland, Caritas and budget advice help free and confidentially. Pay off the debts with the worst consequences first.",
         .schuldenDisclaimer: "General information, not legal advice.",
+        .schuldenAsFixed: "As a fixed cost",
+        .schuldenAsBill: "As a bill",
+        .schuldenAsVariable: "As a variable budget",
 
         .catInsurance: "Insurance",
         .catOther: "Other",

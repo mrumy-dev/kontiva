@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Gratis gjeldsrådgivning",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas og budsjettrådgivning hjelper gratis og fortrolig. Betal først ned gjelden med de verste konsekvensene.",
         .schuldenDisclaimer: "Generell informasjon, ikke juridisk rådgivning.",
+        .schuldenAsFixed: "Som fast utgift",
+        .schuldenAsBill: "Som regning",
+        .schuldenAsVariable: "Som variabelt budsjett",
 
         .catInsurance: "Forsikring",
         .catOther: "Annet",

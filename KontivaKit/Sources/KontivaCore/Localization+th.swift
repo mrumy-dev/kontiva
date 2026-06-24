@@ -207,6 +207,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "คำปรึกษาหนี้ฟรี",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas และคำปรึกษาด้านงบประมาณช่วยเหลือฟรีและเป็นความลับ ชำระหนี้ที่มีผลร้ายแรงที่สุดก่อน",
         .schuldenDisclaimer: "ข้อมูลทั่วไป ไม่ใช่คำแนะนำทางกฎหมาย",
+        .schuldenAsFixed: "เป็นค่าใช้จ่ายคงที่",
+        .schuldenAsBill: "เป็นบิล",
+        .schuldenAsVariable: "เป็นงบผันแปร",
 
         .catInsurance: "ประกัน",
         .catOther: "อื่น ๆ",

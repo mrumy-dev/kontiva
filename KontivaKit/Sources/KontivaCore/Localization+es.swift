@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Asesoramiento de deudas gratuito",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas y los servicios de asesoría presupuestaria ayudan de forma gratuita y confidencial. Paga primero las deudas con peores consecuencias.",
         .schuldenDisclaimer: "Información general, no asesoramiento jurídico.",
+        .schuldenAsFixed: "Como gasto fijo",
+        .schuldenAsBill: "Como factura",
+        .schuldenAsVariable: "Como presupuesto variable",
 
         .catInsurance: "Seguros",
         .catOther: "Otros",

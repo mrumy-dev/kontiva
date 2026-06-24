@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Besplatno savjetovanje o dugovima",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas i budžetsko savjetovanje pomažu besplatno i povjerljivo. Prvo otplatite dugove s najgorim posljedicama.",
         .schuldenDisclaimer: "Opće informacije, nije pravni savjet.",
+        .schuldenAsFixed: "Kao fiksni trošak",
+        .schuldenAsBill: "Kao račun",
+        .schuldenAsVariable: "Kao varijabilni budžet",
 
         .catInsurance: "Osiguranje",
         .catOther: "Ostalo",

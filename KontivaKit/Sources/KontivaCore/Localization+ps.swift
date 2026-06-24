@@ -207,6 +207,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "وړیا د پور مشوره",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz، Caritas او د بودیجې مشوره وړیا او محرمانه مرسته کوي. لومړی هغه پورونه ورکړئ چې ترټولو سخت پایلې لري.",
         .schuldenDisclaimer: "عمومي معلومات، حقوقي مشوره نه ده.",
+        .schuldenAsFixed: "د ثابت لګښت په توګه",
+        .schuldenAsBill: "د بل په توګه",
+        .schuldenAsVariable: "د بدلیدونکي بودیجې په توګه",
 
         .catInsurance: "بیمه",
         .catOther: "نور",

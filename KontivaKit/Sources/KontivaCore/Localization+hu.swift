@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Ingyenes adósságtanácsadás",
         .schuldenTipCounselingBody: "A Schuldenberatung Schweiz, a Caritas és a költségvetési tanácsadás ingyen és bizalmasan segít. Először a legsúlyosabb következményekkel járó adósságokat fizesd ki.",
         .schuldenDisclaimer: "Általános tájékoztatás, nem jogi tanácsadás.",
+        .schuldenAsFixed: "Fix költségként",
+        .schuldenAsBill: "Számlaként",
+        .schuldenAsVariable: "Változó költségként",
 
         .catInsurance: "Biztosítás",
         .catOther: "Egyéb",

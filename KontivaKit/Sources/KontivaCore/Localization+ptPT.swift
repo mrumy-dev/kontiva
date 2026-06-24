@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Aconselhamento de dívidas gratuito",
         .schuldenTipCounselingBody: "A Schuldenberatung Schweiz, a Caritas e os serviços de aconselhamento orçamental ajudam de forma gratuita e confidencial. Pague primeiro as dívidas com piores consequências.",
         .schuldenDisclaimer: "Informação geral, não é aconselhamento jurídico.",
+        .schuldenAsFixed: "Como custo fixo",
+        .schuldenAsBill: "Como fatura",
+        .schuldenAsVariable: "Como orçamento variável",
 
         .catInsurance: "Seguros",
         .catOther: "Outro",

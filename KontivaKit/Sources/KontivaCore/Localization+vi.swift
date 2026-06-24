@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Tư vấn nợ miễn phí",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas và tư vấn ngân sách giúp đỡ miễn phí và bảo mật. Hãy trả trước những khoản nợ có hậu quả nặng nhất.",
         .schuldenDisclaimer: "Thông tin chung, không phải tư vấn pháp lý.",
+        .schuldenAsFixed: "Là chi phí cố định",
+        .schuldenAsBill: "Là hóa đơn",
+        .schuldenAsVariable: "Là ngân sách biến đổi",
 
         .catInsurance: "Bảo hiểm",
         .catOther: "Khác",

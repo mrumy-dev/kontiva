@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Consiliere gratuită pentru datorii",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas și consilierea bugetară ajută gratuit și confidențial. Plătește mai întâi datoriile cu cele mai grave consecințe.",
         .schuldenDisclaimer: "Informații generale, nu consultanță juridică.",
+        .schuldenAsFixed: "Ca cost fix",
+        .schuldenAsBill: "Ca factură",
+        .schuldenAsVariable: "Ca buget variabil",
 
         .catInsurance: "Asigurare",
         .catOther: "Altele",

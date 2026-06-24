@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "무료 부채 상담",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas, 가계 상담이 무료로 비밀을 지키며 돕습니다. 가장 결과가 심각한 부채부터 갚으세요.",
         .schuldenDisclaimer: "일반 정보이며 법률 자문이 아닙니다.",
+        .schuldenAsFixed: "고정비로",
+        .schuldenAsBill: "청구서로",
+        .schuldenAsVariable: "변동 예산으로",
 
         .catInsurance: "보험",
         .catOther: "기타",

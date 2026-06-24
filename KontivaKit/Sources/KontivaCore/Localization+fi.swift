@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Maksuton velkaneuvonta",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas ja budjettineuvonta auttavat maksutta ja luottamuksellisesti. Maksa ensin pois velat, joilla on pahimmat seuraukset.",
         .schuldenDisclaimer: "Yleistä tietoa, ei oikeudellista neuvontaa.",
+        .schuldenAsFixed: "Kiinteänä kuluna",
+        .schuldenAsBill: "Laskuna",
+        .schuldenAsVariable: "Muuttuvana budjettina",
 
         .catInsurance: "Vakuutus",
         .catOther: "Muu",

@@ -25,8 +25,11 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.Article
+import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.DirectionsWalk
+import androidx.compose.material.icons.rounded.ReceiptLong
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material.icons.rounded.Forum
 import androidx.compose.material.icons.rounded.Gavel
 import androidx.compose.material.icons.rounded.Lightbulb
@@ -66,8 +69,11 @@ import ch.kontiva.android.core.BillClassifier
 import ch.kontiva.android.core.BillState
 import ch.kontiva.android.core.DebtItem
 import ch.kontiva.android.core.DebtType
+import ch.kontiva.android.core.FixedExpenseCategory
 import ch.kontiva.android.core.Money
+import ch.kontiva.android.core.VariableBudgetCategory
 import ch.kontiva.android.core.total
+import ch.kontiva.android.ui.theme.icon
 import ch.kontiva.android.core.l10n.L10nKey
 import ch.kontiva.android.core.l10n.LocalLocalizer
 import ch.kontiva.android.ui.KontivaViewModel
@@ -80,6 +86,9 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
     val colors = KontivaTheme.colors
     var showSheet by remember { mutableStateOf(false) }
     var editDebt by remember { mutableStateOf<DebtItem?>(null) }
+    // Start-paying-off: which debt + which destination form to open.
+    var payoffDebt by remember { mutableStateOf<DebtItem?>(null) }
+    var payoffKind by remember { mutableStateOf<Payoff?>(null) }
 
     val overdueBills = vm.dataset.bills.filter { BillClassifier.state(it, vm.selectedMonth) == BillState.OVERDUE }
     val overdueTotal = overdueBills.map { it.amount }.total()
@@ -150,6 +159,9 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
                                     d.creditor, sub, d.amount.formattedCHF(),
                                     onClick = { editDebt = d; showSheet = true },
                                     onDelete = { vm.deleteDebt(d.id) },
+                                    onPayFixed = { payoffDebt = d; payoffKind = Payoff.FIXED },
+                                    onPayBill = { payoffDebt = d; payoffKind = Payoff.BILL },
+                                    onPayVariable = { payoffDebt = d; payoffKind = Payoff.VARIABLE },
                                 )
                             }
                         }
@@ -193,11 +205,46 @@ fun DebtsScreen(vm: KontivaViewModel, onBack: () -> Unit) {
             initialNotes = d?.notes ?: "",
         )
     }
+
+    // Start paying off a debt: open the matching add form, pre-filled.
+    val pd = payoffDebt
+    if (pd != null) when (payoffKind) {
+        Payoff.FIXED -> FixedCostSheet(
+            categories = FixedExpenseCategory.entries,
+            initialCategory = FixedExpenseCategory.RATENZAHLUNG,
+            onDismiss = { payoffKind = null; payoffDebt = null },
+            onSave = { name, amount, cat, sm, inst -> vm.addFixedCost(name, amount, cat, sm, inst); payoffKind = null; payoffDebt = null },
+        )
+        Payoff.BILL -> BillSheet(
+            initialProvider = pd.creditor,
+            initialAmount = pd.amount.formattedCHF(false),
+            initialDate = pd.date ?: java.time.LocalDate.now(),
+            onDismiss = { payoffKind = null; payoffDebt = null },
+            onSave = { p, a, date, paid, notes -> vm.addBill(p, a, date, paid, notes); payoffKind = null; payoffDebt = null },
+        )
+        Payoff.VARIABLE -> EntrySheet(
+            title = loc(L10nKey.planningVariable),
+            categories = VariableBudgetCategory.entries,
+            categoryLabel = { loc(it.labelKey) },
+            categoryIcon = { it.icon() },
+            onDismiss = { payoffKind = null; payoffDebt = null },
+            onSave = { name, amount, cat -> vm.addVariableBudget(name, amount, cat ?: VariableBudgetCategory.OTHER); payoffKind = null; payoffDebt = null },
+        )
+        null -> {}
+    }
 }
+
+/** Which budget entry to create when starting to pay off a debt. */
+private enum class Payoff { FIXED, BILL, VARIABLE }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun DebtRow(creditor: String, type: String, amount: String, onClick: () -> Unit, onDelete: () -> Unit, actionable: Boolean = true) {
+private fun DebtRow(
+    creditor: String, type: String, amount: String, onClick: () -> Unit, onDelete: () -> Unit,
+    actionable: Boolean = true,
+    onPayFixed: (() -> Unit)? = null, onPayBill: (() -> Unit)? = null, onPayVariable: (() -> Unit)? = null,
+) {
+    val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
     var menu by remember { mutableStateOf(false) }
     Box {
@@ -211,7 +258,15 @@ private fun DebtRow(creditor: String, type: String, amount: String, onClick: () 
             }
             Text(amount, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = colors.textPrimary)
         }
-        if (actionable) RowActionsMenu(menu, { menu = false }, onClick, onDelete)
+        if (actionable) {
+            DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                DropdownMenuItem(text = { Text(loc(L10nKey.commonEdit)) }, onClick = { menu = false; onClick() })
+                onPayFixed?.let { DropdownMenuItem(text = { Text(loc(L10nKey.schuldenAsFixed)) }, leadingIcon = { Icon(Icons.Rounded.CalendarMonth, null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp)) }, onClick = { menu = false; it() }) }
+                onPayBill?.let { DropdownMenuItem(text = { Text(loc(L10nKey.schuldenAsBill)) }, leadingIcon = { Icon(Icons.Rounded.ReceiptLong, null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp)) }, onClick = { menu = false; it() }) }
+                onPayVariable?.let { DropdownMenuItem(text = { Text(loc(L10nKey.schuldenAsVariable)) }, leadingIcon = { Icon(Icons.Rounded.Tune, null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp)) }, onClick = { menu = false; it() }) }
+                DropdownMenuItem(text = { Text(loc(L10nKey.commonDelete), color = colors.swissRed) }, onClick = { menu = false; onDelete() })
+            }
+        }
     }
 }
 

@@ -172,11 +172,11 @@ struct FixedExpenseFormSheet: View {
     @State private var startMonth: Date
     @State private var installments: Int
 
-    init(existing: RecurringFixedExpense?) {
+    init(existing: RecurringFixedExpense?, prefillCategory: FixedExpenseCategory? = nil) {
         self.existing = existing
         _name = State(initialValue: existing?.name ?? "")
         _amount = State(initialValue: moneyEditString(existing?.monthlyAmount))
-        _category = State(initialValue: existing?.category)
+        _category = State(initialValue: existing?.category ?? prefillCategory)
         _limited = State(initialValue: existing?.isLimited ?? false)
         _startMonth = State(initialValue: existing?.startMonth ?? Date())
         _installments = State(initialValue: existing?.installments ?? 6)
@@ -235,11 +235,11 @@ struct VariableBudgetFormSheet: View {
     @State private var amount: String
     @State private var category: VariableBudgetCategory?
 
-    init(existing: VariableMonthlyBudget?) {
+    init(existing: VariableMonthlyBudget?, prefillCategory: VariableBudgetCategory? = nil) {
         self.existing = existing
         _name = State(initialValue: existing?.name ?? "")
         _amount = State(initialValue: moneyEditString(existing?.plannedAmount))
-        _category = State(initialValue: existing?.category)
+        _category = State(initialValue: existing?.category ?? prefillCategory)
     }
 
     private var parsed: Money? { Money.parse(amount) }
@@ -345,11 +345,11 @@ struct BillFormSheet: View {
     @State private var status: BillStatus
     @State private var notes: String
 
-    init(existing: OneOffBill?) {
+    init(existing: OneOffBill?, prefillProvider: String? = nil, prefillAmount: Money? = nil, prefillDue: Date? = nil) {
         self.existing = existing
-        _provider = State(initialValue: existing?.provider ?? "")
-        _amount = State(initialValue: moneyEditString(existing?.amount))
-        _dueDate = State(initialValue: existing?.dueDate ?? Date())
+        _provider = State(initialValue: existing?.provider ?? prefillProvider ?? "")
+        _amount = State(initialValue: moneyEditString(existing?.amount ?? prefillAmount))
+        _dueDate = State(initialValue: existing?.dueDate ?? prefillDue ?? Date())
         _status = State(initialValue: existing?.status ?? .open)
         _notes = State(initialValue: existing?.notes ?? "")
     }

@@ -206,6 +206,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "இலவச கடன் ஆலோசனை",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas மற்றும் பட்ஜெட் ஆலோசனை இலவசமாகவும் ரகசியமாகவும் உதவுகின்றன. மிக மோசமான விளைவுகளைக் கொண்ட கடன்களை முதலில் செலுத்துங்கள்.",
         .schuldenDisclaimer: "பொதுவான தகவல், சட்ட ஆலோசனை அல்ல.",
+        .schuldenAsFixed: "நிலையான செலவாக",
+        .schuldenAsBill: "பில்லாக",
+        .schuldenAsVariable: "மாறி பட்ஜெட்டாக",
 
         .catInsurance: "காப்பீடு",
         .catOther: "மற்றவை",

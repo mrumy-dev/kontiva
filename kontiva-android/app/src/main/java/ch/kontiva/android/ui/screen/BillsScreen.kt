@@ -232,7 +232,7 @@ internal fun EmptyCard(text: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun BillSheet(
+fun BillSheet(
     onDismiss: () -> Unit,
     onSave: (String, Money, LocalDate, Boolean, String?) -> Unit,
     initialProvider: String = "",

@@ -206,6 +206,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "مفت قرض مشاورت",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz، Caritas اور بجٹ مشاورت مفت اور رازداری سے مدد کرتے ہیں۔ پہلے سب سے سنگین نتائج والے قرض ادا کریں۔",
         .schuldenDisclaimer: "عمومی معلومات، قانونی مشورہ نہیں۔",
+        .schuldenAsFixed: "مقررہ خرچ کے طور پر",
+        .schuldenAsBill: "بل کے طور پر",
+        .schuldenAsVariable: "متغیر بجٹ کے طور پر",
 
         .catInsurance: "بیمہ",
         .catOther: "دیگر",

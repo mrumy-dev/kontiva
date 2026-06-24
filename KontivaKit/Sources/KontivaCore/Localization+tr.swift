@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Ücretsiz borç danışmanlığı",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas ve bütçe danışmanlığı ücretsiz ve gizli yardım eder. Önce en ağır sonuçları olan borçları ödeyin.",
         .schuldenDisclaimer: "Genel bilgi, hukuki tavsiye değildir.",
+        .schuldenAsFixed: "Sabit gider olarak",
+        .schuldenAsBill: "Fatura olarak",
+        .schuldenAsVariable: "Değişken bütçe olarak",
 
         .catInsurance: "Sigorta",
         .catOther: "Diğer",

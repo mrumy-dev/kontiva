@@ -12,7 +12,17 @@ struct SchuldenView: View {
 
     enum DebtSheet: Identifiable {
         case edit(DebtItem?)
-        var id: String { if case .edit(let d) = self { return d?.id.uuidString ?? "new" }; return "new" }
+        case payFixed(DebtItem)
+        case payBill(DebtItem)
+        case payVariable(DebtItem)
+        var id: String {
+            switch self {
+            case .edit(let d):     return "edit-\(d?.id.uuidString ?? "new")"
+            case .payFixed(let d): return "fixed-\(d.id.uuidString)"
+            case .payBill(let d):  return "bill-\(d.id.uuidString)"
+            case .payVariable(let d): return "var-\(d.id.uuidString)"
+            }
+        }
     }
 
     private var debtsByType: [(type: DebtType, items: [DebtItem])] {
@@ -57,8 +67,17 @@ struct SchuldenView: View {
             }
         }
         .sheet(item: $editing) { route in
-            if case .edit(let debt) = route {
+            switch route {
+            case .edit(let debt):
                 DebtFormSheet(existing: debt).environmentObject(model).environmentObject(loc)
+            case .payFixed:
+                FixedExpenseFormSheet(existing: nil, prefillCategory: .ratenzahlung)
+                    .environmentObject(model).environmentObject(loc)
+            case .payBill(let debt):
+                BillFormSheet(existing: nil, prefillProvider: debt.creditor, prefillAmount: debt.amount, prefillDue: debt.date)
+                    .environmentObject(model).environmentObject(loc)
+            case .payVariable:
+                VariableBudgetFormSheet(existing: nil).environmentObject(model).environmentObject(loc)
             }
         }
     }
@@ -154,6 +173,11 @@ struct SchuldenView: View {
                             .onTapGesture { editing = .edit(debt) }
                             .contextMenu {
                                 Button(loc(.commonEdit), systemImage: "pencil") { editing = .edit(debt) }
+                                Section(loc(.schuldenGuidanceTitle)) {
+                                    Button(loc(.schuldenAsFixed), systemImage: "arrow.triangle.2.circlepath") { editing = .payFixed(debt) }
+                                    Button(loc(.schuldenAsBill), systemImage: "doc.text") { editing = .payBill(debt) }
+                                    Button(loc(.schuldenAsVariable), systemImage: "slider.horizontal.3") { editing = .payVariable(debt) }
+                                }
                                 Button(loc(.commonDelete), systemImage: "trash", role: .destructive) {
                                     Task { await model.deleteDebt(debt.id) }
                                 }

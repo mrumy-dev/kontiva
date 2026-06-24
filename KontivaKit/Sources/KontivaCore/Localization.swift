@@ -242,6 +242,9 @@ public enum L10nKey: String, CaseIterable, Sendable {
     case schuldenTipCounselingTitle
     case schuldenTipCounselingBody
     case schuldenDisclaimer
+    case schuldenAsFixed
+    case schuldenAsBill
+    case schuldenAsVariable
 
     case commonSaved
 

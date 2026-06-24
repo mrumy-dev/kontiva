@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Këshillim falas për borxhet",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas dhe këshillimi buxhetor ndihmojnë falas dhe me konfidencialitet. Paguaj së pari borxhet me pasojat më të rënda.",
         .schuldenDisclaimer: "Informacion i përgjithshëm, jo këshillë ligjore.",
+        .schuldenAsFixed: "Si kosto fikse",
+        .schuldenAsBill: "Si faturë",
+        .schuldenAsVariable: "Si buxhet i ndryshueshëm",
 
         .catInsurance: "Sigurim",
         .catOther: "Tjetër",

@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Conseil en désendettement gratuit",
         .schuldenTipCounselingBody: "Dettes Conseils Suisse, Caritas et les conseils budgétaires aident gratuitement et confidentiellement. Remboursez d'abord les dettes aux conséquences les plus graves.",
         .schuldenDisclaimer: "Informations générales, pas de conseil juridique.",
+        .schuldenAsFixed: "Comme charge fixe",
+        .schuldenAsBill: "Comme facture",
+        .schuldenAsVariable: "Comme budget variable",
 
         .catInsurance: "Assurance",
         .catOther: "Autre",

@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Kostenlose Schuldenberatung",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas und Budgetberatung helfen kostenlos und vertraulich. Tilgen Sie zuerst Schulden mit den schwersten Folgen.",
         .schuldenDisclaimer: "Allgemeine Informationen, keine Rechtsberatung.",
+        .schuldenAsFixed: "Als Fixkosten",
+        .schuldenAsBill: "Als Rechnung",
+        .schuldenAsVariable: "Als variables Budget",
 
         .catInsurance: "Versicherung",
         .catOther: "Sonstiges",

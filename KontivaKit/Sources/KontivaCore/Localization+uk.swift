@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Безкоштовна консультація щодо боргів",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas і бюджетні консультації допомагають безкоштовно й конфіденційно. Спершу погасіть борги з найважчими наслідками.",
         .schuldenDisclaimer: "Загальна інформація, не юридична консультація.",
+        .schuldenAsFixed: "Як постійні витрати",
+        .schuldenAsBill: "Як рахунок",
+        .schuldenAsVariable: "Як змінний бюджет",
 
         .catInsurance: "Страхування",
         .catOther: "Інше",

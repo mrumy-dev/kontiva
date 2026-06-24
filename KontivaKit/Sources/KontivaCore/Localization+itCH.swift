@@ -205,6 +205,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Consulenza debiti gratuita",
         .schuldenTipCounselingBody: "Consulenza debiti Svizzera, Caritas e la consulenza di budget aiutano gratuitamente e in modo riservato. Estinguete prima i debiti con le conseguenze più gravi.",
         .schuldenDisclaimer: "Informazioni generali, nessuna consulenza legale.",
+        .schuldenAsFixed: "Come spesa fissa",
+        .schuldenAsBill: "Come fattura",
+        .schuldenAsVariable: "Come budget variabile",
 
         .catInsurance: "Assicurazione",
         .catOther: "Altro",

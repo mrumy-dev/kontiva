@@ -208,6 +208,9 @@ extension Localization {
         .schuldenTipCounselingTitle: "Cussegliaziun da debits gratuita",
         .schuldenTipCounselingBody: "Schuldenberatung Schweiz, Caritas e la cussegliaziun da budget gidan gratuitamain e confidenzialmain. Paja l'emprim ils debits cun las consequenzas las pli gravas.",
         .schuldenDisclaimer: "Infurmaziun generala, betg cussegliaziun giuridica.",
+        .schuldenAsFixed: "Sco custs fixs",
+        .schuldenAsBill: "Sco quint",
+        .schuldenAsVariable: "Sco budget variabel",
 
         .catInsurance: "Assicuranza",
         .catOther: "Auter",

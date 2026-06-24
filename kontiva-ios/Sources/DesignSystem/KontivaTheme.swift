@@ -27,11 +27,15 @@ enum KontivaTheme {
     static let positive       = Color.adaptive(light: 0x1F7A4D, dark: 0x44C088)
     static let warning        = Color.adaptive(light: 0xB26A00, dark: 0xE0A042)
 
-    /// A whisper of depth behind the content (lighter at the top).
+    /// Accent-tinted page background — a soft wash so the whole app (not just the
+    /// symbols) takes on the chosen colour. Reads the live `accent`, so it re-tints
+    /// when the theme changes.
     static var pageGradient: LinearGradient {
-        LinearGradient(colors: [Color.adaptive(light: 0xFCFBF8, dark: 0x141C24),
-                                Color.adaptive(light: 0xF4F3EF, dark: 0x0D131A)],
-                       startPoint: .top, endPoint: .bottom)
+        let bg = pageBackground
+        return LinearGradient(colors: [bg.blended(with: accent, fraction: 0.18),
+                                       bg,
+                                       bg.blended(with: accent, fraction: 0.06)],
+                              startPoint: .top, endPoint: .bottom)
     }
 
     // Chart palette (calm, brand-aligned; red reserved for bills/overdraw).
@@ -71,6 +75,22 @@ extension Color {
     static func adaptive(light: UInt32, dark: UInt32) -> Color {
         Color(UIColor { traits in
             UIColor(hex: traits.userInterfaceStyle == .dark ? dark : light)
+        })
+    }
+
+    /// An opaque blend of this colour toward `other` by `fraction` (0–1), resolved
+    /// per trait collection so it stays correct in light and dark.
+    func blended(with other: Color, fraction: Double) -> Color {
+        let f = CGFloat(max(0, min(1, fraction)))
+        return Color(UIColor { traits in
+            let a = UIColor(self).resolvedColor(with: traits)
+            let b = UIColor(other).resolvedColor(with: traits)
+            var ar: CGFloat = 0, ag: CGFloat = 0, ab: CGFloat = 0, aa: CGFloat = 0
+            var br: CGFloat = 0, bg: CGFloat = 0, bb: CGFloat = 0, ba: CGFloat = 0
+            a.getRed(&ar, green: &ag, blue: &ab, alpha: &aa)
+            b.getRed(&br, green: &bg, blue: &bb, alpha: &ba)
+            return UIColor(red: ar + (br - ar) * f, green: ag + (bg - ag) * f,
+                           blue: ab + (bb - ab) * f, alpha: 1)
         })
     }
 }

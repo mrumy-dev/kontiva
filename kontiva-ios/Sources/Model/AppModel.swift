@@ -128,8 +128,9 @@ final class AppModel: ObservableObject {
     /// Change the accent theme. Applies immediately across the app and persists.
     func setAccent(_ accent: AccentTheme) {
         guard accent != settings.accent else { return }
-        settings.accent = accent
         KontivaTheme.accent = accent.color
+        // Fluidly morph the whole-app tint when the theme changes.
+        withAnimation(.easeInOut(duration: 0.45)) { settings.accent = accent }
         UserDefaults.standard.set(accent.rawValue, forKey: Self.accentKey)
     }
 

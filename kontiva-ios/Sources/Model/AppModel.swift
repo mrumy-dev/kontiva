@@ -44,6 +44,8 @@ final class AppModel: ObservableObject {
 
     private static let languageKey = "kontiva.ui.language"
     private static let accentKey = "kontiva.ui.accent"
+    private static let themeStyleKey = "kontiva.ui.themeStyle"
+    private static let accentSecondaryKey = "kontiva.ui.accentSecondary"
     private static let savingsSortKey = "kontiva.ui.savingsSort"
     private static let billSortKey = "kontiva.ui.billSort"
 
@@ -71,6 +73,14 @@ final class AppModel: ObservableObject {
             .flatMap(AccentTheme.init(rawValue:)) ?? .swissRed
         self.settings.accent = savedAccent
         KontivaTheme.accent = savedAccent.color
+        let savedStyle = UserDefaults.standard.string(forKey: Self.themeStyleKey)
+            .flatMap(ThemeStyle.init(rawValue:)) ?? .solid
+        let savedSecondary = UserDefaults.standard.string(forKey: Self.accentSecondaryKey)
+            .flatMap(AccentTheme.init(rawValue:)) ?? savedAccent
+        self.settings.themeStyle = savedStyle
+        self.settings.accentSecondary = savedSecondary
+        KontivaTheme.themeStyle = savedStyle
+        KontivaTheme.accentSecondary = savedSecondary.color
         self.settings.savingsSort = UserDefaults.standard.string(forKey: Self.savingsSortKey)
             .flatMap(SavingsSort.init(rawValue:)) ?? .startMonth
         self.settings.billSort = UserDefaults.standard.string(forKey: Self.billSortKey)
@@ -126,12 +136,25 @@ final class AppModel: ObservableObject {
     }
 
     /// Change the accent theme. Applies immediately across the app and persists.
+    /// Pick a solid accent (resets to the single-colour style).
     func setAccent(_ accent: AccentTheme) {
-        guard accent != settings.accent else { return }
-        KontivaTheme.accent = accent.color
+        applyTheme(accent, style: .solid, secondary: accent)
+    }
+
+    /// Apply a full theme: primary accent + style + secondary (for the 2-colour blend).
+    func applyTheme(_ primary: AccentTheme, style: ThemeStyle, secondary: AccentTheme) {
+        KontivaTheme.accent = primary.color
+        KontivaTheme.accentSecondary = secondary.color
+        KontivaTheme.themeStyle = style
         // Fluidly morph the whole-app tint when the theme changes.
-        withAnimation(.easeInOut(duration: 0.45)) { settings.accent = accent }
-        UserDefaults.standard.set(accent.rawValue, forKey: Self.accentKey)
+        withAnimation(.easeInOut(duration: 0.45)) {
+            settings.accent = primary
+            settings.themeStyle = style
+            settings.accentSecondary = secondary
+        }
+        UserDefaults.standard.set(primary.rawValue, forKey: Self.accentKey)
+        UserDefaults.standard.set(style.rawValue, forKey: Self.themeStyleKey)
+        UserDefaults.standard.set(secondary.rawValue, forKey: Self.accentSecondaryKey)
     }
 
     /// Persisted sort order for the Sparen list (a non-sensitive UI preference).

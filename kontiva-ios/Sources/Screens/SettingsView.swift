@@ -88,6 +88,14 @@ struct SettingsView: View {
 
     private var themeSection: some View {
         Section {
+            // Curated presets (gradient / 2-colour) — pick by look.
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: KontivaTheme.Space.xs) {
+                    ForEach(themePresets) { presetSwatch($0) }
+                }
+                .padding(.vertical, KontivaTheme.Space.xs)
+            }
+            // Solid accent colours.
             HStack(spacing: 0) {
                 ForEach(AccentTheme.allCases) { theme in
                     accentSwatch(theme).frame(maxWidth: .infinity)
@@ -96,17 +104,56 @@ struct SettingsView: View {
             .padding(.vertical, KontivaTheme.Space.sm)
         } header: {
             Text(loc(.settingsTheme))
-        } footer: {
-            Text(loc(model.settings.accent.labelKey))
-                .animation(.snappy, value: model.settings.accent)
         }
+    }
+
+    private struct ThemePreset: Identifiable {
+        let primary: AccentTheme, style: ThemeStyle, secondary: AccentTheme
+        var id: String { "\(primary.rawValue)-\(style.rawValue)-\(secondary.rawValue)" }
+    }
+    private let themePresets: [ThemePreset] = [
+        .init(primary: .swissRed, style: .solid, secondary: .swissRed),
+        .init(primary: .blue, style: .dual, secondary: .teal),
+        .init(primary: .orange, style: .dual, secondary: .pink),
+        .init(primary: .green, style: .dual, secondary: .teal),
+        .init(primary: .purple, style: .dual, secondary: .pink),
+        .init(primary: .teal, style: .dual, secondary: .blue),
+        .init(primary: .pink, style: .dual, secondary: .purple),
+        .init(primary: .blue, style: .gradient, secondary: .blue),
+        .init(primary: .purple, style: .gradient, secondary: .purple),
+        .init(primary: .sand, style: .gradient, secondary: .sand),
+    ]
+
+    private func presetSwatch(_ p: ThemePreset) -> some View {
+        let selected = model.settings.accent == p.primary && model.settings.themeStyle == p.style
+            && model.settings.accentSecondary == p.secondary
+        let colors: [Color]
+        switch p.style {
+        case .solid:    colors = [p.primary.color, p.primary.color]
+        case .gradient: colors = [p.primary.color, p.primary.color.blended(with: .white, fraction: 0.5)]
+        case .dual:     colors = [p.primary.color, p.secondary.color]
+        }
+        return Button { model.applyTheme(p.primary, style: p.style, secondary: p.secondary) } label: {
+            Circle()
+                .fill(LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing))
+                .frame(width: 30, height: 30)
+                .overlay(Circle().strokeBorder(.black.opacity(0.08), lineWidth: 0.5))
+                .padding(5)
+                .overlay {
+                    Circle().strokeBorder(p.primary.color, lineWidth: 2.5)
+                        .opacity(selected ? 1 : 0).scaleEffect(selected ? 1 : 0.72)
+                }
+                .contentShape(Circle())
+                .animation(.snappy(duration: 0.22), value: selected)
+        }
+        .buttonStyle(.plain)
     }
 
     /// One accent swatch, iOS-style: a filled dot that, when selected, sits
     /// inside a same-colour ring with a clear gap (no checkmark).
     private func accentSwatch(_ theme: AccentTheme) -> some View {
-        let selected = model.settings.accent == theme
-        return Button { withAnimation(.snappy) { model.setAccent(theme) } } label: {
+        let selected = model.settings.accent == theme && model.settings.themeStyle == .solid
+        return Button { model.setAccent(theme) } label: {
             Circle()
                 .fill(theme.color)
                 .frame(width: 28, height: 28)

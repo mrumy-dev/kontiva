@@ -213,6 +213,13 @@ public enum AppAppearance: String, Codable, Sendable, CaseIterable {
     case system, light, dark
 }
 
+/// How the accent washes the whole-app background. `solid` = a soft single-colour
+/// tint, `gradient` = a stronger single-colour gradient, `dual` = a two-colour blend
+/// (accent → accentSecondary). 1:1 with Android `ThemeStyle`.
+public enum ThemeStyle: String, Codable, Sendable, CaseIterable {
+    case solid, gradient, dual
+}
+
 /// User-selectable accent colour. The accent recolours interactive and brand UI
 /// (selection, primary buttons, category icons, progress rings). Danger semantics
 /// — negative balances, overdue bills, errors — always stay red regardless of the
@@ -302,16 +309,21 @@ public struct AppSettings: Equatable, Codable, Sendable {
     public var language: AppLanguage
     public var appearance: AppAppearance
     public var accent: AccentTheme
+    public var themeStyle: ThemeStyle
+    public var accentSecondary: AccentTheme
     public var savingsSort: SavingsSort
     public var billSort: BillSort
 
     // Follows the system appearance by default (fluid light/dark).
     public init(language: AppLanguage = .deCH, appearance: AppAppearance = .system,
-                accent: AccentTheme = .swissRed, savingsSort: SavingsSort = .startMonth,
+                accent: AccentTheme = .swissRed, themeStyle: ThemeStyle = .solid,
+                accentSecondary: AccentTheme = .swissRed, savingsSort: SavingsSort = .startMonth,
                 billSort: BillSort = .dueDate) {
         self.language = language
         self.appearance = appearance
         self.accent = accent
+        self.themeStyle = themeStyle
+        self.accentSecondary = accentSecondary
         self.savingsSort = savingsSort
         self.billSort = billSort
     }

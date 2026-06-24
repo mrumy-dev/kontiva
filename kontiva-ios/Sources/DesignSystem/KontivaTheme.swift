@@ -16,6 +16,10 @@ enum KontivaTheme {
     /// model, the whole UI re-reads this on a theme change. Only ever touched on the
     /// main thread (set via the `@MainActor` model, read in views).
     nonisolated(unsafe) static var accent = AccentTheme.swissRed.color
+    /// Second accent (for the two-colour `dual` style) + the active background style.
+    /// Set by `AppModel`, read by `pageGradient`. Main-thread only, like `accent`.
+    nonisolated(unsafe) static var accentSecondary = AccentTheme.swissRed.color
+    nonisolated(unsafe) static var themeStyle: ThemeStyle = .solid
 
     // Adaptive semantic colours.
     static let pageBackground = Color.adaptive(light: 0xF8F7F4, dark: 0x0F151B)
@@ -28,14 +32,19 @@ enum KontivaTheme {
     static let warning        = Color.adaptive(light: 0xB26A00, dark: 0xE0A042)
 
     /// Accent-tinted page background — a soft wash so the whole app (not just the
-    /// symbols) takes on the chosen colour. Reads the live `accent`, so it re-tints
-    /// when the theme changes.
+    /// symbols) takes on the chosen colour/style. Reads the live accents + style.
     static var pageGradient: LinearGradient {
         let bg = pageBackground
-        return LinearGradient(colors: [bg.blended(with: accent, fraction: 0.18),
-                                       bg,
-                                       bg.blended(with: accent, fraction: 0.06)],
-                              startPoint: .top, endPoint: .bottom)
+        let colors: [Color]
+        switch themeStyle {
+        case .solid:
+            colors = [bg.blended(with: accent, fraction: 0.16), bg, bg.blended(with: accent, fraction: 0.05)]
+        case .gradient:
+            colors = [bg.blended(with: accent, fraction: 0.32), bg.blended(with: accent, fraction: 0.12), bg]
+        case .dual:
+            colors = [bg.blended(with: accent, fraction: 0.26), bg, bg.blended(with: accentSecondary, fraction: 0.26)]
+        }
+        return LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom)
     }
 
     // Chart palette (calm, brand-aligned; red reserved for bills/overdraw).

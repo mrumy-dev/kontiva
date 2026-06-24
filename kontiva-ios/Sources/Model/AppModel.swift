@@ -354,6 +354,20 @@ final class AppModel: ObservableObject {
     }
     func deleteSavingsGoal(_ id: UUID) async { await mutate { $0.savingsGoals.removeAll { $0.id == id } } }
 
+    /// Mark a reached goal done: freeze its balance and stop it reducing "available".
+    func completeSavingsGoal(_ id: UUID) async {
+        let done = Calendar.swiss.startOfMonth(for: Date())
+        await mutate { ds in
+            if let i = ds.savingsGoals.firstIndex(where: { $0.id == id }) { ds.savingsGoals[i].completedDate = done }
+        }
+    }
+    /// Resume contributing to a previously completed goal.
+    func reopenSavingsGoal(_ id: UUID) async {
+        await mutate { ds in
+            if let i = ds.savingsGoals.firstIndex(where: { $0.id == id }) { ds.savingsGoals[i].completedDate = nil }
+        }
+    }
+
     func upsertBill(_ bill: OneOffBill) async {
         await mutate { ds in
             if let i = ds.bills.firstIndex(where: { $0.id == bill.id }) { ds.bills[i] = bill }

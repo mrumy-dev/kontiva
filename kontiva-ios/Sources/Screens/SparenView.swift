@@ -8,8 +8,18 @@ struct SparenView: View {
     @EnvironmentObject private var model: AppModel
     @EnvironmentObject private var loc: Localizer
     @State private var editing: SheetBox?
+    // The reached-but-not-completed goal we're celebrating, and ones dismissed this session.
+    @State private var celebrating: SavingsGoal?
+    @State private var dismissedReached: Set<UUID> = []
 
     private var month: Date { model.selectedMonth }
+
+    private func refreshCelebration() {
+        guard celebrating == nil else { return }
+        celebrating = model.sortedSavingsGoals.first {
+            $0.isReached(asOf: month) && !$0.isCompleted && !dismissedReached.contains($0.id)
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -59,6 +69,20 @@ struct SparenView: View {
             .sheet(item: $editing) { box in
                 SavingsGoalFormSheet(existing: box.goal).environmentObject(model).environmentObject(loc)
             }
+            .onAppear { refreshCelebration() }
+            .onChange(of: model.dataset) { _, _ in refreshCelebration() }
+            .confirmationDialog(
+                "\(loc(.sparenGoalReached)) 🎉",
+                isPresented: Binding(get: { celebrating != nil }, set: { if !$0 { celebrating = nil } }),
+                titleVisibility: .visible,
+                presenting: celebrating
+            ) { goal in
+                Button(loc(.sparenGoalIncrease)) { dismissedReached.insert(goal.id); editing = SheetBox(goal: goal) }
+                Button(loc(.sparenGoalComplete)) { let id = goal.id; Task { await model.completeSavingsGoal(id) } }
+                Button(loc(.sparenGoalKeep), role: .cancel) { dismissedReached.insert(goal.id) }
+            } message: { goal in
+                Text("\(goal.name) — \(goal.accumulated(asOf: month).formattedCHF()) / \(goal.target.formattedCHF())\n\n\(loc(.sparenGoalReachedMessage))")
+            }
         }
     }
 
@@ -94,10 +118,16 @@ struct SparenView: View {
             VStack(alignment: .leading, spacing: KontivaTheme.Space.md) {
                 HStack(spacing: KontivaTheme.Space.sm) {
                     KontivaIconTile(goal.category.systemImage)
-                    VStack(alignment: .leading, spacing: 1) {
+                    VStack(alignment: .leading, spacing: 3) {
                         Text(goal.name).font(.title3.weight(.semibold)).foregroundStyle(KontivaTheme.textPrimary)
-                        Text(goal.category.localizedName(loc.localization))
-                            .font(.caption).foregroundStyle(KontivaTheme.textTertiary)
+                        if goal.isCompleted {
+                            statusBadge(loc(.sparenGoalCompleted), system: "checkmark.seal.fill", color: KontivaTheme.positive)
+                        } else if goal.isReached(asOf: month) {
+                            statusBadge(loc(.sparenGoalReached), system: "trophy.fill", color: KontivaTheme.accent)
+                        } else {
+                            Text(goal.category.localizedName(loc.localization))
+                                .font(.caption).foregroundStyle(KontivaTheme.textTertiary)
+                        }
                     }
                     Spacer(minLength: KontivaTheme.Space.sm)
                     VStack(alignment: .trailing, spacing: 0) {
@@ -136,10 +166,29 @@ struct SparenView: View {
         .onTapGesture { editing = SheetBox(goal: goal) }
         .contextMenu {
             Button(loc(.commonEdit), systemImage: "pencil") { editing = SheetBox(goal: goal) }
+            if goal.isCompleted {
+                Button(loc(.sparenGoalReopen), systemImage: "arrow.clockwise") {
+                    Task { await model.reopenSavingsGoal(goal.id) }
+                }
+            } else if goal.hasTarget {
+                Button(loc(.sparenGoalComplete), systemImage: "checkmark.seal") {
+                    Task { await model.completeSavingsGoal(goal.id) }
+                }
+            }
             Button(loc(.commonDelete), systemImage: "trash", role: .destructive) {
                 Task { await model.deleteSavingsGoal(goal.id) }
             }
         }
+    }
+
+    private func statusBadge(_ text: String, system: String, color: Color) -> some View {
+        HStack(spacing: 3) {
+            Image(systemName: system).font(.caption2)
+            Text(text).font(.caption.weight(.semibold))
+        }
+        .foregroundStyle(color)
+        .padding(.horizontal, 8).padding(.vertical, 2)
+        .background(Capsule().fill(color.opacity(0.12)))
     }
 
     private func monthLabel(_ date: Date) -> String {

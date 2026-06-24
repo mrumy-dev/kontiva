@@ -90,6 +90,35 @@ final class AvailabilityTests: XCTestCase {
         XCTAssertEqual(sept.available, Money.parse("4'000.00"))
     }
 
+    // MARK: - Reached/completed savings goals
+
+    func testCompletedGoalStopsReducingAvailable() {
+        let income = Income(label: "Lohn", monthlyNet: Money.parse("5'000.00")!)
+        let goal = SavingsGoal(name: "Notgroschen", target: Money.parse("2'000.00")!,
+                               monthlyContribution: Money.parse("500.00")!,
+                               startDate: date(2026, 1, 1), completedDate: date(2026, 6, 1))
+        // June is the completion month → it still counts that month.
+        let june = AvailabilityEngine.compute(incomes: [income], fixedCosts: [], variableBudgets: [], bills: [],
+                                              savingsGoals: [goal], asOf: date(2026, 6, 15), calendar: calendar)
+        XCTAssertEqual(june.plannedSavings, Money.parse("500.00"))
+        // July → done; no longer reduces available.
+        let july = AvailabilityEngine.compute(incomes: [income], fixedCosts: [], variableBudgets: [], bills: [],
+                                              savingsGoals: [goal], asOf: date(2026, 7, 15), calendar: calendar)
+        XCTAssertEqual(july.plannedSavings, .zero)
+        XCTAssertEqual(july.available, Money.parse("5'000.00"))
+    }
+
+    func testCompletedGoalBalanceFreezes() {
+        let goal = SavingsGoal(name: "Auto", target: Money.parse("6'000.00")!,
+                               monthlyContribution: Money.parse("1'000.00")!,
+                               startDate: date(2026, 1, 1), completedDate: date(2026, 6, 1))
+        // Jan…June inclusive = 6 × 1000 = 6000, then frozen.
+        XCTAssertEqual(goal.accumulated(asOf: date(2026, 6, 15)), Money.parse("6'000.00"))
+        XCTAssertEqual(goal.accumulated(asOf: date(2026, 12, 15)), Money.parse("6'000.00"))
+        XCTAssertTrue(goal.isCompleted)
+        XCTAssertTrue(goal.isReached(asOf: date(2026, 12, 15)))
+    }
+
     // MARK: - 12 vs 13 salary
 
     func testThirteenthSeparateByDefaultIsNotAddedToMonthly() {

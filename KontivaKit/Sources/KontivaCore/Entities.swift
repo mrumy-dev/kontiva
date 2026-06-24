@@ -296,10 +296,14 @@ public struct SavingsGoal: Equatable, Codable, Sendable, Identifiable {
     public var startingBalance: Money
     /// The month the first contribution was made.
     public var startDate: Date
+    /// When the user marked the goal done. A completed goal keeps its accumulated
+    /// balance but stops contributing — so it no longer reduces "available this month".
+    public var completedDate: Date?
 
     public init(id: UUID = UUID(), name: String, category: SavingsCategory = .other,
                 target: Money = .zero, monthlyContribution: Money? = nil,
-                startingBalance: Money = .zero, startDate: Date = Date()) {
+                startingBalance: Money = .zero, startDate: Date = Date(),
+                completedDate: Date? = nil) {
         self.id = id
         self.name = name
         self.category = category
@@ -307,14 +311,24 @@ public struct SavingsGoal: Equatable, Codable, Sendable, Identifiable {
         self.monthlyContribution = monthlyContribution
         self.startingBalance = startingBalance
         self.startDate = startDate
+        self.completedDate = completedDate
     }
 
     public var hasTarget: Bool { target.isPositive }
+    public var isCompleted: Bool { completedDate != nil }
 
-    /// Whether a contribution is actually made in `month` — true only from the start
-    /// month onward (a plan starting next year doesn't cost anything now).
+    /// A goal with a target whose accumulated balance has reached (or passed) it.
+    public func isReached(asOf reference: Date = Date(), calendar: Calendar = .swiss) -> Bool {
+        hasTarget && accumulated(asOf: reference, calendar: calendar) >= target
+    }
+
+    /// Whether a contribution is actually made in `month`: only from the start month
+    /// onward, and only up to the completion month (a completed goal stops after).
     public func contributesIn(_ month: Date, calendar: Calendar = .swiss) -> Bool {
-        calendar.startOfMonth(for: month) >= calendar.startOfMonth(for: startDate)
+        let m = calendar.startOfMonth(for: month)
+        guard m >= calendar.startOfMonth(for: startDate) else { return false }
+        if let done = completedDate { return m <= calendar.startOfMonth(for: done) }
+        return true
     }
 
     /// Number of monthly contributions made from `startDate`'s month up to and
@@ -330,7 +344,9 @@ public struct SavingsGoal: Equatable, Codable, Sendable, Identifiable {
     /// Accumulated balance as of `reference`: starting balance plus one monthly
     /// contribution for every month since the start. Exact integer arithmetic.
     public func accumulated(asOf reference: Date = Date(), calendar: Calendar = .swiss) -> Money {
-        let months = Int64(monthsContributed(asOf: reference, calendar: calendar))
+        // A completed goal's balance freezes at its completion month.
+        let effective = completedDate.map { min(reference, $0) } ?? reference
+        let months = Int64(monthsContributed(asOf: effective, calendar: calendar))
         let contributed = (monthlyContribution ?? .zero).scaled(by: months)
         return startingBalance + contributed
     }

@@ -285,6 +285,16 @@ class KontivaViewModel(app: Application) : AndroidViewModel(app) {
 
     fun deleteSavingsGoal(id: String) = edit { it.copy(savingsGoals = it.savingsGoals.filterNot { e -> e.id == id }) }
 
+    /** Mark a reached goal done: freeze its balance and stop it reducing "available". */
+    fun completeSavingsGoal(id: String) = edit { ds ->
+        val done = LocalDate.now().withDayOfMonth(1)
+        ds.copy(savingsGoals = ds.savingsGoals.map { if (it.id == id) it.copy(completedDate = done) else it })
+    }
+    /** Resume contributing to a previously completed goal. */
+    fun reopenSavingsGoal(id: String) = edit { ds ->
+        ds.copy(savingsGoals = ds.savingsGoals.map { if (it.id == id) it.copy(completedDate = null) else it })
+    }
+
     fun addDebt(creditor: String, amount: Money, type: DebtType, date: LocalDate? = null, reference: String? = null, notes: String? = null) = edit {
         it.copy(debts = it.debts + DebtItem(creditor = creditor, amount = amount, type = type, date = date, reference = reference, notes = notes))
     }

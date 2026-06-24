@@ -27,6 +27,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.EmojiEvents
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -78,6 +80,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
     var showSheet by remember { mutableStateOf(false) }
     var editGoal by remember { mutableStateOf<SavingsGoal?>(null) }
     var sortMenu by remember { mutableStateOf(false) }
+    var dismissedReached by remember { mutableStateOf(setOf<String>()) }
 
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
@@ -129,10 +132,29 @@ fun SavingsScreen(vm: KontivaViewModel) {
             }
         }
         for (g in goals) {
-            item { GoalCard(g, vm.selectedMonth, onClick = { editGoal = g; showSheet = true }, onDelete = { vm.deleteSavingsGoal(g.id) }) }
+            item {
+                GoalCard(
+                    g, vm.selectedMonth,
+                    onClick = { editGoal = g; showSheet = true },
+                    onDelete = { vm.deleteSavingsGoal(g.id) },
+                    onComplete = { vm.completeSavingsGoal(g.id) },
+                    onReopen = { vm.reopenSavingsGoal(g.id) },
+                )
+            }
         }
         }
         AddFab { editGoal = null; showSheet = true }
+    }
+
+    // Celebrate the first reached-but-not-completed goal (until dismissed this session).
+    val celebrate = goals.firstOrNull { it.isReached(vm.selectedMonth) && !it.isCompleted && it.id !in dismissedReached }
+    if (celebrate != null) {
+        GoalReachedDialog(
+            goal = celebrate, month = vm.selectedMonth,
+            onIncrease = { dismissedReached = dismissedReached + celebrate.id; editGoal = celebrate; showSheet = true },
+            onComplete = { vm.completeSavingsGoal(celebrate.id) },
+            onKeep = { dismissedReached = dismissedReached + celebrate.id },
+        )
     }
 
     if (showSheet) {
@@ -156,7 +178,7 @@ fun SavingsScreen(vm: KontivaViewModel) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> Unit, onDelete: () -> Unit) {
+private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> Unit, onDelete: () -> Unit, onComplete: () -> Unit, onReopen: () -> Unit) {
     val loc = LocalLocalizer.current
     val colors = KontivaTheme.colors
     val accumulated = g.accumulated(month)
@@ -170,7 +192,7 @@ private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> 
         modifier = Modifier.fillMaxWidth().pressScale().combinedClickable(onClick = onClick, onLongClick = { menu = true }),
     ) {
         Column(Modifier.padding(KontivaTheme.spaceMd), verticalArrangement = Arrangement.spacedBy(KontivaTheme.spaceMd)) {
-            // Header: icon, name + category, monthly contribution.
+            // Header: icon, name + status/category, monthly contribution.
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(38.dp).clip(CircleShape).background(KontivaTheme.accent.copy(alpha = 0.12f)), contentAlignment = Alignment.Center) {
                     Icon(g.category.icon(), contentDescription = null, tint = KontivaTheme.accent, modifier = Modifier.size(20.dp))
@@ -178,7 +200,11 @@ private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> 
                 Spacer(Modifier.size(KontivaTheme.spaceSm))
                 Column(Modifier.weight(1f)) {
                     Text(g.name, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = colors.textPrimary)
-                    Text(loc(g.category.labelKey), fontSize = 12.sp, color = colors.textTertiary)
+                    when {
+                        g.isCompleted -> StatusChip(loc(L10nKey.sparenGoalCompleted), Icons.Rounded.CheckCircle, colors.positive)
+                        g.isReached(month) -> StatusChip(loc(L10nKey.sparenGoalReached), Icons.Rounded.EmojiEvents, KontivaTheme.accent)
+                        else -> Text(loc(g.category.labelKey), fontSize = 12.sp, color = colors.textTertiary)
+                    }
                 }
                 Spacer(Modifier.size(KontivaTheme.spaceSm))
                 Column(horizontalAlignment = Alignment.End) {
@@ -212,8 +238,47 @@ private fun GoalCard(g: SavingsGoal, month: java.time.LocalDate, onClick: () -> 
             }
         }
     }
-        RowActionsMenu(menu, { menu = false }, onClick, onDelete)
+        DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+            DropdownMenuItem(text = { Text(loc(L10nKey.commonEdit)) }, onClick = { menu = false; onClick() })
+            if (g.isCompleted) {
+                DropdownMenuItem(text = { Text(loc(L10nKey.sparenGoalReopen)) }, onClick = { menu = false; onReopen() })
+            } else if (g.hasTarget) {
+                DropdownMenuItem(text = { Text(loc(L10nKey.sparenGoalComplete)) }, onClick = { menu = false; onComplete() })
+            }
+            DropdownMenuItem(text = { Text(loc(L10nKey.commonDelete), color = KontivaTheme.colors.swissRed) }, onClick = { menu = false; onDelete() })
+        }
     }
+}
+
+@Composable
+private fun StatusChip(text: String, icon: androidx.compose.ui.graphics.vector.ImageVector, color: androidx.compose.ui.graphics.Color) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clip(RoundedCornerShape(50)).background(color.copy(alpha = 0.12f)).padding(horizontal = 8.dp, vertical = 2.dp),
+    ) {
+        Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(13.dp))
+        Spacer(Modifier.size(3.dp))
+        Text(text, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = color)
+    }
+}
+
+/** Celebration prompt when a goal hits 100% — raise it, finish it, or keep going. */
+@Composable
+private fun GoalReachedDialog(goal: SavingsGoal, month: java.time.LocalDate, onIncrease: () -> Unit, onComplete: () -> Unit, onKeep: () -> Unit) {
+    val loc = LocalLocalizer.current
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = onKeep,
+        icon = { Icon(Icons.Rounded.EmojiEvents, contentDescription = null, tint = KontivaTheme.accent) },
+        title = { Text("${loc(L10nKey.sparenGoalReached)} 🎉") },
+        text = { Text("${goal.name} — ${goal.accumulated(month).formattedCHF()} / ${goal.target.formattedCHF()}\n\n${loc(L10nKey.sparenGoalReachedMessage)}") },
+        confirmButton = { androidx.compose.material3.TextButton(onClick = onComplete) { Text(loc(L10nKey.sparenGoalComplete)) } },
+        dismissButton = {
+            Row {
+                androidx.compose.material3.TextButton(onClick = onIncrease) { Text(loc(L10nKey.sparenGoalIncrease)) }
+                androidx.compose.material3.TextButton(onClick = onKeep) { Text(loc(L10nKey.sparenGoalKeep)) }
+            }
+        },
+    )
 }
 
 @Composable

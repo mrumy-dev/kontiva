@@ -40,13 +40,25 @@ data class SavingsGoal(
     val monthlyContribution: Money? = null,
     val startingBalance: Money = Money.zero,
     @Serializable(with = LocalDateSerializer::class) val startDate: LocalDate = LocalDate.now(),
+    /** When the user marked the goal done. A completed goal keeps its accumulated
+     *  balance but stops contributing — so it no longer reduces "available this month". */
+    @Serializable(with = LocalDateSerializer::class) val completedDate: LocalDate? = null,
 ) {
     val hasTarget: Boolean get() = target.isPositive
+    val isCompleted: Boolean get() = completedDate != null
 
-    /** Whether a contribution is actually made in [month] — true only from the
-     *  start month onward (a plan starting next year doesn't cost anything now). */
-    fun contributesIn(month: LocalDate): Boolean =
-        !month.withDayOfMonth(1).isBefore(startDate.withDayOfMonth(1))
+    /** A goal with a target whose accumulated balance has reached (or passed) it. */
+    fun isReached(today: LocalDate = LocalDate.now()): Boolean =
+        hasTarget && accumulated(today).rappen >= target.rappen
+
+    /** Whether a contribution is actually made in [month] — only from the start month
+     *  onward, and only up to the completion month (a completed goal stops after). */
+    fun contributesIn(month: LocalDate): Boolean {
+        val m = month.withDayOfMonth(1)
+        if (m.isBefore(startDate.withDayOfMonth(1))) return false
+        completedDate?.let { return !m.isAfter(it.withDayOfMonth(1)) }
+        return true
+    }
 
     /** Contributions made from startDate's month up to & including [today]'s month. */
     fun monthsContributed(today: LocalDate = LocalDate.now()): Int {
@@ -56,8 +68,11 @@ data class SavingsGoal(
         return ChronoUnit.MONTHS.between(start, current).toInt() + 1
     }
 
-    fun accumulated(today: LocalDate = LocalDate.now()): Money =
-        startingBalance + (monthlyContribution ?: Money.zero).scaled(monthsContributed(today).toLong())
+    fun accumulated(today: LocalDate = LocalDate.now()): Money {
+        // A completed goal's balance freezes at its completion month.
+        val effective = completedDate?.let { if (it.isBefore(today)) it else today } ?: today
+        return startingBalance + (monthlyContribution ?: Money.zero).scaled(monthsContributed(effective).toLong())
+    }
 
     fun progressPercent(today: LocalDate = LocalDate.now()): Int =
         if (hasTarget) accumulated(today).percentOf(target) else 0

@@ -1,5 +1,7 @@
 package ch.kontiva.android.ui.theme
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
@@ -7,8 +9,11 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import ch.kontiva.android.core.AccentTheme
 import ch.kontiva.android.core.AppAppearance
@@ -103,6 +108,21 @@ object KontivaTheme {
         @Composable get() = LocalKontivaColors.current
     val accent: Color
         @Composable get() = LocalAccentColor.current
+
+    /** Accent-tinted page background — a soft vertical wash so the whole app (not just
+     *  the symbols) takes on the chosen colour. Reads the live (animated) accent. */
+    val pageBrush: Brush
+        @Composable get() {
+            val bg = LocalKontivaColors.current.pageBackground
+            val a = LocalAccentColor.current
+            return Brush.verticalGradient(
+                listOf(
+                    a.copy(alpha = 0.18f).compositeOver(bg),
+                    bg,
+                    a.copy(alpha = 0.06f).compositeOver(bg),
+                ),
+            )
+        }
 }
 
 private val KontivaTypography = Typography()
@@ -120,7 +140,8 @@ fun KontivaTheme(
         AppAppearance.DARK -> true
     }
     val colors = if (dark) DarkColors else LightColors
-    val accentColor = accent.color(dark)
+    // Smoothly morph the accent (and thus the whole-app tint) when the theme changes.
+    val accentColor by animateColorAsState(accent.color(dark), animationSpec = tween(450), label = "accent")
     val scheme = if (dark) {
         darkColorScheme(
             primary = accentColor,

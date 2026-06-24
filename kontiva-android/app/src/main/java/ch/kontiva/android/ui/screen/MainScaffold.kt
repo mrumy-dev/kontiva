@@ -78,7 +78,7 @@ fun MainScaffold(vm: KontivaViewModel) {
     )
 
     Scaffold(
-        containerColor = colors.pageBackground,
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         bottomBar = {
             NavigationBar(containerColor = colors.cardSurface) {
                 tabs.forEachIndexed { i, t ->

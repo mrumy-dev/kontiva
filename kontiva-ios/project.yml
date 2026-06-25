@@ -27,7 +27,7 @@ targets:
         product: KontivaPersistence
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: ch.kontiva.ios
+        PRODUCT_BUNDLE_IDENTIFIER: ch.kontiva.app
         PRODUCT_NAME: Kontiva
         MARKETING_VERSION: "0.0.1"
         CURRENT_PROJECT_VERSION: "1"

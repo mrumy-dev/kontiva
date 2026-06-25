@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)ch.kontiva.ios</string>
+		<string>$(AppIdentifierPrefix)ch.kontiva.app</string>
 	</array>
 </dict>
 </plist>

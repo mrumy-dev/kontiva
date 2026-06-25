@@ -52,7 +52,7 @@ enum Biometrics {
 /// Enclave with a `.biometryCurrentSet` `SecAccessControl`, which requires a
 /// passcode (always present on real devices that have Face ID).
 enum BiometricVault {
-    private static let service = "ch.kontiva.ios.biometric-passphrase"
+    private static let service = "ch.kontiva.app.biometric-passphrase"
     private static let account = "vault"
 
     /// Is a passphrase stored? (No biometric prompt — plain presence check.)

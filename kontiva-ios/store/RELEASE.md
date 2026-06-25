@@ -7,7 +7,7 @@ active (it assigns the **Team ID** that signing and App Store Connect need).
 Project facts this assumes:
 - Xcode project is **generated** from `project.yml` by XcodeGen — never hand-edit
   `Kontiva.xcodeproj`; edit `project.yml` then run `xcodegen generate`.
-- Bundle ID `ch.kontiva.ios` · scheme `Kontiva` · deployment target iOS 26.
+- Bundle ID `ch.kontiva.app` · scheme `Kontiva` · deployment target iOS 26.
 - Encryption already declared exempt (`ITSAppUsesNonExemptEncryption=NO`) and a
   privacy manifest (`PrivacyInfo.xcprivacy`) is bundled — no extra prompts expected.
 - Repo is **public**, so don't commit anything secret. (A Team ID is *not* secret —
@@ -53,7 +53,7 @@ Project facts this assumes:
 
 1. <https://appstoreconnect.apple.com> → **Apps** → ➕ → **New App**.
    - Platform: iOS · Name: **Kontiva** (reserves the name) · Primary language:
-     German (Switzerland) or English · Bundle ID: `ch.kontiva.ios` · SKU: `kontiva-ios`.
+     German (Switzerland) or English · Bundle ID: `ch.kontiva.app` · SKU: `kontiva-ios`.
 2. If the bundle ID isn't listed, register it first at
    <https://developer.apple.com/account/resources/identifiers> (or just let Xcode's
    automatic signing create it in Phase 3, then refresh the New-App dialog).

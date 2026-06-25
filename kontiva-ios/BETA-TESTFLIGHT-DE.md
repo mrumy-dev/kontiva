@@ -10,7 +10,7 @@ Anleitung zum Start der Beta. Stand: frischer Neustart (App in App Store Connect
 | Feld | Wert |
 |---|---|
 | App-Name | **Kontiva** |
-| Bundle-ID | `ch.kontiva.ios` |
+| Bundle-ID | `ch.kontiva.app` |
 | Version (MARKETING_VERSION) | `0.0.1` |
 | Build (CURRENT_PROJECT_VERSION) | `1` |
 | Team | `469PBZ2ZVH` (automatische Signierung) |
@@ -185,9 +185,10 @@ HINWEIS: Die Daten liegen nur lokal. Geben Sie für den Test ruhig Beispieldaten
 
 ## 4. Schritt-für-Schritt: Beta starten
 
-### A) App-Datensatz neu anlegen (App Store Connect)
+### A) App ID registrieren + App-Datensatz anlegen
+0. **App ID registrieren** (neue Bundle-ID, einmalig): developer.apple.com → **Certificates, Identifiers & Profiles** → **Identifiers** → **+** → **App IDs** → **App** → Description `Kontiva`, **Explicit** Bundle ID `ch.kontiva.app`, **keine** Zusatz-Capabilities → **Register**. *(Bei automatischer Signierung legt Xcode die ID beim ersten Archive sonst selbst an – dieser Schritt ist optional, aber sauber.)*
 1. **appstoreconnect.apple.com** → **Apps** → **+** → **Neue App**.
-2. Plattform **iOS** · Name **Kontiva** · Primärsprache **Deutsch (Schweiz)** · Bundle-ID **`ch.kontiva.ios`** (aus der Liste – die ID bleibt nach dem Löschen registriert) · SKU z. B. `kontiva-ios-001` · **Vollzugriff**.
+2. Plattform **iOS** · Name **Kontiva** · Primärsprache **Deutsch (Schweiz)** · Bundle-ID **`ch.kontiva.app`** (aus der Liste wählen) · SKU z. B. `kontiva-app-001` · **Vollzugriff**.
 3. (Nur für externe Tester nötig) **App-Informationen** → **Datenschutzrichtlinie-URL** eintragen (Text aus Abschnitt 2).
 
 ### B) Build hochladen (Xcode)

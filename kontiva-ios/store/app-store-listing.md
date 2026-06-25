@@ -7,7 +7,7 @@ placeholders. Primary market is Swiss‑German, so German (de‑CH) is given alo
 
 ## App information (not localized)
 
-- **Bundle ID:** `ch.kontiva.ios`
+- **Bundle ID:** `ch.kontiva.app`
 - **Primary category:** Finance
 - **Secondary category:** (optional) Productivity
 - **Age rating:** 4+ (no objectionable content)

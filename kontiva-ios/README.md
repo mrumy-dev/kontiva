@@ -6,7 +6,7 @@ powers the macOS app.
 
 - **iPhone first** (iPad later, as its own workspace).
 - **iOS 26+**, SwiftUI, Swift 6.
-- Bundle id: `ch.kontiva.ios`.
+- Bundle id: `ch.kontiva.app`.
 - Privacy-first: fully local, no networking, AES-256-GCM at rest, no passphrase recovery.
 
 ## Project generation (XcodeGen)

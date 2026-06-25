@@ -88,12 +88,14 @@ Budget,Haushalt,Finanzen,Sparen,Geld,privat,offline,Ausgaben,Lohn,Rechnung,Schwe
 
 ---
 
-## 2. Datenschutzrichtlinie (Pflicht für externe Tester)
+## 2. Datenschutzrichtlinie (Pflicht für externe Tester) — **bereits online**
 
-App Store Connect braucht für **externe** TestFlight-Tester eine **Datenschutzrichtlinie-URL**.
-Da Kontiva nichts erhebt, genügt ein kurzer Text. Hosten Sie ihn (z. B. GitHub Pages,
-Notion „öffentlich teilen", eigene Website) und tragen Sie die URL in App Store Connect →
-App-Informationen → Datenschutzrichtlinie ein.
+Die Datenschutzseite ist auf GitHub Pages live:
+- 🇩🇪 **Deutsch (für App Store Connect eintragen):** `https://mrumy-dev.github.io/kontiva/privacy-de.html`
+- 🇬🇧 Englisch: `https://mrumy-dev.github.io/kontiva/privacy.html`
+
+In App Store Connect → **App-Informationen → Datenschutzrichtlinie** die **deutsche** URL
+eintragen. Der Quelltext (zum Anpassen) steht unten.
 
 ```
 Datenschutz – Kontiva
